@@ -1,7 +1,5 @@
 // Guarda este archivo en: js/main.js
-// Responsabilidad única: arrancar la aplicación y conectar todos los módulos.
-// CARGA PROGRESIVA: primero se pintan las canchas manuales (rápidas),
-// y las de OSM se agregan después sin bloquear la primera vista.
+// Responsabilidad única: arrancar la aplicación y conectar sus módulos.
 
 import { definirSistemasDeCoordenadas } from './config.js';
 import { cargarManual, cargarOverpass, FALLBACK_GEOJSON } from './api.js';
@@ -9,18 +7,20 @@ import { iniciarMapa, pintarCapa, irAResultados } from './mapa.js';
 import { configurarFiltro } from './filtro.js';
 import { renderizarTarjetas, actualizarStats } from './ui.js';
 import { configurarNavbarMovil } from './navbar.js';
+import { supabase } from './supabase.js';
 
 let manualFeatures = [];
 let osmFeatures = [];
-let datosOriginales = { type: "FeatureCollection", features: [] };
+let datosOriginales = { type: 'FeatureCollection', features: [] };
 const loadingEl = document.getElementById('loadingState');
 let temporizadorVuelo = null;
 
 function refrescarVista() {
   datosOriginales = {
-    type: "FeatureCollection",
+    type: 'FeatureCollection',
     features: [...manualFeatures, ...osmFeatures]
   };
+
   pintarCapa(datosOriginales);
   renderizarTarjetas(datosOriginales);
   actualizarStats(datosOriginales);
@@ -28,58 +28,84 @@ function refrescarVista() {
 
 async function cargarPrimeroLoLocal() {
   loadingEl.textContent = 'Cargando canchas verificadas…';
+
   try {
     manualFeatures = await cargarManual();
-  } catch (err) {
-    console.error('Error cargando datos manuales:', err);
+  } catch (error) {
+    console.error('Error cargando datos manuales:', error);
     manualFeatures = FALLBACK_GEOJSON.features;
   }
+
   refrescarVista();
-  loadingEl.textContent = `${manualFeatures.length} cancha(s) verificada(s) ✓ · Buscando más en OpenStreetMap…`;
+  loadingEl.textContent =
+    `${manualFeatures.length} cancha(s) verificada(s) ✓ · Buscando más en OpenStreetMap…`;
 }
 
 async function cargarLuegoOSM() {
   try {
     osmFeatures = await cargarOverpass();
     refrescarVista();
+
     loadingEl.textContent =
       `${manualFeatures.length} manual(es) + ${osmFeatures.length} OSM = ${datosOriginales.features.length} cancha(s) ✓`;
-  } catch (err) {
-    console.warn('Overpass no respondió a tiempo, se mantienen solo las canchas verificadas:', err);
+  } catch (error) {
+    console.warn('Overpass no respondió a tiempo:', error);
+
     loadingEl.textContent =
       `${manualFeatures.length} cancha(s) verificada(s) ✓ (OpenStreetMap no respondió, usa "Recargar")`;
   }
 }
 
 async function recargarTodo() {
+  osmFeatures = [];
   await cargarPrimeroLoLocal();
   await cargarLuegoOSM();
 }
 
-// Se ejecuta cada vez que el buscador filtra resultados.
 function alFiltrar(filtrado, textoBuscado) {
   pintarCapa(filtrado);
   renderizarTarjetas(filtrado);
 
   const hayBusqueda = textoBuscado && textoBuscado.trim().length > 0;
 
-  if (hayBusqueda) {
-    loadingEl.textContent = filtrado.features.length === 0
-      ? `Sin resultados para "${textoBuscado}"`
-      : `${filtrado.features.length} resultado(s) para "${textoBuscado}"`;
-
-    // Debounce: espera a que el usuario deje de escribir 400ms antes de
-    // mover el mapa, para que no "salte" con cada letra que teclea.
-    window.clearTimeout(temporizadorVuelo);
-    if (filtrado.features.length > 0) {
-      temporizadorVuelo = window.setTimeout(() => {
-        document.getElementById('hero').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        irAResultados(filtrado);
-      }, 400);
-    }
-  } else {
-    // Búsqueda vacía (botón "Limpiar" o input borrado): no mover el mapa.
+  if (!hayBusqueda) {
     loadingEl.textContent = `${filtrado.features.length} cancha(s) mostrada(s)`;
+    return;
+  }
+
+  loadingEl.textContent = filtrado.features.length === 0
+    ? `Sin resultados para "${textoBuscado}"`
+    : `${filtrado.features.length} resultado(s) para "${textoBuscado}"`;
+
+  window.clearTimeout(temporizadorVuelo);
+
+  if (filtrado.features.length > 0) {
+    temporizadorVuelo = window.setTimeout(() => {
+      document.getElementById('hero').scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+
+      irAResultados(filtrado);
+    }, 400);
+  }
+}
+
+async function verificarSupabase() {
+  try {
+    const { error } = await supabase
+      .from('comentarios')
+      .select('id')
+      .limit(1);
+
+    if (error) {
+      console.warn('Supabase conectado, pero la tabla comentarios respondió:', error.message);
+      return;
+    }
+
+    console.log('Supabase conectado correctamente.');
+  } catch (error) {
+    console.warn('No se pudo verificar Supabase:', error.message);
   }
 }
 
@@ -88,10 +114,16 @@ async function init() {
   iniciarMapa();
   configurarFiltro(() => datosOriginales, alFiltrar);
   configurarNavbarMovil();
-  document.getElementById('btnRecargarOSM').addEventListener('click', recargarTodo);
+
+  document
+    .getElementById('btnRecargarOSM')
+    .addEventListener('click', recargarTodo);
 
   await cargarPrimeroLoLocal();
   cargarLuegoOSM();
+
+  // Solo verifica conexión. Todavía no crea ni muestra comentarios.
+  verificarSupabase();
 }
 
 init();

@@ -9,8 +9,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- CSS dividido por responsabilidad. El orden importa: base primero,
-     responsive.css siempre al final para que sus reglas ganen en pantallas chicas. -->
 <link rel="stylesheet" href="css/base.css" />
 <link rel="stylesheet" href="css/navbar.css" />
 <link rel="stylesheet" href="css/hero.css" />
@@ -22,7 +20,6 @@
 </head>
 <body>
 
-<!-- ============ HEADER ============ -->
 <header class="navbar">
   <div class="navbar-brand">
     <span class="logo-icon">🏝️</span>
@@ -43,9 +40,7 @@
   <button id="btnMenuMovil" class="btn-menu-movil" aria-label="Abrir menú">☰</button>
 </header>
 
-<!-- ============ HERO ============ -->
 <section id="hero" class="hero">
-
   <div class="hero-left">
     <h1>Encuentra tu <span class="highlight">cancha perfecta</span></h1>
     <p class="hero-sub">Explora canchas de vóley playa desde Bello hasta Medellín, en un solo mapa.</p>
@@ -55,6 +50,7 @@
         <span class="icon">🔎</span>
         <input id="filtro" type="text" placeholder="¿Dónde quieres jugar? (barrio, municipio, nombre)"/>
       </div>
+
       <div class="search-actions">
         <button id="btnFiltrar" class="btn btn-primary">Buscar</button>
         <button id="btnReset" class="btn btn-ghost">Limpiar</button>
@@ -96,7 +92,6 @@
   </div>
 </section>
 
-<!-- ============ STATS ============ -->
 <section id="stats" class="stats-bar">
   <div class="stat">
     <strong id="statTotal">0</strong>
@@ -116,13 +111,10 @@
   </div>
 </section>
 
-<!-- ============ TARJETAS ============ -->
 <section id="tarjetas" class="tarjetas-section">
   <h2>🏆 Canchas destacadas</h2>
   <p class="tarjetas-sub">Datos reales combinados de OpenStreetMap y verificación manual.</p>
-  <div id="cardsGrid" class="cards-grid">
-    <!-- Las tarjetas se generan dinámicamente desde js/ui.js -->
-  </div>
+  <div id="cardsGrid" class="cards-grid"></div>
 </section>
 
 <footer class="footer">
@@ -131,6 +123,10 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/proj4@2.11.0/dist/proj4.js"></script>
+
+<!-- SDK oficial: debe cargarse antes de main.js y supabase.js -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script type="module" src="js/main.js"></script>
 </body>
 </html>
