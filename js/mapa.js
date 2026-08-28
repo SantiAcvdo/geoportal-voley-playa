@@ -22,8 +22,29 @@ export function iniciarMapa() {
     maxZoom: 19
   });
 
+  // Vista satelital gratuita, sin API key: Esri World Imagery.
+  const satelital = L.tileLayer(
+    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    {
+      attribution: 'Tiles &copy; Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community',
+      maxZoom: 19
+    }
+  );
+
+  // Etiquetas (nombres de calles/barrios) para superponer sobre la satelital,
+  // porque las teselas de Esri por sí solas no traen texto.
+  const etiquetasSatelital = L.tileLayer(
+    'https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',
+    { attribution: 'Labels &copy; Esri', maxZoom: 19, opacity: 0.9 }
+  );
+  const satelitalConEtiquetas = L.layerGroup([satelital, etiquetasSatelital]);
+
   L.control.layers(
-    { "Estándar (OSM)": osm, "Claro (CartoDB)": carto },
+    {
+      "Estándar (OSM)": osm,
+      "Claro (CartoDB)": carto,
+      "Satelital (Esri)": satelitalConEtiquetas
+    },
     {},
     { position: 'bottomright', collapsed: true }
   ).addTo(map);
@@ -115,16 +136,12 @@ function abrirPopupEnCoordenada(lat, lon) {
   });
 }
 
-// Centra el mapa en UNA sola cancha específica (usado por el botón
-// "Ver en el mapa" de cada tarjeta).
 export function irACancha(lat, lon) {
   map.flyTo([lat, lon], 17, { animate: true, duration: 1.2 });
   resaltarPunto(lat, lon);
   window.setTimeout(() => abrirPopupEnCoordenada(lat, lon), 1300);
 }
 
-// Centra/ajusta el mapa para mostrar TODOS los resultados de una búsqueda
-// (usado por el buscador: escribir "Envigado" lleva el mapa hasta Envigado).
 export function irAResultados(geojson) {
   const features = geojson.features;
   if (!features || features.length === 0) return;
