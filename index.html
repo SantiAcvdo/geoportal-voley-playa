@@ -3,88 +3,113 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Mi primer geoportal — Vóley Playa AMVA</title>
+<title>VoleyPlaya AMVA — Encuentra tu cancha</title>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
-<div class="app">
+<!-- ============ HEADER ============ -->
+<header class="navbar">
+  <div class="navbar-brand">
+    <span class="logo-icon">🏝️</span>
+    <span class="logo-text">VoleyPlaya <small>AMVA</small></span>
+  </div>
+  <nav class="navbar-links">
+    <a href="#hero" class="active">Inicio</a>
+    <a href="#tarjetas">Canchas</a>
+    <a href="#stats">Estadísticas</a>
+  </nav>
+  <div class="navbar-cta">
+    <span class="badge-proyecto">Mi primer geoportal</span>
+  </div>
+</header>
 
-  <!-- ===== SIDEBAR ===== -->
-  <aside class="sidebar" id="sidebar">
-    <div class="brand">
-      <span class="brand-icon">🏐</span>
-      <div>
-        <h1>Mi primer geoportal</h1>
-        <p>Canchas de vóley playa · AMVA</p>
-      </div>
-    </div>
+<!-- ============ HERO ============ -->
+<section id="hero" class="hero">
 
-    <button id="toggleSidebar" class="toggle-btn" title="Contraer panel">‹</button>
+  <div class="hero-left">
+    <h1>Encuentra tu <span class="highlight">cancha perfecta</span></h1>
+    <p class="hero-sub">Explora canchas de vóley playa desde Bello hasta Medellín, en un solo mapa.</p>
 
-    <div class="panel-section">
-      <label class="panel-label">Buscar / filtrar</label>
-      <div class="search-box">
+    <div class="search-card">
+      <div class="search-row">
         <span class="icon">🔎</span>
-        <input id="filtro" type="text" placeholder="Barrio, comuna o municipio…"/>
+        <input id="filtro" type="text" placeholder="¿Dónde quieres jugar? (barrio, municipio, nombre)"/>
       </div>
-      <div class="btn-row">
-        <button id="btnFiltrar" class="btn btn-primary">Filtrar</button>
+      <div class="search-actions">
+        <button id="btnFiltrar" class="btn btn-primary">Buscar</button>
         <button id="btnReset" class="btn btn-ghost">Limpiar</button>
       </div>
-    </div>
-
-    <div class="panel-section">
-      <label class="panel-label">Capas</label>
-      <div class="layer-item">
-        <input type="checkbox" id="chkCanchas" checked/>
-        <label for="chkCanchas"><span class="dot dot-yellow"></span> Canchas de vóley playa</label>
+      <div class="search-tags">
+        <span class="tag">✅ Reservas propias del sitio</span>
+        <span class="tag">📍 Datos abiertos OSM</span>
+        <span class="tag">🔄 Actualización en vivo</span>
       </div>
-      <button id="btnRecargarOSM" class="btn btn-outline btn-block">↻ Recargar datos OSM</button>
-      <span id="loadingState" class="status-text">Cargando datos…</span>
     </div>
+  </div>
 
-    <div class="panel-section">
-      <label class="panel-label">Sistema de coordenadas</label>
-      <select id="crsSelect" class="select-full">
-        <option value="EPSG:4326">EPSG:4326 — WGS84 (lat/lon)</option>
-        <option value="EPSG:3116">EPSG:3116 — MAGNA-SIRGAS Bogotá</option>
-        <option value="EPSG:32618">EPSG:32618 — UTM zona 18N</option>
-      </select>
-    </div>
-
-    <div class="panel-section info-card">
-      <label class="panel-label">SRC activo del mapa</label>
-      <p id="crsMapa" class="mono">EPSG:3857 (Web Mercator)</p>
-      <label class="panel-label">Última coordenada capturada</label>
-      <p id="coordCapturada" class="mono">Haz clic en el mapa…</p>
-    </div>
-
-    <div class="panel-section legend">
-      <span class="dot dot-yellow"></span> Cancha de vóley playa
-    </div>
-
-    <footer class="sidebar-footer">
-      Fuente: OpenStreetMap / Overpass API · MEData Alcaldía de Medellín
-    </footer>
-  </aside>
-
-  <button id="showSidebar" class="show-sidebar-btn" title="Mostrar panel">☰</button>
-
-  <!-- ===== MAPA ===== -->
-  <main class="map-wrap">
+  <div class="hero-right">
     <div id="map"></div>
-    <div id="counterBadge" class="counter-badge">0 canchas visibles</div>
-  </main>
-</div>
+
+    <div class="map-floating-panel">
+      <label class="mini-label">Sistema de coordenadas</label>
+      <select id="crsSelect" class="select-mini">
+        <option value="EPSG:4326">EPSG:4326 — WGS84</option>
+        <option value="EPSG:3116">EPSG:3116 — MAGNA-SIRGAS</option>
+        <option value="EPSG:32618">EPSG:32618 — UTM 18N</option>
+      </select>
+      <p class="mono-mini">SRC mapa: <span id="crsMapa">EPSG:3857</span></p>
+      <p class="mono-mini">Clic capturado: <span id="coordCapturada">—</span></p>
+      <button id="btnRecargarOSM" class="btn btn-outline btn-block-mini">↻ Recargar datos</button>
+      <span id="loadingState" class="status-text-mini">Cargando…</span>
+    </div>
+
+    <div class="map-legend">
+      <span class="dot dot-yellow"></span> Pública
+      <span class="dot dot-blue"></span> Privada
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATS ============ -->
+<section id="stats" class="stats-bar">
+  <div class="stat">
+    <strong id="statTotal">0</strong>
+    <span>canchas registradas</span>
+  </div>
+  <div class="stat">
+    <strong id="statMunicipios">0</strong>
+    <span>municipios cubiertos</span>
+  </div>
+  <div class="stat">
+    <strong id="statPublicas">0</strong>
+    <span>canchas públicas</span>
+  </div>
+  <div class="stat">
+    <strong id="statPrivadas">0</strong>
+    <span>canchas privadas</span>
+  </div>
+</section>
+
+<!-- ============ TARJETAS ============ -->
+<section id="tarjetas" class="tarjetas-section">
+  <h2>🏆 Canchas destacadas</h2>
+  <p class="tarjetas-sub">Datos reales combinados de OpenStreetMap y verificación manual.</p>
+  <div id="cardsGrid" class="cards-grid">
+    <!-- Las tarjetas se generan dinámicamente desde js/ui.js -->
+  </div>
+</section>
+
+<footer class="footer">
+  Proyecto académico — Datos: OpenStreetMap / Overpass API · MEData Alcaldía de Medellín
+</footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/proj4@2.11.0/dist/proj4.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/proj4leaflet@1.0.2/src/proj4leaflet.js"></script>
-<script src="app.js"></script>
+<script type="module" src="js/main.js"></script>
 </body>
 </html>
