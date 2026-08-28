@@ -2,7 +2,7 @@
    MI PRIMER GEOPORTAL
    Visor de canchas de vóley playa - Área Metropolitana del Valle de Aburrá
    (Bello -> Medellín)
-   Leaflet + Proj4Leaflet + Overpass API (OpenStreetMap)
+   Leaflet + Proj4Leaflet + Overpass API (OSM) + capa manual editable
    ============================================================ */
 
 // -------------------------------------------------------------
@@ -40,14 +40,16 @@ let canchasLayer = L.layerGroup().addTo(map);
 let datosOriginales = null;
 
 // -------------------------------------------------------------
-// 3. Icono personalizado (bolita amarilla tipo pin de vóley playa)
+// 3. Icono personalizado
 // -------------------------------------------------------------
-function iconoCancha() {
+function iconoCancha(tipo) {
+  const color = tipo === 'Privada' ? '#2d9cdb' : '#f2b705';
+  const borde = tipo === 'Privada' ? '#0a4a70' : '#7a5b00';
   return L.divIcon({
     className: '',
     html: `<div style="
-      background:#f2b705; width:22px; height:22px; border-radius:50% 50% 50% 0;
-      transform: rotate(-45deg); border:2px solid #7a5b00;
+      background:${color}; width:22px; height:22px; border-radius:50% 50% 50% 0;
+      transform: rotate(-45deg); border:2px solid ${borde};
       display:flex; align-items:center; justify-content:center;
       box-shadow:0 2px 6px rgba(0,0,0,0.4);">
       <span style="transform: rotate(45deg); font-size:11px;">🏐</span>
@@ -92,14 +94,13 @@ map.on('click', function (e) {
 });
 
 // -------------------------------------------------------------
-// 6. Carga de datos: Overpass API (Bello -> Medellín)
+// 6. Carga de datos: OSM (Overpass) + capa manual editable
 // -------------------------------------------------------------
 const BBOX = "6.13,-75.70,6.42,-75.47";
 const loadingEl = document.getElementById('loadingState');
 const counterEl = document.getElementById('counterBadge');
 
-async function cargarCanchasOSM() {
-  loadingEl.textContent = "Cargando datos…";
+async function cargarOverpass() {
   const query = `
     [out:json][timeout:25];
     (
@@ -110,34 +111,50 @@ async function cargarCanchasOSM() {
     out center tags;
   `;
   const url = "https://overpass-api.de/api/interpreter?data=" + encodeURIComponent(query);
+  const resp = await fetch(url);
+  const data = await resp.json();
+  return data.elements.map(el => {
+    const lat = el.lat || (el.center && el.center.lat);
+    const lon = el.lon || (el.center && el.center.lon);
+    return {
+      type: "Feature",
+      properties: {
+        nombre: (el.tags && el.tags.name) || "Cancha de vóley playa (OSM, sin nombre)",
+        barrio: (el.tags && (el.tags["addr:suburb"] || el.tags["addr:neighbourhood"])) || "",
+        municipio: (el.tags && el.tags["addr:city"]) || "",
+        tipo: "OSM",
+        fuente: "OpenStreetMap"
+      },
+      geometry: { type: "Point", coordinates: [lon, lat] }
+    };
+  }).filter(f => f.geometry.coordinates[0] && f.geometry.coordinates[1]);
+}
 
-  try {
-    const resp = await fetch(url);
-    const data = await resp.json();
-    const features = data.elements.map(el => {
-      const lat = el.lat || (el.center && el.center.lat);
-      const lon = el.lon || (el.center && el.center.lon);
-      return {
-        type: "Feature",
-        properties: {
-          nombre: (el.tags && el.tags.name) || "Cancha de vóley playa (sin nombre en OSM)",
-          barrio: (el.tags && (el.tags["addr:suburb"] || el.tags["addr:neighbourhood"])) || "",
-          municipio: (el.tags && el.tags["addr:city"]) || "",
-          osm_id: el.id
-        },
-        geometry: { type: "Point", coordinates: [lon, lat] }
-      };
-    }).filter(f => f.geometry.coordinates[0] && f.geometry.coordinates[1]);
+async function cargarManual() {
+  const resp = await fetch('canchas_manuales.geojson');
+  const data = await resp.json();
+  return data.features;
+}
 
-    datosOriginales = { type: "FeatureCollection", features };
-    pintarCapa(datosOriginales);
-    loadingEl.textContent = `${features.length} cancha(s) cargada(s) desde OSM ✓`;
-  } catch (err) {
-    console.error("Error consultando Overpass:", err);
-    datosOriginales = FALLBACK_GEOJSON;
-    pintarCapa(datosOriginales);
-    loadingEl.textContent = "Sin conexión a OSM — usando datos locales de respaldo";
+async function cargarTodasLasCanchas() {
+  loadingEl.textContent = "Cargando datos…";
+  let osmFeatures = [];
+  let manualFeatures = [];
+
+  const resultados = await Promise.allSettled([cargarOverpass(), cargarManual()]);
+
+  if (resultados[0].status === 'fulfilled') osmFeatures = resultados[0].value;
+  if (resultados[1].status === 'fulfilled') manualFeatures = resultados[1].value;
+
+  if (osmFeatures.length === 0 && manualFeatures.length === 0) {
+    manualFeatures = FALLBACK_GEOJSON.features;
   }
+
+  datosOriginales = { type: "FeatureCollection", features: [...manualFeatures, ...osmFeatures] };
+  pintarCapa(datosOriginales);
+
+  loadingEl.textContent =
+    `${manualFeatures.length} manual(es) + ${osmFeatures.length} OSM = ${datosOriginales.features.length} cancha(s) ✓`;
 }
 
 // -------------------------------------------------------------
@@ -146,12 +163,13 @@ async function cargarCanchasOSM() {
 function pintarCapa(geojson) {
   canchasLayer.clearLayers();
   L.geoJSON(geojson, {
-    pointToLayer: (feature, latlng) => L.marker(latlng, { icon: iconoCancha() }),
+    pointToLayer: (feature, latlng) => L.marker(latlng, { icon: iconoCancha(feature.properties.tipo) }),
     onEachFeature: (feature, layer) => {
       const p = feature.properties;
       layer.bindPopup(
         `<div class="popup-title">🏐 ${p.nombre}</div>
          <div class="popup-row">${[p.barrio, p.municipio].filter(Boolean).join(', ') || 'Ubicación sin barrio registrado'}</div>
+         ${p.tipo ? `<div class="popup-row">Tipo: ${p.tipo}</div>` : ''}
          <div class="popup-row">Lat/Lon: ${feature.geometry.coordinates[1].toFixed(6)}, ${feature.geometry.coordinates[0].toFixed(6)}</div>`
       );
     }
@@ -161,23 +179,45 @@ function pintarCapa(geojson) {
 }
 
 // -------------------------------------------------------------
-// 8. Prefiltro por texto
+// 8. Prefiltro por texto — búsqueda flexible (no exacta)
+//    - Ignora mayúsculas/minúsculas
+//    - Ignora tildes (á/a, é/e, í/i, ó/o, ú/u, ñ/n)
+//    - Ignora espacios extra
+//    - Coincidencia parcial: "medell" ya encuentra "Medellín"
 // -------------------------------------------------------------
+function normalizar(texto) {
+  return (texto || '')
+    .toString()
+    .trim()
+    .toLowerCase()
+    .normalize('NFD')              // separa letra + tilde
+    .replace(/[\u0300-\u036f]/g, '') // elimina las tildes
+    .replace(/\s+/g, ' ');         // colapsa espacios múltiples
+}
+
+function coincide(feature, textoBuscado) {
+  const q = normalizar(textoBuscado);
+  const p = feature.properties;
+  const campos = [p.nombre, p.barrio, p.municipio, p.tipo];
+  return campos.some(campo => normalizar(campo).includes(q));
+}
+
 document.getElementById('btnFiltrar').addEventListener('click', () => {
   if (!datosOriginales) return;
-  const texto = document.getElementById('filtro').value.trim().toLowerCase();
-  if (!texto) { pintarCapa(datosOriginales); return; }
+  const texto = document.getElementById('filtro').value;
+  if (!normalizar(texto)) { pintarCapa(datosOriginales); return; }
 
   const filtrado = {
     type: "FeatureCollection",
-    features: datosOriginales.features.filter(f => {
-      const p = f.properties;
-      return (p.nombre || '').toLowerCase().includes(texto) ||
-             (p.barrio || '').toLowerCase().includes(texto) ||
-             (p.municipio || '').toLowerCase().includes(texto);
-    })
+    features: datosOriginales.features.filter(f => coincide(f, texto))
   };
   pintarCapa(filtrado);
+
+  if (filtrado.features.length === 0) {
+    loadingEl.textContent = `Sin resultados para "${texto}"`;
+  } else {
+    loadingEl.textContent = `${filtrado.features.length} resultado(s) para "${texto}"`;
+  }
 });
 
 document.getElementById('btnReset').addEventListener('click', () => {
@@ -185,25 +225,27 @@ document.getElementById('btnReset').addEventListener('click', () => {
   if (datosOriginales) pintarCapa(datosOriginales);
 });
 
+// Filtrado en vivo mientras se escribe (opcional, además del botón/Enter)
+document.getElementById('filtro').addEventListener('input', () => {
+  document.getElementById('btnFiltrar').click();
+});
+
 document.getElementById('filtro').addEventListener('keydown', (e) => {
   if (e.key === 'Enter') document.getElementById('btnFiltrar').click();
 });
 
-document.getElementById('btnRecargarOSM').addEventListener('click', cargarCanchasOSM);
+document.getElementById('btnRecargarOSM').addEventListener('click', cargarTodasLasCanchas);
 
 // -------------------------------------------------------------
-// 9. Mostrar / ocultar capa desde el checkbox
+// 9. Mostrar / ocultar capa
 // -------------------------------------------------------------
 document.getElementById('chkCanchas').addEventListener('change', (e) => {
-  if (e.target.checked) {
-    map.addLayer(canchasLayer);
-  } else {
-    map.removeLayer(canchasLayer);
-  }
+  if (e.target.checked) map.addLayer(canchasLayer);
+  else map.removeLayer(canchasLayer);
 });
 
 // -------------------------------------------------------------
-// 10. Colapsar / mostrar sidebar (diseño más limpio en pantallas chicas)
+// 10. Colapsar / mostrar sidebar
 // -------------------------------------------------------------
 const sidebar = document.getElementById('sidebar');
 const toggleBtn = document.getElementById('toggleSidebar');
@@ -219,7 +261,7 @@ showBtn.addEventListener('click', () => {
 });
 
 // -------------------------------------------------------------
-// 11. Dataset de respaldo (offline, verificado)
+// 11. Respaldo mínimo si TODO falla
 // -------------------------------------------------------------
 const FALLBACK_GEOJSON = {
   type: "FeatureCollection",
@@ -228,19 +270,9 @@ const FALLBACK_GEOJSON = {
       type: "Feature",
       properties: {
         nombre: "Cancha de vóley playa N.1 - Unidad Deportiva Atanasio Girardot",
-        barrio: "Laureles-Estadio",
-        municipio: "Medellín"
+        barrio: "Laureles-Estadio", municipio: "Medellín", tipo: "Pública"
       },
       geometry: { type: "Point", coordinates: [-75.591129, 6.257519] }
-    },
-    {
-      type: "Feature",
-      properties: {
-        nombre: "Cancha de vóley playa en arenilla - Unidad Deportiva de Belén",
-        barrio: "Belén",
-        municipio: "Medellín"
-      },
-      geometry: { type: "Point", coordinates: [-75.6069, 6.2378] }
     }
   ]
 };
@@ -248,4 +280,4 @@ const FALLBACK_GEOJSON = {
 // -------------------------------------------------------------
 // 12. Arranque
 // -------------------------------------------------------------
-cargarCanchasOSM();
+cargarTodasLasCanchas();
