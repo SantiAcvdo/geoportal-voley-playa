@@ -6,11 +6,7 @@
    ============================================================ */
 
 // -------------------------------------------------------------
-// 1. Definición de sistemas de referencia de coordenadas (SRC)
-//    Leaflet trabaja internamente en EPSG:3857 (Web Mercator) y
-//    espera GeoJSON en EPSG:4326 (lat/lon WGS84). Para la
-//    "conversión al vuelo" usamos Proj4js con otros dos SRC
-//    usados oficialmente en Colombia.
+// 1. Sistemas de referencia de coordenadas (SRC)
 // -------------------------------------------------------------
 proj4.defs("EPSG:3116",
   "+proj=tmerc +lat_0=4.596200417 +lon_0=-74.07750791666666 " +
@@ -21,7 +17,8 @@ proj4.defs("EPSG:32618",
 // -------------------------------------------------------------
 // 2. Mapa base
 // -------------------------------------------------------------
-const map = L.map('map', { zoomControl: true }).setView([6.30, -75.58], 12); // centro Bello-Medellín
+const map = L.map('map', { zoomControl: false }).setView([6.30, -75.58], 12);
+L.control.zoom({ position: 'bottomright' }).addTo(map);
 
 const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; OpenStreetMap contributors',
@@ -33,57 +30,76 @@ const carto = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{
   maxZoom: 19
 });
 
-const baseLayers = {
-  "OpenStreetMap": osm,
-  "CartoDB Light": carto
-};
+L.control.layers(
+  { "Estándar (OSM)": osm, "Claro (CartoDB)": carto },
+  {},
+  { position: 'bottomright', collapsed: true }
+).addTo(map);
 
-// Capa de resultados (se llena dinámicamente)
 let canchasLayer = L.layerGroup().addTo(map);
-let datosOriginales = null; // FeatureCollection completo, sin filtrar
-
-const overlays = { "Canchas de vóley playa": canchasLayer };
-L.control.layers(baseLayers, overlays, { collapsed: false }).addTo(map);
+let datosOriginales = null;
 
 // -------------------------------------------------------------
-// 3. Mostrar el SRC activo del mapa (requisito: "que me diga el SRC")
+// 3. Icono personalizado (bolita amarilla tipo pin de vóley playa)
+// -------------------------------------------------------------
+function iconoCancha() {
+  return L.divIcon({
+    className: '',
+    html: `<div style="
+      background:#f2b705; width:22px; height:22px; border-radius:50% 50% 50% 0;
+      transform: rotate(-45deg); border:2px solid #7a5b00;
+      display:flex; align-items:center; justify-content:center;
+      box-shadow:0 2px 6px rgba(0,0,0,0.4);">
+      <span style="transform: rotate(45deg); font-size:11px;">🏐</span>
+    </div>`,
+    iconSize: [22, 22],
+    iconAnchor: [11, 22],
+    popupAnchor: [0, -22]
+  });
+}
+
+// -------------------------------------------------------------
+// 4. SRC activo del mapa
 // -------------------------------------------------------------
 document.getElementById('crsMapa').textContent =
   map.options.crs.code ? map.options.crs.code : 'EPSG:3857 (Web Mercator)';
 
 // -------------------------------------------------------------
-// 4. Captura de coordenadas al hacer clic + reproyección al vuelo
-//    (requisito: "capturar coordenadas" / "conversión al vuelo")
+// 5. Captura de coordenadas + reproyección al vuelo
 // -------------------------------------------------------------
+let marcadorClic = null;
 map.on('click', function (e) {
   const lat = e.latlng.lat;
   const lon = e.latlng.lng;
   const destino = document.getElementById('crsSelect').value;
 
-  let texto = `WGS84 (EPSG:4326): ${lat.toFixed(6)}, ${lon.toFixed(6)}`;
-
+  let texto = `WGS84: ${lat.toFixed(6)}, ${lon.toFixed(6)}`;
   if (destino !== "EPSG:4326") {
     const [x, y] = proj4("EPSG:4326", destino, [lon, lat]);
-    texto += ` &nbsp;|&nbsp; ${destino}: X=${x.toFixed(2)}, Y=${y.toFixed(2)}`;
+    texto += ` · ${destino}: X=${x.toFixed(2)}, Y=${y.toFixed(2)}`;
   }
+  document.getElementById('coordCapturada').textContent = texto;
 
-  document.getElementById('coordCapturada').innerHTML = texto;
+  if (marcadorClic) map.removeLayer(marcadorClic);
+  marcadorClic = L.circleMarker(e.latlng, {
+    radius: 6, color: '#e63946', fillColor: '#e63946', fillOpacity: 1
+  }).addTo(map);
 
   L.popup()
     .setLatLng(e.latlng)
-    .setContent(`<b>Coordenada capturada</b><br>${texto}`)
+    .setContent(`<div class="popup-title">📍 Coordenada capturada</div><div class="popup-row">${texto}</div>`)
     .openOn(map);
 });
 
 // -------------------------------------------------------------
-// 5. Carga de datos reales: Overpass API (OpenStreetMap)
-//    Filtra sport=beachvolleyball dentro del bbox
-//    Bello - Medellín (Valle de Aburrá)
-//    (requisito: "cargar capas" + cobertura Bello->Medellín)
+// 6. Carga de datos: Overpass API (Bello -> Medellín)
 // -------------------------------------------------------------
-const BBOX = "6.13,-75.70,6.42,-75.47"; // south,west,north,east
+const BBOX = "6.13,-75.70,6.42,-75.47";
+const loadingEl = document.getElementById('loadingState');
+const counterEl = document.getElementById('counterBadge');
 
 async function cargarCanchasOSM() {
+  loadingEl.textContent = "Cargando datos…";
   const query = `
     [out:json][timeout:25];
     (
@@ -107,8 +123,7 @@ async function cargarCanchasOSM() {
           nombre: (el.tags && el.tags.name) || "Cancha de vóley playa (sin nombre en OSM)",
           barrio: (el.tags && (el.tags["addr:suburb"] || el.tags["addr:neighbourhood"])) || "",
           municipio: (el.tags && el.tags["addr:city"]) || "",
-          osm_id: el.id,
-          osm_type: el.type
+          osm_id: el.id
         },
         geometry: { type: "Point", coordinates: [lon, lat] }
       };
@@ -116,43 +131,37 @@ async function cargarCanchasOSM() {
 
     datosOriginales = { type: "FeatureCollection", features };
     pintarCapa(datosOriginales);
+    loadingEl.textContent = `${features.length} cancha(s) cargada(s) desde OSM ✓`;
   } catch (err) {
     console.error("Error consultando Overpass:", err);
-    // Respaldo: dataset local mínimo verificado (MEData / Alcaldía de Medellín)
     datosOriginales = FALLBACK_GEOJSON;
     pintarCapa(datosOriginales);
-    document.getElementById('coordCapturada').innerHTML =
-      "No se pudo conectar a Overpass API. Mostrando dataset local de respaldo.";
+    loadingEl.textContent = "Sin conexión a OSM — usando datos locales de respaldo";
   }
 }
 
 // -------------------------------------------------------------
-// 6. Pintado de capa GeoJSON (Leaflet asume EPSG:4326 por defecto,
-//    lo cual es correcto porque OSM y GeoJSON estándar usan WGS84)
+// 7. Pintado de capa
 // -------------------------------------------------------------
 function pintarCapa(geojson) {
   canchasLayer.clearLayers();
   L.geoJSON(geojson, {
-    pointToLayer: (feature, latlng) => L.circleMarker(latlng, {
-      radius: 8,
-      fillColor: "#e0a800",
-      color: "#7a5b00",
-      weight: 1,
-      fillOpacity: 0.9
-    }),
+    pointToLayer: (feature, latlng) => L.marker(latlng, { icon: iconoCancha() }),
     onEachFeature: (feature, layer) => {
       const p = feature.properties;
       layer.bindPopup(
-        `<b>${p.nombre}</b><br>${p.barrio || ''} ${p.municipio || ''}<br>` +
-        `Lat/Lon: ${feature.geometry.coordinates[1].toFixed(6)}, ${feature.geometry.coordinates[0].toFixed(6)}`
+        `<div class="popup-title">🏐 ${p.nombre}</div>
+         <div class="popup-row">${[p.barrio, p.municipio].filter(Boolean).join(', ') || 'Ubicación sin barrio registrado'}</div>
+         <div class="popup-row">Lat/Lon: ${feature.geometry.coordinates[1].toFixed(6)}, ${feature.geometry.coordinates[0].toFixed(6)}</div>`
       );
     }
   }).addTo(canchasLayer);
+
+  counterEl.textContent = `${geojson.features.length} cancha(s) visible(s)`;
 }
 
 // -------------------------------------------------------------
-// 7. Prefiltro por texto (barrio / municipio / nombre)
-//    (requisito: "prefiltro que reconozca")
+// 8. Prefiltro por texto
 // -------------------------------------------------------------
 document.getElementById('btnFiltrar').addEventListener('click', () => {
   if (!datosOriginales) return;
@@ -176,11 +185,41 @@ document.getElementById('btnReset').addEventListener('click', () => {
   if (datosOriginales) pintarCapa(datosOriginales);
 });
 
+document.getElementById('filtro').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') document.getElementById('btnFiltrar').click();
+});
+
 document.getElementById('btnRecargarOSM').addEventListener('click', cargarCanchasOSM);
 
 // -------------------------------------------------------------
-// 8. Dataset de respaldo (offline), verificado en fuentes oficiales
-//    MEData - Alcaldía de Medellín / datos.gov.co
+// 9. Mostrar / ocultar capa desde el checkbox
+// -------------------------------------------------------------
+document.getElementById('chkCanchas').addEventListener('change', (e) => {
+  if (e.target.checked) {
+    map.addLayer(canchasLayer);
+  } else {
+    map.removeLayer(canchasLayer);
+  }
+});
+
+// -------------------------------------------------------------
+// 10. Colapsar / mostrar sidebar (diseño más limpio en pantallas chicas)
+// -------------------------------------------------------------
+const sidebar = document.getElementById('sidebar');
+const toggleBtn = document.getElementById('toggleSidebar');
+const showBtn = document.getElementById('showSidebar');
+
+toggleBtn.addEventListener('click', () => {
+  sidebar.classList.add('collapsed');
+  showBtn.classList.add('visible');
+});
+showBtn.addEventListener('click', () => {
+  sidebar.classList.remove('collapsed');
+  showBtn.classList.remove('visible');
+});
+
+// -------------------------------------------------------------
+// 11. Dataset de respaldo (offline, verificado)
 // -------------------------------------------------------------
 const FALLBACK_GEOJSON = {
   type: "FeatureCollection",
@@ -197,7 +236,7 @@ const FALLBACK_GEOJSON = {
     {
       type: "Feature",
       properties: {
-        nombre: "Cancha de vóley playa en arenilla - Unidad Deportiva de Belén (Andrés Escobar Saldarriaga)",
+        nombre: "Cancha de vóley playa en arenilla - Unidad Deportiva de Belén",
         barrio: "Belén",
         municipio: "Medellín"
       },
@@ -207,6 +246,6 @@ const FALLBACK_GEOJSON = {
 };
 
 // -------------------------------------------------------------
-// 9. Arranque
+// 12. Arranque
 // -------------------------------------------------------------
 cargarCanchasOSM();

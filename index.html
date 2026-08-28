@@ -3,41 +3,84 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Mi primer geoportal</title>
+<title>Mi primer geoportal — Vóley Playa AMVA</title>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<header class="topbar">
-  <h1>Mi primer geoportal</h1>
-  <p>Canchas de vóley playa — Área Metropolitana (Bello → Medellín)</p>
-</header>
+<div class="app">
 
-<div class="toolbar">
-  <input id="filtro" type="text" placeholder="Prefiltro: barrio, comuna o municipio (ej: Belén, Bello, Laureles)"/>
-  <button id="btnFiltrar">Filtrar</button>
-  <button id="btnReset">Quitar filtro</button>
-  <button id="btnRecargarOSM">Recargar datos OSM</button>
-  <select id="crsSelect">
-    <option value="EPSG:4326">EPSG:4326 (WGS84 lat/lon)</option>
-    <option value="EPSG:3116">EPSG:3116 (MAGNA-SIRGAS Bogotá)</option>
-    <option value="EPSG:32618">EPSG:32618 (UTM 18N)</option>
-  </select>
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <span class="brand-icon">🏐</span>
+      <div>
+        <h1>Mi primer geoportal</h1>
+        <p>Canchas de vóley playa · AMVA</p>
+      </div>
+    </div>
+
+    <button id="toggleSidebar" class="toggle-btn" title="Contraer panel">‹</button>
+
+    <div class="panel-section">
+      <label class="panel-label">Buscar / filtrar</label>
+      <div class="search-box">
+        <span class="icon">🔎</span>
+        <input id="filtro" type="text" placeholder="Barrio, comuna o municipio…"/>
+      </div>
+      <div class="btn-row">
+        <button id="btnFiltrar" class="btn btn-primary">Filtrar</button>
+        <button id="btnReset" class="btn btn-ghost">Limpiar</button>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <label class="panel-label">Capas</label>
+      <div class="layer-item">
+        <input type="checkbox" id="chkCanchas" checked/>
+        <label for="chkCanchas"><span class="dot dot-yellow"></span> Canchas de vóley playa</label>
+      </div>
+      <button id="btnRecargarOSM" class="btn btn-outline btn-block">↻ Recargar datos OSM</button>
+      <span id="loadingState" class="status-text">Cargando datos…</span>
+    </div>
+
+    <div class="panel-section">
+      <label class="panel-label">Sistema de coordenadas</label>
+      <select id="crsSelect" class="select-full">
+        <option value="EPSG:4326">EPSG:4326 — WGS84 (lat/lon)</option>
+        <option value="EPSG:3116">EPSG:3116 — MAGNA-SIRGAS Bogotá</option>
+        <option value="EPSG:32618">EPSG:32618 — UTM zona 18N</option>
+      </select>
+    </div>
+
+    <div class="panel-section info-card">
+      <label class="panel-label">SRC activo del mapa</label>
+      <p id="crsMapa" class="mono">EPSG:3857 (Web Mercator)</p>
+      <label class="panel-label">Última coordenada capturada</label>
+      <p id="coordCapturada" class="mono">Haz clic en el mapa…</p>
+    </div>
+
+    <div class="panel-section legend">
+      <span class="dot dot-yellow"></span> Cancha de vóley playa
+    </div>
+
+    <footer class="sidebar-footer">
+      Fuente: OpenStreetMap / Overpass API · MEData Alcaldía de Medellín
+    </footer>
+  </aside>
+
+  <button id="showSidebar" class="show-sidebar-btn" title="Mostrar panel">☰</button>
+
+  <!-- ===== MAPA ===== -->
+  <main class="map-wrap">
+    <div id="map"></div>
+    <div id="counterBadge" class="counter-badge">0 canchas visibles</div>
+  </main>
 </div>
-
-<div id="map"></div>
-
-<div id="infoPanel" class="info-panel">
-  <b>Sistema de referencia activo del mapa:</b> <span id="crsMapa">EPSG:3857 (Web Mercator, base Leaflet)</span><br/>
-  <b>Última coordenada capturada:</b> <span id="coordCapturada">— haz clic en el mapa —</span>
-</div>
-
-<footer class="footer">
-  Datos: OpenStreetMap / Overpass API (sport=beachvolleyball) · MEData Alcaldía de Medellín ·
-  Proyecto académico — Reproyección con Proj4Leaflet
-</footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/proj4@2.11.0/dist/proj4.js"></script>
