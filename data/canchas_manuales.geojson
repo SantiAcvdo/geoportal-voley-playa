@@ -164,7 +164,7 @@
         "tipo": "Privada",
         "fuente": "Solo con reserva. Dirección: Cra 50 #100C Sur-49, La Estrella (ubicación aproximada, verificar)"
       },
-      "geometry": { "type": "Point", "coordinates": [-75.63, 6.157] }
+      "geometry": { "type": "Point", "coordinates": [-75.63531723229092, 6.116975029001734] }
     },
     {
       "type": "Feature",
