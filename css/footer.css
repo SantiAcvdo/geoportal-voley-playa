@@ -1,0 +1,15 @@
+/* Guarda este archivo en: css/footer.css
+   Responsabilidad única: pie de página y ajustes visuales de los popups de Leaflet. */
+
+.footer {
+  text-align: center;
+  padding: 18px;
+  font-size: 0.72rem;
+  color: var(--gris-texto);
+  background: #f4f4f4;
+}
+
+.leaflet-popup-content-wrapper { border-radius: 10px; }
+.leaflet-popup-content { font-family: 'Poppins', sans-serif; font-size: 0.85rem; }
+.popup-title { font-weight: 700; color: var(--teal-dark); margin-bottom: 4px; }
+.popup-row { color: #555; font-size: 0.78rem; }

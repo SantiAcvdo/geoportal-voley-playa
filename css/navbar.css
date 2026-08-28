@@ -1,0 +1,33 @@
+/* Guarda este archivo en: css/navbar.css
+   Responsabilidad única: barra superior de navegación y menú hamburguesa. */
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 32px;
+  border-bottom: 1px solid #eee;
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.navbar-brand { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1.1rem; }
+.logo-icon { font-size: 1.5rem; }
+.logo-text small { color: var(--gris-texto); font-weight: 400; font-size: 0.7rem; }
+.navbar-links { display: flex; gap: 24px; font-size: 0.9rem; color: var(--gris-texto); align-items: center; }
+.navbar-links .active { color: var(--teal); font-weight: 600; }
+.badge-proyecto {
+  background: #eafaf7; color: var(--teal-dark); padding: 6px 14px;
+  border-radius: 20px; font-size: 0.78rem; font-weight: 600;
+}
+.badge-proyecto-movil { display: none; }
+
+.btn-menu-movil {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: var(--teal-dark);
+}

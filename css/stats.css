@@ -1,0 +1,15 @@
+/* Guarda este archivo en: css/stats.css
+   Responsabilidad única: barra de estadísticas (canchas, municipios, públicas, privadas). */
+
+.stats-bar {
+  display: flex;
+  justify-content: space-around;
+  background: var(--teal-dark);
+  color: white;
+  padding: 24px 20px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.stat { text-align: center; }
+.stat strong { display: block; font-size: 1.6rem; }
+.stat span { font-size: 0.78rem; opacity: 0.85; }

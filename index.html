@@ -8,7 +8,17 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css" />
+
+<!-- CSS dividido por responsabilidad. El orden importa: base primero,
+     responsive.css siempre al final para que sus reglas ganen en pantallas chicas. -->
+<link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/navbar.css" />
+<link rel="stylesheet" href="css/hero.css" />
+<link rel="stylesheet" href="css/busqueda.css" />
+<link rel="stylesheet" href="css/stats.css" />
+<link rel="stylesheet" href="css/tarjetas.css" />
+<link rel="stylesheet" href="css/footer.css" />
+<link rel="stylesheet" href="css/responsive.css" />
 </head>
 <body>
 
@@ -50,13 +60,11 @@
         <button id="btnReset" class="btn btn-ghost">Limpiar</button>
       </div>
 
-      <!-- Estado de carga + botón recargar -->
       <div class="status-box">
         <span id="loadingState" class="status-text">Cargando…</span>
         <button id="btnRecargarOSM" class="btn-link">↻ Recargar datos</button>
       </div>
 
-      <!-- Sistema de coordenadas + coordenada capturada -->
       <div class="coord-box">
         <div class="coord-row">
           <label class="mini-label-claro" for="crsSelect">Sistema de coordenadas</label>

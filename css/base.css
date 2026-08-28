@@ -1,0 +1,26 @@
+/* Guarda este archivo en: css/base.css
+   Responsabilidad única: reset, variables globales y estilos base del body. */
+
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', system-ui, Arial, sans-serif; }
+html { overflow-x: hidden; }
+body { color: #17313e; background: #fbfaf7; overflow-x: hidden; }
+
+:root {
+  --teal: #0f7d7a;
+  --teal-dark: #0a5c5a;
+  --amarillo: #f2b705;
+  --azul: #2d9cdb;
+  --gris-texto: #5b6b73;
+}
+
+a { text-decoration: none; color: inherit; }
+
+/* Botones genéricos reutilizados en varias secciones (búsqueda, tarjetas, etc.) */
+.btn {
+  border: none; border-radius: 8px; padding: 10px 16px;
+  font-weight: 600; font-size: 0.85rem; cursor: pointer;
+  font-family: inherit; transition: transform 0.1s ease, opacity 0.2s;
+}
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: var(--teal); color: white; flex: 1; }
+.btn-ghost { background: #f1f1f1; color: #333; flex: 1; }
