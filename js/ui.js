@@ -34,9 +34,24 @@ export function renderizarTarjetas(geojson) {
         <button type="button">Ver en el mapa</button>
       </div>
     `;
-    card.querySelector('button').addEventListener('click', () => irACancha(lat, lon));
+
+    card.querySelector('button').addEventListener('click', () => irYVerEnMapa(lat, lon));
     grid.appendChild(card);
   });
+}
+
+// Sube automáticamente hasta la sección del mapa y luego lo centra en la
+// cancha elegida, para que el usuario no tenga que hacer scroll manual.
+function irYVerEnMapa(lat, lon) {
+  const hero = document.getElementById('hero');
+  hero.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // Pequeño retraso: deja que termine (o avance) el scroll suave antes de
+  // mover el mapa y abrir el popup, así la animación se ve más natural.
+  window.clearTimeout(irYVerEnMapa._t);
+  irYVerEnMapa._t = window.setTimeout(() => {
+    irACancha(lat, lon);
+  }, 350);
 }
 
 export function actualizarStats(geojson) {

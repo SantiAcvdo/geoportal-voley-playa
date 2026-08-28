@@ -6,6 +6,7 @@ import { CENTRO_MAPA, ZOOM_INICIAL } from './config.js';
 export let map;
 export let canchasLayer;
 let marcadorClic = null;
+let resaltadoTemporal = null;
 
 export function iniciarMapa() {
   map = L.map('map', { zoomControl: false }).setView(CENTRO_MAPA, ZOOM_INICIAL);
@@ -94,13 +95,27 @@ export function pintarCapa(geojson) {
   }).addTo(canchasLayer);
 }
 
-// Permite que otros módulos (ej. las tarjetas) centren el mapa en una cancha
+// Centra el mapa en una cancha específica con animación de vuelo, resalta
+// el punto temporalmente con un círculo pulsante y abre su popup.
+// Lo llama ui.js cuando el usuario hace clic en "Ver en el mapa".
 export function irACancha(lat, lon) {
-  map.setView([lat, lon], 16, { animate: true });
-  canchasLayer.eachLayer(layer => {
-    const ll = layer.getLatLng();
-    if (Math.abs(ll.lat - lat) < 0.00001 && Math.abs(ll.lng - lon) < 0.00001) {
-      layer.openPopup();
-    }
-  });
+  map.flyTo([lat, lon], 17, { animate: true, duration: 1.2 });
+
+  if (resaltadoTemporal) map.removeLayer(resaltadoTemporal);
+  resaltadoTemporal = L.circleMarker([lat, lon], {
+    radius: 18, color: '#e63946', weight: 3, fillColor: '#e63946', fillOpacity: 0.25
+  }).addTo(map);
+
+  window.setTimeout(() => {
+    canchasLayer.eachLayer(layer => {
+      const ll = layer.getLatLng();
+      if (Math.abs(ll.lat - lat) < 0.00001 && Math.abs(ll.lng - lon) < 0.00001) {
+        layer.openPopup();
+      }
+    });
+  }, 1300); // espera a que termine la animación flyTo antes de abrir el popup
+
+  window.setTimeout(() => {
+    if (resaltadoTemporal) { map.removeLayer(resaltadoTemporal); resaltadoTemporal = null; }
+  }, 3500);
 }
