@@ -50,9 +50,24 @@
         <button id="btnReset" class="btn btn-ghost">Limpiar</button>
       </div>
 
+      <!-- Estado de carga + botón recargar -->
       <div class="status-box">
         <span id="loadingState" class="status-text">Cargando…</span>
         <button id="btnRecargarOSM" class="btn-link">↻ Recargar datos</button>
+      </div>
+
+      <!-- Sistema de coordenadas + coordenada capturada -->
+      <div class="coord-box">
+        <div class="coord-row">
+          <label class="mini-label-claro" for="crsSelect">Sistema de coordenadas</label>
+          <select id="crsSelect" class="select-mini-claro">
+            <option value="EPSG:4326">EPSG:4326 — WGS84</option>
+            <option value="EPSG:3116">EPSG:3116 — MAGNA-SIRGAS</option>
+            <option value="EPSG:32618">EPSG:32618 — UTM 18N</option>
+          </select>
+        </div>
+        <p class="mono-claro">SRC mapa: <span id="crsMapa">EPSG:3857</span></p>
+        <p class="mono-claro">Clic capturado: <span id="coordCapturada">—</span></p>
       </div>
 
       <div class="search-tags">
@@ -65,17 +80,6 @@
 
   <div class="hero-right">
     <div id="map"></div>
-
-    <div class="map-floating-panel">
-      <label class="mini-label">Sistema de coordenadas</label>
-      <select id="crsSelect" class="select-mini">
-        <option value="EPSG:4326">EPSG:4326 — WGS84</option>
-        <option value="EPSG:3116">EPSG:3116 — MAGNA-SIRGAS</option>
-        <option value="EPSG:32618">EPSG:32618 — UTM 18N</option>
-      </select>
-      <p class="mono-mini">SRC mapa: <span id="crsMapa">EPSG:3857</span></p>
-      <p class="mono-mini">Clic capturado: <span id="coordCapturada">—</span></p>
-    </div>
 
     <div class="map-legend">
       <span class="dot dot-yellow"></span> Pública
