@@ -33,7 +33,7 @@
 
   <div class="hero-left">
     <h1>Encuentra tu <span class="highlight">cancha perfecta</span></h1>
-    <p class="hero-sub">Explora canchas de vóley playa desde Bello hasta Caldas, en un solo mapa.</p>
+    <p class="hero-sub">Explora canchas de vóley playa desde Bello hasta Medellín, en un solo mapa.</p>
 
     <div class="search-card">
       <div class="search-row">
@@ -44,6 +44,13 @@
         <button id="btnFiltrar" class="btn btn-primary">Buscar</button>
         <button id="btnReset" class="btn btn-ghost">Limpiar</button>
       </div>
+
+      <!-- Estado de carga / resultados de búsqueda, junto a la barra de búsqueda -->
+      <div class="status-box">
+        <span id="loadingState" class="status-text">Cargando…</span>
+        <button id="btnRecargarOSM" class="btn-link">↻ Recargar datos</button>
+      </div>
+
       <div class="search-tags">
         <span class="tag">✅ Reservas propias del sitio</span>
         <span class="tag">📍 Datos abiertos OSM</span>
@@ -64,8 +71,6 @@
       </select>
       <p class="mono-mini">SRC mapa: <span id="crsMapa">EPSG:3857</span></p>
       <p class="mono-mini">Clic capturado: <span id="coordCapturada">—</span></p>
-      <button id="btnRecargarOSM" class="btn btn-outline btn-block-mini">↻ Recargar datos</button>
-      <span id="loadingState" class="status-text-mini">Cargando…</span>
     </div>
 
     <div class="map-legend">
