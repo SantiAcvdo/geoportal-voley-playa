@@ -95,27 +95,48 @@ export function pintarCapa(geojson) {
   }).addTo(canchasLayer);
 }
 
-// Centra el mapa en una cancha específica con animación de vuelo, resalta
-// el punto temporalmente con un círculo pulsante y abre su popup.
-// Lo llama ui.js cuando el usuario hace clic en "Ver en el mapa".
-export function irACancha(lat, lon) {
-  map.flyTo([lat, lon], 17, { animate: true, duration: 1.2 });
-
+function resaltarPunto(lat, lon) {
   if (resaltadoTemporal) map.removeLayer(resaltadoTemporal);
   resaltadoTemporal = L.circleMarker([lat, lon], {
     radius: 18, color: '#e63946', weight: 3, fillColor: '#e63946', fillOpacity: 0.25
   }).addTo(map);
 
   window.setTimeout(() => {
-    canchasLayer.eachLayer(layer => {
-      const ll = layer.getLatLng();
-      if (Math.abs(ll.lat - lat) < 0.00001 && Math.abs(ll.lng - lon) < 0.00001) {
-        layer.openPopup();
-      }
-    });
-  }, 1300); // espera a que termine la animación flyTo antes de abrir el popup
-
-  window.setTimeout(() => {
     if (resaltadoTemporal) { map.removeLayer(resaltadoTemporal); resaltadoTemporal = null; }
   }, 3500);
+}
+
+function abrirPopupEnCoordenada(lat, lon) {
+  canchasLayer.eachLayer(layer => {
+    const ll = layer.getLatLng();
+    if (Math.abs(ll.lat - lat) < 0.00001 && Math.abs(ll.lng - lon) < 0.00001) {
+      layer.openPopup();
+    }
+  });
+}
+
+// Centra el mapa en UNA sola cancha específica (usado por el botón
+// "Ver en el mapa" de cada tarjeta).
+export function irACancha(lat, lon) {
+  map.flyTo([lat, lon], 17, { animate: true, duration: 1.2 });
+  resaltarPunto(lat, lon);
+  window.setTimeout(() => abrirPopupEnCoordenada(lat, lon), 1300);
+}
+
+// Centra/ajusta el mapa para mostrar TODOS los resultados de una búsqueda
+// (usado por el buscador: escribir "Envigado" lleva el mapa hasta Envigado).
+export function irAResultados(geojson) {
+  const features = geojson.features;
+  if (!features || features.length === 0) return;
+
+  if (features.length === 1) {
+    const [lon, lat] = features[0].geometry.coordinates;
+    irACancha(lat, lon);
+    return;
+  }
+
+  const bounds = L.latLngBounds(
+    features.map(f => [f.geometry.coordinates[1], f.geometry.coordinates[0]])
+  );
+  map.flyToBounds(bounds, { padding: [60, 60], maxZoom: 15, animate: true, duration: 1.2 });
 }
