@@ -18,14 +18,19 @@
     <span class="logo-icon">🏝️</span>
     <span class="logo-text">VoleyPlaya <small>AMVA</small></span>
   </div>
-  <nav class="navbar-links">
+
+  <nav class="navbar-links" id="navLinks">
     <a href="#hero" class="active">Inicio</a>
     <a href="#tarjetas">Canchas</a>
     <a href="#stats">Estadísticas</a>
+    <span class="badge-proyecto badge-proyecto-movil">Mi primer geoportal</span>
   </nav>
+
   <div class="navbar-cta">
     <span class="badge-proyecto">Mi primer geoportal</span>
   </div>
+
+  <button id="btnMenuMovil" class="btn-menu-movil" aria-label="Abrir menú">☰</button>
 </header>
 
 <!-- ============ HERO ============ -->
@@ -45,7 +50,6 @@
         <button id="btnReset" class="btn btn-ghost">Limpiar</button>
       </div>
 
-      <!-- Estado de carga / resultados de búsqueda, junto a la barra de búsqueda -->
       <div class="status-box">
         <span id="loadingState" class="status-text">Cargando…</span>
         <button id="btnRecargarOSM" class="btn-link">↻ Recargar datos</button>
