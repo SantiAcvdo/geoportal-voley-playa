@@ -13,26 +13,18 @@ export function iniciarMapa() {
   L.control.zoom({ position: 'bottomright' }).addTo(map);
 
   const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors',
-    maxZoom: 19
+    attribution: '&copy; OpenStreetMap contributors', maxZoom: 19
   }).addTo(map);
 
   const carto = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; OpenStreetMap, &copy; CARTO',
-    maxZoom: 19
+    attribution: '&copy; OpenStreetMap, &copy; CARTO', maxZoom: 19
   });
 
-  // Vista satelital gratuita, sin API key: Esri World Imagery.
   const satelital = L.tileLayer(
     'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-    {
-      attribution: 'Tiles &copy; Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community',
-      maxZoom: 19
-    }
+    { attribution: 'Tiles &copy; Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community', maxZoom: 19 }
   );
 
-  // Etiquetas (nombres de calles/barrios) para superponer sobre la satelital,
-  // porque las teselas de Esri por sí solas no traen texto.
   const etiquetasSatelital = L.tileLayer(
     'https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',
     { attribution: 'Labels &copy; Esri', maxZoom: 19, opacity: 0.9 }
@@ -40,22 +32,14 @@ export function iniciarMapa() {
   const satelitalConEtiquetas = L.layerGroup([satelital, etiquetasSatelital]);
 
   L.control.layers(
-    {
-      "Estándar (OSM)": osm,
-      "Claro (CartoDB)": carto,
-      "Satelital (Esri)": satelitalConEtiquetas
-    },
-    {},
-    { position: 'bottomright', collapsed: true }
+    { "Estándar (OSM)": osm, "Claro (CartoDB)": carto, "Satelital (Esri)": satelitalConEtiquetas },
+    {}, { position: 'bottomright', collapsed: true }
   ).addTo(map);
 
   canchasLayer = L.layerGroup().addTo(map);
 
-  document.getElementById('crsMapa').textContent =
-    map.options.crs.code || 'EPSG:3857';
-
+  document.getElementById('crsMapa').textContent = map.options.crs.code || 'EPSG:3857';
   map.on('click', capturarCoordenada);
-
   return map;
 }
 
@@ -63,8 +47,8 @@ function capturarCoordenada(e) {
   const lat = e.latlng.lat;
   const lon = e.latlng.lng;
   const destino = document.getElementById('crsSelect').value;
-
   let texto = `WGS84: ${lat.toFixed(6)}, ${lon.toFixed(6)}`;
+
   if (destino !== "EPSG:4326") {
     const [x, y] = proj4("EPSG:4326", destino, [lon, lat]);
     texto += ` · ${destino}: X=${x.toFixed(2)}, Y=${y.toFixed(2)}`;
@@ -87,23 +71,26 @@ function iconoCancha(tipo) {
   const borde = tipo === 'Privada' ? '#0a4a70' : '#7a5b00';
   return L.divIcon({
     className: '',
-    html: `<div style="
-      background:${color}; width:22px; height:22px; border-radius:50% 50% 50% 0;
-      transform: rotate(-45deg); border:2px solid ${borde};
-      display:flex; align-items:center; justify-content:center;
-      box-shadow:0 2px 6px rgba(0,0,0,0.4);">
-      <span style="transform: rotate(45deg); font-size:11px;">🏐</span>
-    </div>`,
-    iconSize: [22, 22],
-    iconAnchor: [11, 22],
-    popupAnchor: [0, -22]
+    html: `<div style="background:${color}; width:22px; height:22px; border-radius:50% 50% 50% 0; transform:rotate(-45deg); border:2px solid ${borde}; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(0,0,0,0.4);"><span style="transform:rotate(45deg); font-size:11px;">🏐</span></div>`,
+    iconSize: [22, 22], iconAnchor: [11, 22], popupAnchor: [0, -22]
   });
 }
 
 export function pintarCapa(geojson) {
   canchasLayer.clearLayers();
   L.geoJSON(geojson, {
-    pointToLayer: (feature, latlng) => L.marker(latlng, { icon: iconoCancha(feature.properties.tipo) }),
+    pointToLayer: (feature, latlng) => {
+      const marker = L.marker(latlng, { icon: iconoCancha(feature.properties.tipo) });
+
+      // Al tocar/clicar directamente un punto del mapa, se ejecuta la misma
+      // experiencia que el botón "Ver en el mapa": zoom, resaltado y popup.
+      marker.on('click', (e) => {
+        L.DomEvent.stopPropagation(e);
+        const [lon, lat] = feature.geometry.coordinates;
+        irACancha(lat, lon, marker);
+      });
+      return marker;
+    },
     onEachFeature: (feature, layer) => {
       const p = feature.properties;
       layer.bindPopup(
@@ -123,11 +110,18 @@ function resaltarPunto(lat, lon) {
   }).addTo(map);
 
   window.setTimeout(() => {
-    if (resaltadoTemporal) { map.removeLayer(resaltadoTemporal); resaltadoTemporal = null; }
+    if (resaltadoTemporal) {
+      map.removeLayer(resaltadoTemporal);
+      resaltadoTemporal = null;
+    }
   }, 3500);
 }
 
-function abrirPopupEnCoordenada(lat, lon) {
+function abrirPopupEnCoordenada(lat, lon, markerSeleccionado = null) {
+  if (markerSeleccionado) {
+    markerSeleccionado.openPopup();
+    return;
+  }
   canchasLayer.eachLayer(layer => {
     const ll = layer.getLatLng();
     if (Math.abs(ll.lat - lat) < 0.00001 && Math.abs(ll.lng - lon) < 0.00001) {
@@ -136,10 +130,13 @@ function abrirPopupEnCoordenada(lat, lon) {
   });
 }
 
-export function irACancha(lat, lon) {
+export function irACancha(lat, lon, markerSeleccionado = null) {
   map.flyTo([lat, lon], 17, { animate: true, duration: 1.2 });
   resaltarPunto(lat, lon);
-  window.setTimeout(() => abrirPopupEnCoordenada(lat, lon), 1300);
+
+  window.setTimeout(() => {
+    abrirPopupEnCoordenada(lat, lon, markerSeleccionado);
+  }, 1300);
 }
 
 export function irAResultados(geojson) {
