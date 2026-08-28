@@ -39,7 +39,7 @@ export function iniciarMapa() {
   canchasLayer = L.layerGroup().addTo(map);
 
   document.getElementById('crsMapa').textContent = map.options.crs.code || 'EPSG:3857';
-  map.on('click', capturarCoordenada);
+ // map.on('click', capturarCoordenada);
   return map;
 }
 
