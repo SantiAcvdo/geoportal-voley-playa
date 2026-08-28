@@ -4,222 +4,362 @@
     {
       "type": "Feature",
       "properties": {
+        "id": "atanasio-girardot-voley-01",
         "nombre": "Cancha de vóley playa #1 - Unidad Deportiva Atanasio Girardot",
         "barrio": "Laureles-Estadio",
         "municipio": "Medellín",
         "tipo": "Pública",
+        "reserva": false,
+        "direccion": "Unidad Deportiva Atanasio Girardot, Laureles-Estadio, Medellín",
+        "verificada": true,
         "fuente": "Coordenada verificada por el usuario"
       },
-      "geometry": { "type": "Point", "coordinates": [-75.59100412796107, 6.257815640643268] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-75.59100412796107, 6.257815640643268]
+      }
     },
     {
       "type": "Feature",
       "properties": {
+        "id": "atanasio-girardot-voley-02",
         "nombre": "Cancha de vóley playa #2 - Unidad Deportiva Atanasio Girardot",
         "barrio": "Laureles-Estadio",
         "municipio": "Medellín",
         "tipo": "Pública",
+        "reserva": false,
+        "direccion": "Unidad Deportiva Atanasio Girardot, Laureles-Estadio, Medellín",
+        "verificada": true,
         "fuente": "Coordenada verificada por el usuario"
       },
-      "geometry": { "type": "Point", "coordinates": [-75.59113421509626, 6.2574970264209115] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-75.59113421509626, 6.2574970264209115]
+      }
     },
     {
       "type": "Feature",
       "properties": {
+        "id": "unidad-deportiva-belen-andres-escobar",
         "nombre": "Cancha de vóley playa - Unidad Deportiva de Belén Andrés Escobar Saldarriaga",
         "barrio": "Belén",
         "municipio": "Medellín",
         "tipo": "Pública",
+        "reserva": false,
+        "direccion": "Unidad Deportiva de Belén Andrés Escobar Saldarriaga, Belén, Medellín",
+        "verificada": true,
         "fuente": "Coordenada verificada por el usuario"
       },
-      "geometry": { "type": "Point", "coordinates": [-75.58829084322646, 6.2329003914793475] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-75.58829084322646, 6.2329003914793475]
+      }
     },
     {
       "type": "Feature",
       "properties": {
+        "id": "unidad-deportiva-belen-rincon",
         "nombre": "Cancha de vóley playa - Unidad Deportiva Belén Rincón",
         "barrio": "Belén",
         "municipio": "Medellín",
         "tipo": "Pública",
+        "reserva": false,
+        "direccion": "Unidad Deportiva Belén Rincón, Belén, Medellín",
+        "verificada": true,
         "fuente": "Coordenada verificada por el usuario"
       },
-      "geometry": { "type": "Point", "coordinates": [-75.59984701546588, 6.2129652514323155] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-75.59984701546588, 6.2129652514323155]
+      }
     },
     {
       "type": "Feature",
       "properties": {
+        "id": "unidad-deportiva-tulio-ospina",
         "nombre": "Cancha de vóley playa - Unidad Deportiva Tulio Ospina",
         "barrio": "Tulio Ospina",
         "municipio": "Bello",
         "tipo": "Pública",
+        "reserva": false,
+        "direccion": "Unidad Deportiva Tulio Ospina, Bello, Antioquia",
+        "verificada": true,
         "fuente": "Coordenada verificada por el usuario"
       },
-      "geometry": { "type": "Point", "coordinates": [-75.54603627239644, 6.336373900479782] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-75.54603627239644, 6.336373900479782]
+      }
     },
     {
       "type": "Feature",
       "properties": {
+        "id": "polideportivo-sur-envigado-01",
         "nombre": "Polideportivo Sur Envigado - Cancha #1",
         "barrio": "Sur",
         "municipio": "Envigado",
         "tipo": "Pública",
+        "reserva": false,
+        "direccion": "Polideportivo Sur, Envigado, Antioquia",
+        "verificada": true,
         "fuente": "Coordenada verificada por el usuario"
       },
-      "geometry": { "type": "Point", "coordinates": [-75.59964161273551, 6.163936911498553] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-75.59964161273551, 6.163936911498553]
+      }
     },
     {
       "type": "Feature",
       "properties": {
+        "id": "polideportivo-sur-envigado-02",
         "nombre": "Polideportivo Sur Envigado - Cancha #2",
         "barrio": "Sur",
         "municipio": "Envigado",
         "tipo": "Pública",
+        "reserva": false,
+        "direccion": "Polideportivo Sur, Envigado, Antioquia",
+        "verificada": true,
         "fuente": "Coordenada verificada por el usuario"
       },
-      "geometry": { "type": "Point", "coordinates": [-75.59957791027342, 6.1637415755098885] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-75.59957791027342, 6.1637415755098885]
+      }
     },
     {
       "type": "Feature",
       "properties": {
+        "id": "polideportivo-oscar-lopez-escobar",
         "nombre": "Polideportivo Óscar López Escobar",
         "barrio": "Los Naranjos",
         "municipio": "Itagüí",
         "tipo": "Pública",
-        "fuente": "Escenario público entregado por la Alcaldía de Itagüí e Indeportes Antioquia (2022). Dirección: Cl. 53 #42-30, Los Naranjos, Itagüí (ubicación aproximada, verificar)"
+        "reserva": false,
+        "direccion": "Cl. 53 #42-30, Los Naranjos, Itagüí, Antioquia",
+        "verificada": false,
+        "fuente": "Escenario público entregado por la Alcaldía de Itagüí e Indeportes Antioquia (2022). Ubicación aproximada, pendiente de verificar."
       },
-      "geometry": { "type": "Point", "coordinates": [-75.6115, 6.173] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-75.6115, 6.173]
+      }
     },
     {
       "type": "Feature",
       "properties": {
-        "nombre": "Arena Sur (cancha más grande del Valle de Aburrá)",
+        "id": "arena-sur-itagui",
+        "nombre": "Arena Sur",
         "barrio": "La Esmeralda",
         "municipio": "Itagüí",
         "tipo": "Privada",
-        "fuente": "Solo con reserva. Dirección: Cra. 44 #63-22, La Esmeralda, Itagüí, junto a Estación Envigado (ubicación aproximada, verificar)"
+        "reserva": true,
+        "direccion": "Cra. 44 #63-22, La Esmeralda, Itagüí, Antioquia",
+        "verificada": true,
+        "fuente": "Solo con reserva. Coordenada actualizada por el usuario."
       },
-      "geometry": { "type": "Point", "coordinates": [-75.59657490938424, 6.176667024453145] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-75.59657490938424, 6.176667024453145]
+      }
     },
     {
       "type": "Feature",
       "properties": {
+        "id": "cancha-voley-playa-sabaneta",
         "nombre": "Cancha de Vóley Playa de Sabaneta",
         "barrio": "Centro",
         "municipio": "Sabaneta",
         "tipo": "Pública/Comunitaria",
-        "fuente": "Calle 82 Sur #47f-2, Sabaneta, Antioquia"
+        "reserva": false,
+        "direccion": "Calle 82 Sur #47F-2, Sabaneta, Antioquia",
+        "verificada": true,
+        "fuente": "Dirección y coordenada verificadas por el usuario."
       },
-      "geometry": { "type": "Point", "coordinates": [-75.63049671245977, 6.149783520117461] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-75.63049671245977, 6.149783520117461]
+      }
     },
     {
       "type": "Feature",
       "properties": {
-        "nombre": "La Jaula del Ángel - Cancha #4 VIVA Envigado",
+        "id": "jaula-angel-viva-envigado-04",
+        "nombre": "La Jaula del Ángel - Cancha #4 Viva Envigado",
         "barrio": "Zona 1",
         "municipio": "Envigado",
         "tipo": "Privada",
-        "fuente": "Solo con reserva. Viva Centro Comercial, Cra. 48 #32B Sur-139, Piso 4, Zona 1, Envigado (ubicación aproximada al centro comercial, verificar piso)"
+        "reserva": true,
+        "direccion": "Viva Centro Comercial, Cra. 48 #32B Sur-139, piso 4, Zona 1, Envigado, Antioquia",
+        "verificada": false,
+        "fuente": "Solo con reserva. Ubicación aproximada al centro comercial; pendiente de verificar punto exacto."
       },
-      "geometry": { "type": "Point", "coordinates": [-75.5917, 6.1764] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-75.5917, 6.1764]
+      }
     },
     {
       "type": "Feature",
       "properties": {
+        "id": "jaula-angel-tesoro-04",
         "nombre": "La Jaula del Ángel - Cancha #4 El Tesoro",
         "barrio": "El Poblado",
         "municipio": "Medellín",
         "tipo": "Privada",
-        "fuente": "Solo con reserva. El Tesoro Parque Comercial Etapa 3, Cra. 25a #1A Sur-45, Piso 4, El Poblado (ubicación aproximada al centro comercial, verificar piso)"
+        "reserva": true,
+        "direccion": "El Tesoro Parque Comercial, etapa 3, Cra. 25A #1A Sur-45, piso 4, El Poblado, Medellín",
+        "verificada": false,
+        "fuente": "Solo con reserva. Ubicación aproximada al centro comercial; pendiente de verificar punto exacto."
       },
-      "geometry": { "type": "Point", "coordinates": [-75.5592, 6.1973] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-75.5592, 6.1973]
+      }
     },
     {
       "type": "Feature",
       "properties": {
+        "id": "jaula-angel-florida-02",
         "nombre": "La Jaula del Ángel - Cancha #2 Florida",
         "barrio": "Florida",
         "municipio": "Medellín",
         "tipo": "Privada",
-        "fuente": "Solo con reserva. Coordenada verificada por el usuario"
+        "reserva": true,
+        "direccion": "Sede Florida, Medellín, Antioquia",
+        "verificada": true,
+        "fuente": "Solo con reserva. Coordenada verificada por el usuario."
       },
-      "geometry": { "type": "Point", "coordinates": [-75.57715798195622, 6.272274399006057] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-75.57715798195622, 6.272274399006057]
+      }
     },
     {
       "type": "Feature",
       "properties": {
+        "id": "jaula-angel-florida-03",
         "nombre": "La Jaula del Ángel - Cancha #3 Florida",
         "barrio": "Florida",
         "municipio": "Medellín",
         "tipo": "Privada",
-        "fuente": "Solo con reserva. Coordenada verificada por el usuario"
+        "reserva": true,
+        "direccion": "Sede Florida, Medellín, Antioquia",
+        "verificada": true,
+        "fuente": "Solo con reserva. Coordenada verificada por el usuario."
       },
-      "geometry": { "type": "Point", "coordinates": [-75.57715462919514, 6.272430368941513] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-75.57715462919514, 6.272430368941513]
+      }
     },
     {
       "type": "Feature",
       "properties": {
+        "id": "orion-arena-salvaje",
         "nombre": "Cancha Orión Arena Salvaje",
         "barrio": "Centro",
         "municipio": "La Estrella",
         "tipo": "Privada",
-        "fuente": "Solo con reserva. Dirección: Cra 50 #100C Sur-49, La Estrella (ubicación aproximada, verificar)"
+        "reserva": true,
+        "direccion": "Cra. 50 #100C Sur-49, La Estrella, Antioquia",
+        "verificada": true,
+        "fuente": "Solo con reserva. Coordenada actualizada por el usuario."
       },
-      "geometry": { "type": "Point", "coordinates": [-75.63531723229092, 6.116975029001734] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-75.63531723229092, 6.116975029001734]
+      }
     },
     {
       "type": "Feature",
       "properties": {
+        "id": "orion-mirador-itagui",
         "nombre": "Cancha Orión Mirador",
         "barrio": "Mirador",
         "municipio": "Itagüí",
         "tipo": "Privada",
-        "fuente": "Solo con reserva. Coordenada verificada por el usuario"
+        "reserva": true,
+        "direccion": "Sector Mirador, Itagüí, Antioquia",
+        "verificada": true,
+        "fuente": "Solo con reserva. Coordenada verificada por el usuario."
       },
-      "geometry": { "type": "Point", "coordinates": [-75.60974601959713, 6.212384892828359] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-75.60974601959713, 6.212384892828359]
+      }
     },
     {
       "type": "Feature",
       "properties": {
-        "nombre": "Cancha Politecnico Jaime Isaza Cadavid",
-        "barrio": "vegas",
-        "municipio": "Poblado",
+        "id": "politecnico-jaime-isaza-cadavid",
+        "nombre": "Cancha Politécnico Jaime Isaza Cadavid",
+        "barrio": "Las Vegas",
+        "municipio": "Medellín",
         "tipo": "Privada",
-        "fuente": "El Poblado, Medellín, El Poblado, Medellín, Antioquia"
+        "reserva": true,
+        "direccion": "El Poblado, Medellín, Antioquia",
+        "verificada": true,
+        "fuente": "Cancha ubicada en institución educativa. Coordenada verificada por el usuario."
       },
-      "geometry": { "type": "Point", "coordinates": [ -75.57697814410028, 6.2090997758798725 ] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-75.57697814410028, 6.2090997758798725]
+      }
     },
     {
       "type": "Feature",
       "properties": {
-        "nombre": "Cancha Institución Universitaria ITM - campus Fraternidad",
+        "id": "itm-fraternidad",
+        "nombre": "Cancha Institución Universitaria ITM - Campus Fraternidad",
         "barrio": "Villa Hermosa",
         "municipio": "Medellín",
         "tipo": "Privada",
-        "fuente": "Cl. 54a #30-01, Medellín, Villa Hermosa, Medellín, Antioquia"
+        "reserva": true,
+        "direccion": "Cl. 54A #30-01, Villa Hermosa, Medellín, Antioquia",
+        "verificada": true,
+        "fuente": "Cancha ubicada en institución educativa. Coordenada verificada por el usuario."
       },
-      "geometry": { "type": "Point", "coordinates": [ -75.54878189196486, 6.244826747098369 ] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-75.54878189196486, 6.244826747098369]
+      }
     },
     {
       "type": "Feature",
       "properties": {
+        "id": "universidad-nacional-medellin",
         "nombre": "Cancha Universidad Nacional de Colombia - Sede Medellín",
         "barrio": "Robledo",
         "municipio": "Medellín",
         "tipo": "Privada",
-        "fuente": "Cra. 65 #59A - 110, Medellín, Robledo, Medellín, Antioquia"
+        "reserva": true,
+        "direccion": "Cra. 65 #59A-110, Robledo, Medellín, Antioquia",
+        "verificada": true,
+        "fuente": "Cancha ubicada en institución universitaria. Coordenada verificada por el usuario."
       },
-      "geometry": { "type": "Point", "coordinates": [-75.57663503629703, 6.263045566656131] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-75.57663503629703, 6.263045566656131]
+      }
     },
     {
       "type": "Feature",
       "properties": {
+        "id": "universidad-antioquia-medellin",
         "nombre": "Cancha Universidad de Antioquia",
         "barrio": "Aranjuez",
         "municipio": "Medellín",
         "tipo": "Privada",
-        "fuente": " Cl. 67 #53 - 108, Aranjuez, Medellín, Aranjuez, Medellín, Antioquia"
+        "reserva": true,
+        "direccion": "Cl. 67 #53-108, Aranjuez, Medellín, Antioquia",
+        "verificada": true,
+        "fuente": "Cancha ubicada en institución universitaria. Coordenada verificada por el usuario."
       },
-      "geometry": { "type": "Point", "coordinates": [ -75.57021587576837, 6.269294151567563 ] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-75.57021587576837, 6.269294151567563]
+      }
     }
   ]
 }
