@@ -98,7 +98,7 @@
         "tipo": "Privada",
         "fuente": "Solo con reserva. Dirección: Cra. 44 #63-22, La Esmeralda, Itagüí, junto a Estación Envigado (ubicación aproximada, verificar)"
       },
-      "geometry": { "type": "Point", "coordinates": [-75.5926, 6.1746] }
+      "geometry": { "type": "Point", "coordinates": [-75.59657490938424, 6.176667024453145] }
     },
     {
       "type": "Feature",
