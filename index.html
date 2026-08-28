@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mi primer geoportal</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <h1>Mi primer geoportal</h1>
+  <p>Canchas de vóley playa — Área Metropolitana (Bello → Medellín)</p>
+</header>
+
+<div class="toolbar">
+  <input id="filtro" type="text" placeholder="Prefiltro: barrio, comuna o municipio (ej: Belén, Bello, Laureles)"/>
+  <button id="btnFiltrar">Filtrar</button>
+  <button id="btnReset">Quitar filtro</button>
+  <button id="btnRecargarOSM">Recargar datos OSM</button>
+  <select id="crsSelect">
+    <option value="EPSG:4326">EPSG:4326 (WGS84 lat/lon)</option>
+    <option value="EPSG:3116">EPSG:3116 (MAGNA-SIRGAS Bogotá)</option>
+    <option value="EPSG:32618">EPSG:32618 (UTM 18N)</option>
+  </select>
+</div>
+
+<div id="map"></div>
+
+<div id="infoPanel" class="info-panel">
+  <b>Sistema de referencia activo del mapa:</b> <span id="crsMapa">EPSG:3857 (Web Mercator, base Leaflet)</span><br/>
+  <b>Última coordenada capturada:</b> <span id="coordCapturada">— haz clic en el mapa —</span>
+</div>
+
+<footer class="footer">
+  Datos: OpenStreetMap / Overpass API (sport=beachvolleyball) · MEData Alcaldía de Medellín ·
+  Proyecto académico — Reproyección con Proj4Leaflet
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/proj4@2.11.0/dist/proj4.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/proj4leaflet@1.0.2/src/proj4leaflet.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

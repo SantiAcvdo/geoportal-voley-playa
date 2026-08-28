@@ -1,0 +1,53 @@
+* { box-sizing: border-box; font-family: system-ui, Arial, sans-serif; }
+body { margin: 0; display: flex; flex-direction: column; height: 100vh; }
+
+.topbar {
+  background: #1b3a5c;
+  color: white;
+  padding: 8px 16px;
+}
+.topbar h1 { margin: 0; font-size: 1.2rem; }
+.topbar p { margin: 2px 0 0; font-size: 0.85rem; opacity: 0.85; }
+
+.toolbar {
+  display: flex;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #eef2f6;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.toolbar input {
+  flex: 1;
+  min-width: 220px;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.toolbar button, .toolbar select {
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+}
+.toolbar button:hover { background: #dfe7ee; }
+
+#map { flex: 1; width: 100%; }
+
+.info-panel {
+  padding: 6px 16px;
+  background: #fffbe6;
+  border-top: 1px solid #e0d9a8;
+  font-size: 0.85rem;
+}
+
+.footer {
+  padding: 6px 16px;
+  background: #1b3a5c;
+  color: #cfe0ee;
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.leaflet-popup-content { font-size: 0.85rem; }
