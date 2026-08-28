@@ -176,6 +176,50 @@
         "fuente": "Solo con reserva. Coordenada verificada por el usuario"
       },
       "geometry": { "type": "Point", "coordinates": [-75.60974601959713, 6.212384892828359] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Cancha Politecnico Jaime Isaza Cadavid",
+        "barrio": "vegas",
+        "municipio": "Poblado",
+        "tipo": "Privada",
+        "fuente": "El Poblado, Medellín, El Poblado, Medellín, Antioquia"
+      },
+      "geometry": { "type": "Point", "coordinates": [ -75.57697814410028, 6.2090997758798725 ] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Cancha Institución Universitaria ITM - campus Fraternidad",
+        "barrio": "Villa Hermosa",
+        "municipio": "Medellín",
+        "tipo": "Privada",
+        "fuente": "Cl. 54a #30-01, Medellín, Villa Hermosa, Medellín, Antioquia"
+      },
+      "geometry": { "type": "Point", "coordinates": [ -75.54878189196486, 6.244826747098369 ] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Cancha Universidad Nacional de Colombia - Sede Medellín",
+        "barrio": "Robledo",
+        "municipio": "Medellín",
+        "tipo": "Privada",
+        "fuente": "Cra. 65 #59A - 110, Medellín, Robledo, Medellín, Antioquia"
+      },
+      "geometry": { "type": "Point", "coordinates": [-75.57663503629703, 6.263045566656131] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Cancha Universidad de Antioquia",
+        "barrio": "Aranjuez",
+        "municipio": "Medellín",
+        "tipo": "Privada",
+        "fuente": " Cl. 67 #53 - 108, Aranjuez, Medellín, Aranjuez, Medellín, Antioquia"
+      },
+      "geometry": { "type": "Point", "coordinates": [ -75.57021587576837, 6.269294151567563 ] }
     }
   ]
 }
