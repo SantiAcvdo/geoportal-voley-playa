@@ -109,7 +109,7 @@
         "tipo": "Pública/Comunitaria",
         "fuente": "Calle 82 Sur #47f-2, Sabaneta, Antioquia"
       },
-      "geometry": { "type": "Point", "coordinates": [-75.6169, 6.15] }
+      "geometry": { "type": "Point", "coordinates": [-75.63049671245977, 6.149783520117461] }
     },
     {
       "type": "Feature",
