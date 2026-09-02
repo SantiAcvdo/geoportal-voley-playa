@@ -9,7 +9,7 @@ import { renderizarTarjetas, actualizarStats } from './ui.js';
 import { configurarNavbarMovil } from './navbar.js';
 import { configurarComunidad } from './comunidad.js';
 import { configurarVentanaEventos } from './eventos.js';
-import { configurarSeccionClubes } from './clubes.js';
+
 import { supabase } from './supabase.js';
 
 let manualFeatures = [];
@@ -68,7 +68,7 @@ async function init() {
   configurarNavbarMovil();
   configurarComunidad();
   configurarVentanaEventos();
-  configurarSeccionClubes();
+
   document.getElementById('btnRecargarOSM').addEventListener('click', recargarTodo);
   await cargarPrimeroLoLocal();
   cargarLuegoOSM();

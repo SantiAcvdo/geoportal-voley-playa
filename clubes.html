@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Clubes y comunidad — VoleyPlaya AMVA</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/navbar.css" />
+  <link rel="stylesheet" href="css/clubes.css" />
+  <link rel="stylesheet" href="css/footer.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+
+  <header class="navbar">
+    <a href="index.html" class="navbar-brand">
+      <span class="logo-icon">🏝️</span>
+      <span class="logo-text">
+        VoleyPlaya <small>AMVA</small>
+      </span>
+    </a>
+
+    <nav class="navbar-links" id="navLinks">
+      <a href="index.html">Inicio</a>
+      <a href="index.html#tarjetas">Canchas</a>
+      <a href="clubes.html" class="active">Clubes</a>
+      <a href="index.html#stats">Estadísticas</a>
+      <a href="index.html#hero">Mapa</a>
+      <span class="badge-proyecto badge-proyecto-movil">
+        Mi primer geoportal
+      </span>
+    </nav>
+
+    <div class="navbar-cta">
+      <span class="badge-proyecto">Mi primer geoportal</span>
+    </div>
+
+    <button
+      id="btnMenuMovil"
+      class="btn-menu-movil"
+      type="button"
+      aria-label="Abrir menú"
+    >
+      ☰
+    </button>
+  </header>
+
+  <main class="clubes-page">
+
+    <section class="clubes-hero">
+      <div class="clubes-hero-contenido">
+        <span class="clubes-preetiqueta">COMUNIDAD VOLEYPLAYA AMVA</span>
+
+        <h1>
+          Conoce los clubes que
+          <span>entrenan cerca de ti</span>
+        </h1>
+
+        <p>
+          Descubre grupos, clubes y comunidades deportivas que practican
+          vóley playa en diferentes escenarios del área metropolitana.
+        </p>
+
+        <a href="#publicacionesClubes" class="btn btn-primary">
+          Explorar clubes
+        </a>
+      </div>
+
+      <div class="clubes-hero-icon">
+        🏐
+      </div>
+    </section>
+
+    <section id="publicacionesClubes" class="clubes-contenido-principal">
+      <div class="clubes-encabezado">
+        <div>
+          <span class="clubes-preetiqueta">PUBLICACIONES</span>
+          <h2>Clubes y entrenamientos</h2>
+          <p>
+            Información compartida por clubes y organizaciones deportivas.
+          </p>
+        </div>
+
+        <a href="index.html" class="clubes-link">
+          ← Volver al mapa
+        </a>
+      </div>
+
+      <div id="clubesEstado" class="clubes-estado">
+        Cargando publicaciones…
+      </div>
+
+      <div id="clubesGrid" class="clubes-grid"></div>
+    </section>
+
+    <section class="clubes-informacion">
+      <div>
+        <h2>¿Quieres aparecer en esta sección?</h2>
+        <p>
+          Los clubes pueden compartir información sobre sus entrenamientos,
+          horarios, sedes y formas de contacto.
+        </p>
+      </div>
+
+      <a
+        href="mailto:voleyplayaamva@gmail.com?subject=Publicar información de club"
+        class="btn btn-primary"
+      >
+        Publicar información
+      </a>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    Proyecto académico — VoleyPlaya AMVA
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module" src="js/clubes-page.js"></script>
+</body>
+</html>
