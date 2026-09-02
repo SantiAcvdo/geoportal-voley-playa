@@ -1,0 +1,94 @@
+/* Guarda este archivo en: css/clubes.css
+   Responsabilidad única: sección independiente del blog de clubes. */
+
+.clubes-section {
+  padding: 58px 48px;
+  background: #f1f8f7;
+  border-top: 1px solid #dceceb;
+}
+
+.clubes-encabezado {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 26px;
+}
+.clubes-encabezado h2 { color: var(--teal-dark); font-size: 1.6rem; }
+.clubes-encabezado p { color: var(--gris-texto); font-size: 0.88rem; margin-top: 5px; }
+
+.clubes-link {
+  color: var(--teal-dark);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.clubes-estado {
+  padding: 14px;
+  border-radius: 10px;
+  background: white;
+  color: var(--gris-texto);
+  font-size: 0.84rem;
+  margin-bottom: 18px;
+}
+.clubes-estado[hidden] { display: none; }
+.clubes-estado.error { color: #a22d2d; background: #fff0f0; }
+.clubes-estado.vacio { color: #80651a; background: #fff9e7; }
+
+.clubes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 20px;
+}
+
+.club-card {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 18px rgba(18, 65, 68, 0.1);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.club-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 9px 24px rgba(18, 65, 68, 0.16);
+}
+
+.club-imagen {
+  width: 100%;
+  height: 155px;
+  display: block;
+  object-fit: cover;
+}
+.club-imagen-generica {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #b9e3f7, #0f7d7a);
+  font-size: 3.4rem;
+}
+
+.club-contenido { padding: 17px; }
+.club-etiqueta {
+  display: inline-block;
+  border-radius: 12px;
+  padding: 4px 9px;
+  background: #eafaf7;
+  color: var(--teal-dark);
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+.club-card h3 { color: #17313e; font-size: 1rem; line-height: 1.35; margin: 9px 0 7px; }
+.club-resumen { color: var(--gris-texto); font-size: 0.78rem; line-height: 1.45; }
+.club-dato { color: #405258; font-size: 0.76rem; margin-top: 7px; }
+.club-contenido-texto { color: #607076; border-top: 1px solid #edf0f0; font-size: 0.75rem; line-height: 1.4; margin-top: 13px; padding-top: 11px; }
+.club-enlaces { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.club-enlaces a { color: white; background: var(--teal-dark); border-radius: 8px; font-size: 0.72rem; padding: 7px 11px; }
+
+@media (max-width: 900px) {
+  .clubes-section { padding: 42px 24px; }
+}
+@media (max-width: 600px) {
+  .clubes-section { padding: 32px 16px; }
+  .clubes-encabezado { align-items: flex-start; flex-direction: column; }
+  .clubes-grid { grid-template-columns: 1fr; }
+}

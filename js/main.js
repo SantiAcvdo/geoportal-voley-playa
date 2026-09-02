@@ -9,6 +9,7 @@ import { renderizarTarjetas, actualizarStats } from './ui.js';
 import { configurarNavbarMovil } from './navbar.js';
 import { configurarComunidad } from './comunidad.js';
 import { configurarVentanaEventos } from './eventos.js';
+import { configurarSeccionClubes } from './clubes.js';
 import { supabase } from './supabase.js';
 
 let manualFeatures = [];
@@ -52,19 +53,12 @@ function alFiltrar(filtrado, textoBuscado) {
   if (!hayBusqueda) { loadingEl.textContent = `${filtrado.features.length} cancha(s) mostrada(s)`; return; }
   loadingEl.textContent = filtrado.features.length === 0 ? `Sin resultados para "${textoBuscado}"` : `${filtrado.features.length} resultado(s) para "${textoBuscado}"`;
   window.clearTimeout(temporizadorVuelo);
-  if (filtrado.features.length > 0) {
-    temporizadorVuelo = window.setTimeout(() => {
-      document.getElementById('hero').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      irAResultados(filtrado);
-    }, 400);
-  }
+  if (filtrado.features.length > 0) temporizadorVuelo = window.setTimeout(() => { document.getElementById('hero').scrollIntoView({ behavior: 'smooth', block: 'start' }); irAResultados(filtrado); }, 400);
 }
 
 async function verificarSupabase() {
-  try {
-    const { error } = await supabase.from('comentarios').select('id').limit(1);
-    if (error) console.warn('Supabase respondió:', error.message);
-  } catch (error) { console.warn('No se pudo verificar Supabase:', error.message); }
+  try { const { error } = await supabase.from('comentarios').select('id').limit(1); if (error) console.warn('Supabase respondió:', error.message); }
+  catch (error) { console.warn('No se pudo verificar Supabase:', error.message); }
 }
 
 async function init() {
@@ -74,6 +68,7 @@ async function init() {
   configurarNavbarMovil();
   configurarComunidad();
   configurarVentanaEventos();
+  configurarSeccionClubes();
   document.getElementById('btnRecargarOSM').addEventListener('click', recargarTodo);
   await cargarPrimeroLoLocal();
   cargarLuegoOSM();
