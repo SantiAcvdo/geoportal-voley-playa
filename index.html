@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="css/stats.css" />
 <link rel="stylesheet" href="css/tarjetas.css" />
 <link rel="stylesheet" href="css/modal.css" />
+<link rel="stylesheet" href="css/blog.css" />
 <link rel="stylesheet" href="css/footer.css" />
 <link rel="stylesheet" href="css/responsive.css" />
 </head>
@@ -29,6 +30,7 @@
     <a href="#hero" class="active">Inicio</a>
     <a href="#tarjetas">Canchas</a>
     <a href="#stats">Estadísticas</a>
+    <button id="btnAbrirEventos" class="nav-blog-btn" type="button">Eventos</button>
     <span class="badge-proyecto badge-proyecto-movil">Mi primer geoportal</span>
   </nav>
   <div class="navbar-cta"><span class="badge-proyecto">Mi primer geoportal</span></div>
@@ -39,107 +41,28 @@
   <div class="hero-left">
     <h1>Encuentra tu <span class="highlight">cancha perfecta</span></h1>
     <p class="hero-sub">Explora canchas de vóley playa desde Bello hasta Medellín, en un solo mapa.</p>
-
     <div class="search-card">
-      <div class="search-row">
-        <span class="icon">🔎</span>
-        <input id="filtro" type="text" placeholder="¿Dónde quieres jugar? (barrio, municipio, nombre)"/>
-      </div>
-      <div class="search-actions">
-        <button id="btnFiltrar" class="btn btn-primary">Buscar</button>
-        <button id="btnReset" class="btn btn-ghost">Limpiar</button>
-      </div>
-      <div class="status-box">
-        <span id="loadingState" class="status-text">Cargando…</span>
-        <button id="btnRecargarOSM" class="btn-link">↻ Recargar datos</button>
-      </div>
+      <div class="search-row"><span class="icon">🔎</span><input id="filtro" type="text" placeholder="¿Dónde quieres jugar? (barrio, municipio, nombre)"/></div>
+      <div class="search-actions"><button id="btnFiltrar" class="btn btn-primary">Buscar</button><button id="btnReset" class="btn btn-ghost">Limpiar</button></div>
+      <div class="status-box"><span id="loadingState" class="status-text">Cargando…</span><button id="btnRecargarOSM" class="btn-link">↻ Recargar datos</button></div>
       <div class="coord-box">
-        <div class="coord-row">
-          <label class="mini-label-claro" for="crsSelect">Sistema de coordenadas</label>
-          <select id="crsSelect" class="select-mini-claro">
-            <option value="EPSG:4326">EPSG:4326 — WGS84</option>
-            <option value="EPSG:3116">EPSG:3116 — MAGNA-SIRGAS</option>
-            <option value="EPSG:32618">EPSG:32618 — UTM 18N</option>
-          </select>
-        </div>
-        <p class="mono-claro">SRC mapa: <span id="crsMapa">EPSG:3857</span></p>
-        <p class="mono-claro">Clic capturado: <span id="coordCapturada">—</span></p>
+        <div class="coord-row"><label class="mini-label-claro" for="crsSelect">Sistema de coordenadas</label><select id="crsSelect" class="select-mini-claro"><option value="EPSG:4326">EPSG:4326 — WGS84</option><option value="EPSG:3116">EPSG:3116 — MAGNA-SIRGAS</option><option value="EPSG:32618">EPSG:32618 — UTM 18N</option></select></div>
+        <p class="mono-claro">SRC mapa: <span id="crsMapa">EPSG:3857</span></p><p class="mono-claro">Clic capturado: <span id="coordCapturada">—</span></p>
       </div>
-      <div class="search-tags">
-        <span class="tag">✅ Reservas propias del sitio</span>
-        <span class="tag">📍 Datos abiertos OSM</span>
-        <span class="tag">🔄 Actualización en vivo</span>
-      </div>
+      <div class="search-tags"><span class="tag">✅ Reservas propias del sitio</span><span class="tag">📍 Datos abiertos OSM</span><span class="tag">🔄 Actualización en vivo</span></div>
     </div>
   </div>
-
-  <div class="hero-right">
-    <div id="map"></div>
-    <div class="map-legend">
-      <span class="dot dot-yellow"></span> Pública
-      <span class="dot dot-blue"></span> Privada
-    </div>
-  </div>
+  <div class="hero-right"><div id="map"></div><div class="map-legend"><span class="dot dot-yellow"></span> Pública<span class="dot dot-blue"></span> Privada</div></div>
 </section>
 
-<section id="stats" class="stats-bar">
-  <div class="stat"><strong id="statTotal">0</strong><span>canchas registradas</span></div>
-  <div class="stat"><strong id="statMunicipios">0</strong><span>municipios cubiertos</span></div>
-  <div class="stat"><strong id="statPublicas">0</strong><span>canchas públicas</span></div>
-  <div class="stat"><strong id="statPrivadas">0</strong><span>canchas privadas</span></div>
-</section>
+<section id="stats" class="stats-bar"><div class="stat"><strong id="statTotal">0</strong><span>canchas registradas</span></div><div class="stat"><strong id="statMunicipios">0</strong><span>municipios cubiertos</span></div><div class="stat"><strong id="statPublicas">0</strong><span>canchas públicas</span></div><div class="stat"><strong id="statPrivadas">0</strong><span>canchas privadas</span></div></section>
 
-<section id="tarjetas" class="tarjetas-section">
-  <h2>🏆 Canchas destacadas</h2>
-  <p class="tarjetas-sub">Datos reales combinados de OpenStreetMap y verificación manual.</p>
-  <div id="cardsGrid" class="cards-grid"></div>
-</section>
-
+<section id="tarjetas" class="tarjetas-section"><h2>🏆 Canchas destacadas</h2><p class="tarjetas-sub">Datos reales combinados de OpenStreetMap y verificación manual.</p><div id="cardsGrid" class="cards-grid"></div></section>
 <footer class="footer">Proyecto académico — Datos: OpenStreetMap / Overpass API · MEData Alcaldía de Medellín</footer>
 
-<!-- Modal de reportes -->
-<div id="modalReporte" class="modal-reporte" hidden>
-  <div class="modal-contenido" role="dialog" aria-modal="true" aria-labelledby="tituloReporte">
-    <div class="modal-encabezado">
-      <div>
-        <h2 id="tituloReporte">Reportar información</h2>
-        <p id="reporteCanchaNombre">Cancha seleccionada</p>
-        <p id="reporteCanchaId"></p>
-      </div>
-      <button id="btnCerrarReporte" class="btn-cerrar-modal" type="button" aria-label="Cerrar">×</button>
-    </div>
+<div id="modalReporte" class="modal-reporte" hidden><div class="modal-contenido" role="dialog" aria-modal="true" aria-labelledby="tituloReporte"><div class="modal-encabezado"><div><h2 id="tituloReporte">Reportar información</h2><p id="reporteCanchaNombre">Cancha seleccionada</p><p id="reporteCanchaId"></p></div><button id="btnCerrarReporte" class="btn-cerrar-modal" type="button">×</button></div><form id="formReporte" class="form-reporte"><label>Tu nombre<input id="reporteNombre" type="text" maxlength="50" required></label><label>Tipo de reporte<select id="reporteTipo" required><option value="Información desactualizada">Información desactualizada</option><option value="Ubicación incorrecta">Ubicación incorrecta</option><option value="Cancha cerrada">Cancha cerrada</option><option value="Acceso o reserva incorrectos">Acceso o reserva incorrectos</option><option value="Otro">Otro</option></select></label><label>Detalle del reporte<textarea id="reporteDetalle" maxlength="700" required></textarea></label><div id="comunidadMensaje" class="comunidad-mensaje" hidden></div><div class="acciones-modal"><button id="btnCancelarReporte" class="btn btn-cancelar" type="button">Cancelar</button><button id="btnEnviarReporte" class="btn btn-enviar-reporte" type="submit">Enviar reporte</button></div></form></div></div>
 
-    <form id="formReporte" class="form-reporte">
-      <label>
-        Tu nombre
-        <input id="reporteNombre" type="text" maxlength="50" required placeholder="Ej. Juan Pérez" />
-      </label>
-
-      <label>
-        Tipo de reporte
-        <select id="reporteTipo" required>
-          <option value="Información desactualizada">Información desactualizada</option>
-          <option value="Ubicación incorrecta">Ubicación incorrecta</option>
-          <option value="Cancha cerrada">Cancha cerrada</option>
-          <option value="Acceso o reserva incorrectos">Acceso o reserva incorrectos</option>
-          <option value="Otro">Otro</option>
-        </select>
-      </label>
-
-      <label>
-        Detalle del reporte
-        <textarea id="reporteDetalle" maxlength="700" required placeholder="Cuéntanos qué información debería corregirse…"></textarea>
-      </label>
-
-      <div id="comunidadMensaje" class="comunidad-mensaje" hidden></div>
-
-      <div class="acciones-modal">
-        <button id="btnCancelarReporte" class="btn btn-cancelar" type="button">Cancelar</button>
-        <button id="btnEnviarReporte" class="btn btn-enviar-reporte" type="submit">Enviar reporte</button>
-      </div>
-    </form>
-  </div>
-</div>
+<div id="modalEventos" class="modal-eventos" hidden><div class="eventos-contenedor" role="dialog" aria-modal="true" aria-labelledby="tituloEventos"><div class="eventos-encabezado"><div><h2 id="tituloEventos">📢 Eventos de vóley playa</h2><p>Descubre torneos, encuentros y actividades disponibles en el área metropolitana.</p></div><button id="btnCerrarEventos" class="btn-cerrar-eventos" type="button">×</button></div><div id="eventosEstado" class="eventos-estado">Cargando eventos…</div><div id="eventosGrid" class="eventos-grid"></div></div></div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/proj4@2.11.0/dist/proj4.js"></script>

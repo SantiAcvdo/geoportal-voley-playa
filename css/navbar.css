@@ -31,3 +31,12 @@
   cursor: pointer;
   color: var(--teal-dark);
 }
+.nav-blog-btn {
+  border: none;
+  background: transparent;
+  color: var(--gris-texto);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.nav-blog-btn:hover { color: var(--teal); }
