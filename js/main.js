@@ -1,5 +1,5 @@
 // Guarda este archivo en: js/main.js
-// Responsabilidad única: arrancar la aplicación y conectar sus módulos.
+// Responsabilidad única: arrancar la aplicación y conectar todos los módulos.
 
 import { definirSistemasDeCoordenadas } from './config.js';
 import { cargarManual, cargarOverpass, FALLBACK_GEOJSON } from './api.js';
@@ -7,6 +7,7 @@ import { iniciarMapa, pintarCapa, irAResultados } from './mapa.js';
 import { configurarFiltro } from './filtro.js';
 import { renderizarTarjetas, actualizarStats } from './ui.js';
 import { configurarNavbarMovil } from './navbar.js';
+import { configurarComunidad } from './comunidad.js';
 import { supabase } from './supabase.js';
 
 let manualFeatures = [];
@@ -50,7 +51,6 @@ async function cargarLuegoOSM() {
       `${manualFeatures.length} manual(es) + ${osmFeatures.length} OSM = ${datosOriginales.features.length} cancha(s) ✓`;
   } catch (error) {
     console.warn('Overpass no respondió a tiempo:', error);
-
     loadingEl.textContent =
       `${manualFeatures.length} cancha(s) verificada(s) ✓ (OpenStreetMap no respondió, usa "Recargar")`;
   }
@@ -81,11 +81,7 @@ function alFiltrar(filtrado, textoBuscado) {
 
   if (filtrado.features.length > 0) {
     temporizadorVuelo = window.setTimeout(() => {
-      document.getElementById('hero').scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-
+      document.getElementById('hero').scrollIntoView({ behavior: 'smooth', block: 'start' });
       irAResultados(filtrado);
     }, 400);
   }
@@ -93,17 +89,8 @@ function alFiltrar(filtrado, textoBuscado) {
 
 async function verificarSupabase() {
   try {
-    const { error } = await supabase
-      .from('comentarios')
-      .select('id')
-      .limit(1);
-
-    if (error) {
-      console.warn('Supabase conectado, pero la tabla comentarios respondió:', error.message);
-      return;
-    }
-
-    console.log('Supabase conectado correctamente.');
+    const { error } = await supabase.from('comentarios').select('id').limit(1);
+    if (error) console.warn('Supabase respondió:', error.message);
   } catch (error) {
     console.warn('No se pudo verificar Supabase:', error.message);
   }
@@ -114,15 +101,12 @@ async function init() {
   iniciarMapa();
   configurarFiltro(() => datosOriginales, alFiltrar);
   configurarNavbarMovil();
+  configurarComunidad();
 
-  document
-    .getElementById('btnRecargarOSM')
-    .addEventListener('click', recargarTodo);
+  document.getElementById('btnRecargarOSM').addEventListener('click', recargarTodo);
 
   await cargarPrimeroLoLocal();
   cargarLuegoOSM();
-
-  // Solo verifica conexión. Todavía no crea ni muestra comentarios.
   verificarSupabase();
 }
 

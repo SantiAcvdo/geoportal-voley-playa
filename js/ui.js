@@ -2,6 +2,7 @@
 // Responsabilidad única: tarjetas, especificaciones y estadísticas.
 
 import { irACancha } from './mapa.js';
+import { abrirModalReporte } from './comunidad.js';
 
 function escaparHTML(valor) {
   return String(valor ?? '')
@@ -71,13 +72,21 @@ export function renderizarTarjetas(geojson) {
         </div>
       </div>
       <div class="card-footer">
-        <button type="button">Ver en el mapa</button>
+        <button class="btn-ver-mapa" type="button">Ver en el mapa</button>
+        <button class="btn-reportar" type="button">⚑ Reportar</button>
       </div>
     `;
 
-    card.querySelector('button').addEventListener('click', () => {
+    card.querySelector('.btn-ver-mapa').addEventListener('click', () => {
       document.getElementById('hero').scrollIntoView({ behavior: 'smooth', block: 'start' });
       window.setTimeout(() => irACancha(lat, lon), 350);
+    });
+
+    card.querySelector('.btn-reportar').addEventListener('click', () => {
+      abrirModalReporte({
+        id: p.id,
+        nombre: p.nombre
+      });
     });
 
     grid.appendChild(card);
@@ -86,18 +95,11 @@ export function renderizarTarjetas(geojson) {
 
 export function actualizarStats(geojson) {
   const features = geojson.features;
-  const total = features.length;
   const municipios = new Set(features.map(f => f.properties.municipio).filter(Boolean));
-  const publicas = features.filter(f => {
-    const acceso = f.properties.acceso || '';
-    return acceso.toLowerCase().includes('público');
-  }).length;
-  const privadas = features.filter(f => {
-    const acceso = f.properties.acceso || '';
-    return acceso.toLowerCase().includes('privado');
-  }).length;
+  const publicas = features.filter(f => (f.properties.acceso || '').toLowerCase().includes('público')).length;
+  const privadas = features.filter(f => (f.properties.acceso || '').toLowerCase().includes('privado')).length;
 
-  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statTotal').textContent = features.length;
   document.getElementById('statMunicipios').textContent = municipios.size;
   document.getElementById('statPublicas').textContent = publicas;
   document.getElementById('statPrivadas').textContent = privadas;
