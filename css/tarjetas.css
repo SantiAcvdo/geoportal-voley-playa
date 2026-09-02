@@ -1,5 +1,5 @@
 /* Guarda este archivo en: css/tarjetas.css
-   Responsabilidad única: grid y diseño de las tarjetas de canchas destacadas. */
+   Responsabilidad única: grid y diseño de tarjetas de canchas. */
 
 .tarjetas-section { padding: 48px; }
 .tarjetas-section h2 { font-size: 1.5rem; margin-bottom: 4px; }
@@ -7,9 +7,10 @@
 
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
 }
+
 .card {
   background: white;
   border-radius: 14px;
@@ -17,31 +18,84 @@
   box-shadow: 0 4px 16px rgba(0,0,0,0.08);
   display: flex;
   flex-direction: column;
-  cursor: pointer;
   transition: transform 0.15s ease;
 }
 .card:hover { transform: translateY(-4px); }
+
 .card-photo {
   height: 130px;
-  display: flex; align-items: center; justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 2.4rem;
   position: relative;
 }
 .card-photo.publica { background: linear-gradient(135deg, #ffe9a8, #f2b705); }
 .card-photo.privada { background: linear-gradient(135deg, #b9e3f7, #2d9cdb); }
+.card-photo.universitaria { background: linear-gradient(135deg, #d8c5ff, #8d67d8); }
+.card-photo.no-confirmada { background: linear-gradient(135deg, #e4e7eb, #9da7b1); }
+
 .card-badge {
-  position: absolute; top: 10px; left: 10px;
-  background: white; padding: 3px 10px; border-radius: 12px;
-  font-size: 0.68rem; font-weight: 600;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.68rem;
+  font-weight: 600;
 }
-.card-body { padding: 14px; flex: 1; display: flex; flex-direction: column; gap: 4px; }
-.card-title { font-weight: 600; font-size: 0.95rem; }
+
+.card-body {
+  padding: 14px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.card-title { font-weight: 600; font-size: 0.95rem; line-height: 1.35; }
 .card-location { font-size: 0.78rem; color: var(--gris-texto); }
+
+.card-specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.spec {
+  background: #f2f5f5;
+  color: #405258;
+  border-radius: 12px;
+  padding: 4px 7px;
+  font-size: 0.68rem;
+}
+
+.card-condition {
+  background: #fff9e7;
+  border-left: 3px solid var(--amarillo);
+  border-radius: 5px;
+  padding: 7px 8px;
+  color: #705b15;
+  font-size: 0.7rem;
+  line-height: 1.35;
+}
+.card-verification {
+  color: #23805b;
+  font-size: 0.7rem;
+}
+.card-unverified { color: #9a6a00; }
+
 .card-footer {
-  padding: 12px 14px; border-top: 1px solid #f0f0f0;
-  display: flex; justify-content: flex-end;
+  padding: 12px 14px;
+  border-top: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: flex-end;
 }
 .card-footer button {
-  background: var(--teal-dark); color: white; border: none;
-  padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; cursor: pointer;
+  background: var(--teal-dark);
+  color: white;
+  border: none;
+  padding: 7px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  cursor: pointer;
 }

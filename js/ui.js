@@ -1,7 +1,36 @@
 // Guarda este archivo en: js/ui.js
-// Responsabilidad única: tarjetas de canchas y barra de estadísticas.
+// Responsabilidad única: tarjetas, especificaciones y estadísticas.
 
 import { irACancha } from './mapa.js';
+
+function escaparHTML(valor) {
+  return String(valor ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
+function claseImagen(tipo, verificada) {
+  if (!verificada) return 'no-confirmada';
+  if (tipo === 'Universitaria') return 'universitaria';
+  if (tipo === 'Privada') return 'privada';
+  return 'publica';
+}
+
+function iconoCosto(costo) {
+  if (costo === 'Gratuito') return '🆓';
+  if (costo === 'Con costo') return '💳';
+  if (costo === 'Variable') return '💰';
+  return '❔';
+}
+
+function textoReserva(reserva) {
+  if (reserva === true) return '📅 Reserva requerida';
+  if (reserva === false) return '🚶 Sin reserva indicada';
+  return '❔ Reserva no confirmada';
+}
 
 export function renderizarTarjetas(geojson) {
   const grid = document.getElementById('cardsGrid');
@@ -12,53 +41,61 @@ export function renderizarTarjetas(geojson) {
     return;
   }
 
-  geojson.features.forEach(f => {
-    const p = f.properties;
-    const [lon, lat] = f.geometry.coordinates;
-    const esPrivada = p.tipo === 'Privada';
-    const claseTipo = esPrivada ? 'privada' : 'publica';
-    const etiquetaTipo = p.tipo === 'OSM' ? 'OpenStreetMap' : (p.tipo || 'Sin clasificar');
+  geojson.features.forEach(feature => {
+    const p = feature.properties;
+    const [lon, lat] = feature.geometry.coordinates;
+    const clase = claseImagen(p.tipo, p.verificada);
+    const tipo = escaparHTML(p.tipo || 'No confirmado');
+    const costo = escaparHTML(p.costo || 'Sin información');
+    const acceso = escaparHTML(p.acceso || 'Sin información');
+    const condicion = escaparHTML(p.condicion_acceso || 'Sin información.');
 
-    const card = document.createElement('div');
+    const card = document.createElement('article');
     card.className = 'card';
     card.innerHTML = `
-      <div class="card-photo ${claseTipo}">
-        <span class="card-badge">${etiquetaTipo}</span>
+      <div class="card-photo ${clase}">
+        <span class="card-badge">${tipo}</span>
         🏐
       </div>
       <div class="card-body">
-        <div class="card-title">${p.nombre}</div>
-        <div class="card-location">📍 ${[p.barrio, p.municipio].filter(Boolean).join(', ') || 'Ubicación sin detallar'}</div>
+        <div class="card-title">${escaparHTML(p.nombre)}</div>
+        <div class="card-location">📍 ${escaparHTML([p.barrio, p.municipio].filter(Boolean).join(', ') || 'Ubicación sin detallar')}</div>
+        <div class="card-specs">
+          <span class="spec">🏷️ ${acceso}</span>
+          <span class="spec">${textoReserva(p.reserva_requerida)}</span>
+          <span class="spec">${iconoCosto(p.costo)} ${costo}</span>
+        </div>
+        <div class="card-condition">ℹ️ ${condicion}</div>
+        <div class="card-verification ${p.verificada ? '' : 'card-unverified'}">
+          ${p.verificada ? '✅ Información proporcionada/verificada' : '⚠️ Información por confirmar'}
+        </div>
       </div>
       <div class="card-footer">
         <button type="button">Ver en el mapa</button>
       </div>
     `;
 
-    card.querySelector('button').addEventListener('click', () => irYVerEnMapa(lat, lon));
+    card.querySelector('button').addEventListener('click', () => {
+      document.getElementById('hero').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      window.setTimeout(() => irACancha(lat, lon), 350);
+    });
+
     grid.appendChild(card);
   });
 }
 
-// Sube automáticamente hasta la sección del mapa y luego lo centra en la
-// cancha elegida, para que el usuario no tenga que hacer scroll manual.
-function irYVerEnMapa(lat, lon) {
-  const hero = document.getElementById('hero');
-  hero.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-  // Pequeño retraso: deja que termine (o avance) el scroll suave antes de
-  // mover el mapa y abrir el popup, así la animación se ve más natural.
-  window.clearTimeout(irYVerEnMapa._t);
-  irYVerEnMapa._t = window.setTimeout(() => {
-    irACancha(lat, lon);
-  }, 350);
-}
-
 export function actualizarStats(geojson) {
-  const total = geojson.features.length;
-  const municipios = new Set(geojson.features.map(f => f.properties.municipio).filter(Boolean));
-  const publicas = geojson.features.filter(f => f.properties.tipo === 'Pública' || f.properties.tipo === 'OSM').length;
-  const privadas = geojson.features.filter(f => f.properties.tipo === 'Privada').length;
+  const features = geojson.features;
+  const total = features.length;
+  const municipios = new Set(features.map(f => f.properties.municipio).filter(Boolean));
+  const publicas = features.filter(f => {
+    const acceso = f.properties.acceso || '';
+    return acceso.toLowerCase().includes('público');
+  }).length;
+  const privadas = features.filter(f => {
+    const acceso = f.properties.acceso || '';
+    return acceso.toLowerCase().includes('privado');
+  }).length;
 
   document.getElementById('statTotal').textContent = total;
   document.getElementById('statMunicipios').textContent = municipios.size;
