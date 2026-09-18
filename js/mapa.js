@@ -67,8 +67,8 @@ function capturarCoordenada(e) {
 }
 
 function iconoCancha(tipo) {
-  const color = tipo === 'Privada' ? '#2d9cdb' : tipo === 'Universitaria' ? '#680b7a' : '#62a60e';
-  const borde = tipo === 'Privada' ? '#0a4a70' : tipo === 'Universitaria' ? '#38043d' : '#24500a';
+  const color = tipo === 'Privada' ? '#2d9cdb' : tipo === 'Universitaria' ? '#d8c5ff' : '#62a60e';
+  const borde = tipo === 'Privada' ? '#0a4a70' : tipo === 'Universitaria' ? '#8d67d8' : '#24500a';
   return L.divIcon({
     className: '',
     html: `<div style="background:${color}; width:22px; height:22px; border-radius:50% 50% 50% 0; transform:rotate(-45deg); border:2px solid ${borde}; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(0,0,0,0.4);"><span style="transform:rotate(45deg); font-size:11px;">🏐</span></div>`,

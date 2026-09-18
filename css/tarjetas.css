@@ -30,7 +30,7 @@
   font-size: 2.4rem;
   position: relative;
 }
-.card-photo.publica { background: linear-gradient(135deg, #ffe9a8, #f2b705); }
+.card-photo.publica { background: linear-gradient(135deg, #62a60e, #24500a); }
 .card-photo.privada { background: linear-gradient(135deg, #b9e3f7, #2d9cdb); }
 .card-photo.universitaria { background: linear-gradient(135deg, #d8c5ff, #8d67d8); }
 .card-photo.no-confirmada { background: linear-gradient(135deg, #e4e7eb, #9da7b1); }
