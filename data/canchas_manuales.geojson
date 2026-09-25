@@ -135,7 +135,7 @@
         "verificada": true,
         "fuente": "Información proporcionada por el usuario"
       },
-      "geometry": { "type": "Point", "coordinates": [-75.6115, 6.173] }
+      "geometry": { "type": "Point", "coordinates": [-75.605406, 6.170620] }
     },
     {
       "type": "Feature",
@@ -152,7 +152,7 @@
         "verificada": true,
         "fuente": "Información proporcionada por el usuario"
       },
-      "geometry": { "type": "Point", "coordinates": [-75.567, 6.2115] }
+      "geometry": { "type": "Point", "coordinates": [-75.576989, 6.209092] }
     },
     {
       "type": "Feature",
@@ -169,7 +169,7 @@
         "verificada": true,
         "fuente": "Información proporcionada por el usuario"
       },
-      "geometry": { "type": "Point", "coordinates": [-75.5926, 6.1746] }
+      "geometry": { "type": "Point", "coordinates": [-75.596510, 6.176563] }
     },
     {
       "type": "Feature",
@@ -186,7 +186,7 @@
         "verificada": false,
         "fuente": "Información proporcionada por el usuario"
       },
-      "geometry": { "type": "Point", "coordinates": [-75.6169, 6.15] }
+      "geometry": { "type": "Point", "coordinates": [-75.630500, 6.149926] }
     },
     {
       "type": "Feature",
@@ -203,7 +203,7 @@
         "verificada": true,
         "fuente": "Información proporcionada por el usuario"
       },
-      "geometry": { "type": "Point", "coordinates": [-75.5917, 6.1764] }
+      "geometry": { "type": "Point", "coordinates": [-75.59219096638768, 6.176281509277476] }
     },
     {
       "type": "Feature",
@@ -220,7 +220,7 @@
         "verificada": true,
         "fuente": "Información proporcionada por el usuario"
       },
-      "geometry": { "type": "Point", "coordinates": [-75.5592, 6.1973] }
+      "geometry": { "type": "Point", "coordinates": [-75.56023298730385, 6.196512560685223] }
     },
     {
       "type": "Feature",
@@ -271,7 +271,7 @@
         "verificada": true,
         "fuente": "Información proporcionada por el usuario"
       },
-      "geometry": { "type": "Point", "coordinates": [-75.63, 6.157] }
+      "geometry": { "type": "Point", "coordinates": [-75.635302, 6.116888] }
     },
     {
       "type": "Feature",
@@ -305,7 +305,7 @@
         "verificada": true,
         "fuente": "Información proporcionada por el usuario"
       },
-      "geometry": { "type": "Point", "coordinates": [-75.565, 6.245] }
+      "geometry": { "type": "Point", "coordinates": [-75.548760, 6.244813] }
     },
     {
       "type": "Feature",
@@ -322,7 +322,7 @@
         "verificada": true,
         "fuente": "Información proporcionada por el usuario"
       },
-      "geometry": { "type": "Point", "coordinates": [-75.575, 6.269] }
+      "geometry": { "type": "Point", "coordinates": [-75.576703, 6.263105] }
     },
     {
       "type": "Feature",
@@ -339,7 +339,7 @@
         "verificada": true,
         "fuente": "Información proporcionada por el usuario"
       },
-      "geometry": { "type": "Point", "coordinates": [-75.566, 6.268] }
+      "geometry": { "type": "Point", "coordinates": [-75.570224, 6.269299] }
     }
   ]
 }
