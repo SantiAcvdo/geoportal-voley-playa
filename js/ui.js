@@ -78,8 +78,16 @@ export function renderizarTarjetas(geojson) {
     `;
 
     card.querySelector('.btn-ver-mapa').addEventListener('click', () => {
-      document.getElementById('hero').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      window.setTimeout(() => irACancha(lat, lon), 350);
+     // Solución compatible con todos los móviles
+      const hero = document.getElementById('hero');
+      const offset = hero.offsetTop - 80; // -80px para que no quede pegado al topo
+  
+      window.scrollTo({
+      top: offset,
+      behavior: 'smooth'
+      });
+  
+      window.setTimeout(() => irACancha(lat, lon), 800); // Aumenté el delay a 800ms
     });
 
     card.querySelector('.btn-reportar').addEventListener('click', () => {
