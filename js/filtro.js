@@ -33,6 +33,7 @@ export function filtrarColeccion(geojson, criterios = {}) {
     costo = 'todos',
     reserva = 'todos',
     soloFavoritas = false,
+    soloIluminacion = false,
     orden = 'relevancia'
   } = criterios;
 
@@ -73,6 +74,11 @@ export function filtrarColeccion(geojson, criterios = {}) {
     // 6. Favoritas
     if (soloFavoritas) {
       if (!esFavorita(p.id)) return false;
+    }
+
+    // 7. Iluminación nocturna
+    if (soloIluminacion) {
+      if (!p.servicios || !p.servicios.iluminacion) return false;
     }
 
     return true;
@@ -128,6 +134,7 @@ export function configurarFiltro(obtenerDatosOriginales, alFiltrar) {
     costo: 'todos',
     reserva: 'todos',
     soloFavoritas: false,
+    soloIluminacion: false,
     orden: 'relevancia'
   };
 
@@ -240,7 +247,9 @@ export function configurarFiltro(obtenerDatosOriginales, alFiltrar) {
     if (selectCosto) selectCosto.value = 'todos';
     if (selectOrden) selectOrden.value = 'relevancia';
     estadoFiltros.soloFavoritas = false;
+    estadoFiltros.soloIluminacion = false;
     btnSoloFavoritas?.classList.remove('activo');
+    document.querySelectorAll('.hero-pill-filtro').forEach(b => b.classList.remove('activo'));
     ocultarSugerencias();
     ejecutarFiltro();
   });
@@ -249,13 +258,21 @@ export function configurarFiltro(obtenerDatosOriginales, alFiltrar) {
   document.querySelectorAll('.hero-pill-filtro').forEach(btn => {
     btn.addEventListener('click', () => {
       const tipoAccion = btn.getAttribute('data-filtro');
-      if (tipoAccion === 'gratis') {
-        if (selectCosto) selectCosto.value = 'gratis';
+      if (tipoAccion === 'publicas') {
+        const esActivo = selectTipo && selectTipo.value === 'Pública';
+        if (selectTipo) selectTipo.value = esActivo ? 'todos' : 'Pública';
+        btn.classList.toggle('activo', !esActivo);
+      } else if (tipoAccion === 'iluminacion') {
+        estadoFiltros.soloIluminacion = !estadoFiltros.soloIluminacion;
+        btn.classList.toggle('activo', estadoFiltros.soloIluminacion);
+      } else if (tipoAccion === 'gratis') {
+        const esActivo = selectCosto && selectCosto.value === 'gratis';
+        if (selectCosto) selectCosto.value = esActivo ? 'todos' : 'gratis';
+        btn.classList.toggle('activo', !esActivo);
       } else if (tipoAccion === 'favoritas') {
-        estadoFiltros.soloFavoritas = true;
-        btnSoloFavoritas?.classList.add('activo');
-      } else if (tipoAccion === 'publicas') {
-        if (selectTipo) selectTipo.value = 'Pública';
+        estadoFiltros.soloFavoritas = !estadoFiltros.soloFavoritas;
+        btnSoloFavoritas?.classList.toggle('activo', estadoFiltros.soloFavoritas);
+        btn.classList.toggle('activo', estadoFiltros.soloFavoritas);
       }
       ejecutarFiltro();
       const tarjetasSec = document.getElementById('tarjetas');

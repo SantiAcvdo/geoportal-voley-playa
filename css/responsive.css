@@ -118,9 +118,19 @@
     padding: 16px;
   }
 
-  .filters-grid {
-    grid-template-columns: 1fr;
-    gap: 8px;
+  .filters-scroll-row {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .sig-tools-container {
+    top: 12px;
+    right: 130px;
+  }
+
+  .btn-map-gps {
+    top: 12px;
+    right: 12px;
   }
 
   .search-actions-bar {

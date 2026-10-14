@@ -138,51 +138,73 @@
   color: var(--texto-secundario);
 }
 
-/* Grilla de Filtros Avanzados */
-.filters-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.filter-group {
+/* Grilla / Fila de Filtros en Píldoras Horizontales (Scroll móvil suave) */
+.filters-scroll-row {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 2px 2px 6px 2px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
 
-.filter-label {
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: var(--texto-secundario);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+.filters-scroll-row::-webkit-scrollbar {
+  display: none;
 }
 
-.filter-select {
-  width: 100%;
-  padding: 8px 10px;
-  border-radius: var(--radio-sm);
-  border: 1px solid var(--arena-border);
+.filter-pill-wrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.filter-pill-select {
+  appearance: none;
+  -webkit-appearance: none;
   background: #ffffff;
+  border: 1px solid var(--arena-border);
+  border-radius: var(--radio-pill);
+  padding: 7px 28px 7px 12px;
   font-family: inherit;
-  font-size: 0.82rem;
-  color: var(--texto-principal);
+  font-size: 0.79rem;
+  font-weight: 500;
+  color: var(--texto-secundario);
   cursor: pointer;
-  outline: none;
   transition: var(--trans-suave);
+  white-space: nowrap;
 }
 
-.filter-select:focus {
+.filter-pill-select:hover,
+.filter-pill-select:focus {
   border-color: var(--teal);
-  box-shadow: 0 0 0 2px rgba(15, 125, 122, 0.15);
+  color: var(--texto-principal);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(15, 76, 92, 0.12);
+}
+
+.filter-pill-chevron {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--texto-mutado);
+  font-size: 0.62rem;
+  line-height: 1;
 }
 
 /* Acciones y Botones de búsqueda */
 .search-actions-bar {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.search-actions-bar .btn {
+  padding: 7px 16px;
+  border-radius: var(--radio-pill);
+  font-size: 0.8rem;
 }
 
 .btn-filter-fav {
@@ -192,10 +214,10 @@
   background: #ffffff;
   color: var(--texto-secundario);
   border: 1px solid var(--arena-border);
-  padding: 8px 12px;
-  border-radius: var(--radio-md);
+  padding: 7px 14px;
+  border-radius: var(--radio-pill);
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   transition: var(--trans-suave);
 }
@@ -210,6 +232,7 @@
   background: #ffe4e6;
   color: #e11d48;
   border-color: #f43f5e;
+  font-weight: 600;
 }
 
 /* Status Box */
@@ -218,15 +241,15 @@
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  background: var(--teal-light);
-  border: 1px solid var(--teal-border);
+  background: #f8fafc;
+  border: 1px solid var(--arena-border);
   border-radius: var(--radio-sm);
-  padding: 8px 12px;
+  padding: 7px 12px;
 }
 
 .status-text {
-  font-size: 0.76rem;
-  color: var(--teal-dark);
+  font-size: 0.74rem;
+  color: var(--texto-secundario);
   font-weight: 500;
   line-height: 1.35;
 }
@@ -234,9 +257,9 @@
 .btn-reload-osm {
   background: none;
   border: none;
-  color: var(--teal-dark);
+  color: var(--teal);
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
   padding: 2px 4px;
@@ -246,45 +269,50 @@
   text-decoration: underline;
 }
 
-/* Herramienta GIS de Coordenadas */
+/* Herramienta GIS de Coordenadas (integrada en panel flotante) */
 .coord-box {
-  background: #fffdf5;
-  border: 1px solid #fef3c7;
+  background: #f8fafc;
+  border: 1px solid var(--arena-border);
   border-radius: var(--radio-sm);
   padding: 10px 12px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .coord-row {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .mini-label-claro {
   font-size: 0.68rem;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--amarillo-dark);
+  letter-spacing: 0.04em;
+  color: var(--teal);
   font-weight: 700;
 }
 
 .select-mini-claro {
-  padding: 4px 8px;
+  padding: 6px 8px;
   border-radius: 6px;
-  border: 1px solid #fde68a;
+  border: 1px solid var(--arena-border);
   background: #ffffff;
-  font-size: 0.72rem;
+  font-size: 0.74rem;
   color: var(--texto-principal);
   cursor: pointer;
+  outline: none;
+}
+
+.select-mini-claro:focus {
+  border-color: var(--teal);
 }
 
 .mono-claro {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 0.72rem;
-  color: #78350f;
+  color: var(--texto-secundario);
   word-break: break-all;
+  line-height: 1.35;
 }

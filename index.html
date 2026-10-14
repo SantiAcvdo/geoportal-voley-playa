@@ -200,8 +200,8 @@
         <circle cx="50" cy="50" r="9" fill="#FFFFFF" />
         <defs>
           <linearGradient id="brandGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#f59e0b" />
-            <stop offset="100%" stop-color="#0f7d7a" />
+            <stop offset="0%" stop-color="#E07A5F" />
+            <stop offset="100%" stop-color="#0F4C5C" />
           </linearGradient>
         </defs>
       </svg>
@@ -223,12 +223,11 @@
 
     <div class="navbar-right">
       <button id="btnNavFavoritos" class="nav-fav-btn" type="button" title="Ver mis canchas favoritas">
-        <span>❤️</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
         <span>Favoritas</span>
         <span class="fav-count-badge" hidden>0</span>
       </button>
       <div class="badge-academico" title="Proyecto Universitario de Georreferenciación Deportiva">
-        <span>🎓</span>
         <span>SIG AMVA</span>
       </div>
       <button id="btnMenuMovil" class="btn-menu-movil" type="button" aria-label="Abrir menú de navegación">☰</button>
@@ -241,62 +240,56 @@
   <section id="hero" class="hero">
     <div class="hero-left">
       <div class="hero-trust-bar">
-        <span>🛡️</span>
-        <span>20 Escenarios Verificados · Datos Abiertos INDER & OSM</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>20 escenarios verificados · Datos Abiertos INDER & OSM</span>
       </div>
 
       <h1 class="hero-title">
-        Siente la arena bajo tus pies: <span class="highlight">Tu cancha ideal</span> en el Valle de Aburrá
+        Canchas de vóley playa en el <span class="highlight">Valle de Aburrá</span>
       </h1>
 
       <p class="hero-sub">
-        Descubre escenarios públicos y privados desde Bello hasta La Estrella. Consulta horarios, tipo de arena, rutas en Google Maps y reserva directa en SIMON.
+        Encuentra escenarios públicos y privados con horarios, estado y reserva directa en SIMON.
       </p>
 
-      <!-- Botones de Acción Rápida (Pills) -->
+      <!-- Botones de Acción Rápida (Reducidos a 3 claves) -->
       <div class="hero-pills">
         <button id="btnGpsHero" class="hero-pill-btn pill-gps" type="button">
-          <span>📍</span> Canchas cerca de mí
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Cerca de mí</span>
         </button>
-        <button class="hero-pill-btn hero-pill-filtro" data-filtro="gratis" type="button">
-          <span>🆓</span> Públicas gratuitas
+        <button class="hero-pill-btn hero-pill-filtro" data-filtro="publicas" type="button">
+          Públicas INDER
         </button>
-        <button class="hero-pill-btn hero-pill-filtro" data-filtro="favoritas" type="button">
-          <span>❤️</span> Mis favoritas
+        <button class="hero-pill-btn hero-pill-filtro" data-filtro="iluminacion" type="button">
+          Con iluminación
         </button>
-        <button id="btnHeroEventos" class="hero-pill-btn" type="button">
-          <span>📢</span> Ver torneos
-        </button>
-        <a href="clubes.html" class="hero-pill-btn">
-          <span>👥</span> Explorar clubes
-        </a>
       </div>
 
-      <!-- Tarjeta de Búsqueda y Filtros Avanzados -->
+      <!-- Tarjeta de Búsqueda y Filtros Horizontales -->
       <div class="search-card">
         <!-- Input con Autocompletado y GPS -->
         <div class="search-input-wrapper">
           <div class="search-row">
-            <span class="search-icon">🔎</span>
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
             <input
               id="filtro"
               type="text"
-              placeholder="¿Dónde quieres jugar? (Atanasio, Belén, Envigado, Bello…)"
+              placeholder="Buscar por nombre, barrio o municipio…"
               autocomplete="off"
             />
-            <button id="btnGpsSearch" class="btn-search-gps" type="button" title="Usar mi ubicación actual">
-              📍
+            <button id="btnGpsSearch" class="btn-search-gps" type="button" title="Usar mi ubicación actual" aria-label="Usar mi ubicación actual">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/><circle cx="12" cy="12" r="4"/></svg>
             </button>
           </div>
           <!-- Dropdown flotante de sugerencias -->
           <div id="sugerenciasBusqueda" class="search-sugerencias" hidden></div>
         </div>
 
-        <!-- Filtros Avanzados en Grilla -->
-        <div class="filters-grid">
-          <div class="filter-group">
-            <label class="filter-label" for="filtroMunicipio">Municipio</label>
-            <select id="filtroMunicipio" class="filter-select">
+        <!-- Filtros en Barra Horizontal de Píldoras con Scroll Suave -->
+        <div class="filters-scroll-row">
+          <div class="filter-pill-wrapper">
+            <select id="filtroMunicipio" class="filter-pill-select" aria-label="Filtrar por municipio">
               <option value="todos">Todos los municipios</option>
               <option value="Medellín">Medellín</option>
               <option value="Envigado">Envigado</option>
@@ -305,36 +298,37 @@
               <option value="Sabaneta">Sabaneta</option>
               <option value="La Estrella">La Estrella</option>
             </select>
+            <span class="filter-pill-chevron">▾</span>
           </div>
 
-          <div class="filter-group">
-            <label class="filter-label" for="filtroTipo">Tipo de Cancha</label>
-            <select id="filtroTipo" class="filter-select">
-              <option value="todos">Todos los tipos</option>
+          <div class="filter-pill-wrapper">
+            <select id="filtroTipo" class="filter-pill-select" aria-label="Filtrar por tipo de cancha">
+              <option value="todos">Tipo: Todos</option>
               <option value="Pública">Pública (INDER)</option>
               <option value="Privada">Privada / Club</option>
               <option value="Universitaria">Universitaria</option>
             </select>
+            <span class="filter-pill-chevron">▾</span>
           </div>
 
-          <div class="filter-group">
-            <label class="filter-label" for="filtroCosto">Costo de Acceso</label>
-            <select id="filtroCosto" class="filter-select">
-              <option value="todos">Cualquier costo</option>
-              <option value="gratis">Gratuito (INDER)</option>
+          <div class="filter-pill-wrapper">
+            <select id="filtroCosto" class="filter-pill-select" aria-label="Filtrar por costo de acceso">
+              <option value="todos">Costo: Todos</option>
+              <option value="gratis">Gratuito</option>
               <option value="pago">Con costo / Variable</option>
             </select>
+            <span class="filter-pill-chevron">▾</span>
           </div>
 
-          <div class="filter-group">
-            <label class="filter-label" for="filtroOrden">Ordenar por</label>
-            <select id="filtroOrden" class="filter-select">
-              <option value="relevancia">Relevancia deportiva</option>
-              <option value="rating_desc">⭐ Mejor calificadas</option>
+          <div class="filter-pill-wrapper">
+            <select id="filtroOrden" class="filter-pill-select" aria-label="Ordenar resultados">
+              <option value="relevancia">Orden: Relevancia</option>
+              <option value="rating_desc">Mejor calificadas</option>
               <option value="distancia">Cercanía (GPS activo)</option>
               <option value="nombre_asc">Nombre (A - Z)</option>
               <option value="nombre_desc">Nombre (Z - A)</option>
             </select>
+            <span class="filter-pill-chevron">▾</span>
           </div>
         </div>
 
@@ -343,7 +337,8 @@
           <button id="btnFiltrar" class="btn btn-primary" type="button">Buscar canchas</button>
           <button id="btnReset" class="btn btn-ghost" type="button">Limpiar</button>
           <button id="btnFiltroFavoritas" class="btn-filter-fav" type="button" title="Filtrar canchas marcadas como favoritas">
-            <span>❤️</span> Solo favoritas
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+            <span>Solo favoritas</span>
           </button>
         </div>
 
@@ -354,30 +349,46 @@
             ↻ Recargar datos
           </button>
         </div>
-
-        <!-- Selector de Coordenadas GIS -->
-        <div class="coord-box">
-          <div class="coord-row">
-            <label class="mini-label-claro" for="crsSelect">Sistema de Coordenadas GIS</label>
-            <select id="crsSelect" class="select-mini-claro">
-              <option value="EPSG:4326">EPSG:4326 — WGS84 (Global / GPS)</option>
-              <option value="EPSG:3116">EPSG:3116 — MAGNA-SIRGAS Colombia</option>
-              <option value="EPSG:32618">EPSG:32618 — UTM Zona 18N</option>
-            </select>
-          </div>
-          <p class="mono-claro">SRC Mapa: <strong id="crsMapa">EPSG:3857</strong> · Clic capturado: <span id="coordCapturada">Haz clic en el mapa para capturar</span></p>
-        </div>
       </div>
     </div>
 
-    <!-- Mapa Leaflet Interactivo -->
+    <!-- Mapa Leaflet Interactivo con Herramientas SIG Flotantes -->
     <div class="hero-right">
       <div id="map"></div>
+
+      <!-- Menú Flotante Herramientas SIG -->
+      <div class="sig-tools-container">
+        <button id="btnToggleSig" class="btn-sig-tools" type="button" aria-expanded="false" title="Herramientas de proyección y coordenadas SIG">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/><circle cx="12" cy="12" r="4"/></svg>
+          <span>Herramientas SIG</span>
+        </button>
+        <div id="panelSigTools" class="sig-panel" hidden>
+          <div class="sig-panel-header">
+            <strong>Proyección y Coordenadas</strong>
+            <button id="btnCerrarSig" class="btn-sig-close" type="button" aria-label="Cerrar panel SIG">✕</button>
+          </div>
+          <div class="coord-box">
+            <div class="coord-row">
+              <label class="mini-label-claro" for="crsSelect">Sistema de Coordenadas</label>
+              <select id="crsSelect" class="select-mini-claro">
+                <option value="EPSG:4326">EPSG:4326 — WGS84 (Global / GPS)</option>
+                <option value="EPSG:3116">EPSG:3116 — MAGNA-SIRGAS Colombia</option>
+                <option value="EPSG:32618">EPSG:32618 — UTM Zona 18N</option>
+              </select>
+            </div>
+            <p class="mono-claro">SRC: <strong id="crsMapa">EPSG:3857</strong></p>
+            <p class="mono-claro"><span id="coordCapturada">Haz clic en el mapa para capturar</span></p>
+          </div>
+        </div>
+      </div>
+
       <button id="btnGpsMap" class="btn-map-gps" type="button" title="Centrar mapa en mi ubicación actual">
-        <span>📍</span> Mi ubicación
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>Mi ubicación</span>
       </button>
+
       <div class="map-legend">
-        <div class="legend-item"><span class="legend-dot dot-publica"></span> Pública (INDER)</div>
+        <div class="legend-item"><span class="legend-dot dot-publica"></span> Pública</div>
         <div class="legend-item"><span class="legend-dot dot-privada"></span> Privada</div>
         <div class="legend-item"><span class="legend-dot dot-universitaria"></span> Universitaria</div>
       </div>
@@ -389,7 +400,9 @@
        ============================================================ -->
   <section id="stats" class="stats-bar">
     <div class="stat-card">
-      <div class="stat-icon">🏐</div>
+      <div class="stat-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M4.93 4.93 19.07 19.07"/><path d="M14.83 9.17 9.17 14.83"/></svg>
+      </div>
       <div class="stat-info">
         <strong id="statTotal">20</strong>
         <span>Canchas Registradas</span>
@@ -397,7 +410,9 @@
     </div>
 
     <div class="stat-card">
-      <div class="stat-icon">🏙️</div>
+      <div class="stat-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/><path d="M9 9v.01"/><path d="M9 12v.01"/><path d="M9 15v.01"/><path d="M9 18v.01"/></svg>
+      </div>
       <div class="stat-info">
         <strong id="statMunicipios">6</strong>
         <span>Municipios AMVA</span>
@@ -405,7 +420,9 @@
     </div>
 
     <div class="stat-card">
-      <div class="stat-icon">🆓</div>
+      <div class="stat-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><circle cx="7" cy="7" r=".5" fill="currentColor"/></svg>
+      </div>
       <div class="stat-info">
         <strong id="statPublicas">9</strong>
         <span>Públicas Gratuitas</span>
@@ -413,7 +430,9 @@
     </div>
 
     <div class="stat-card">
-      <div class="stat-icon">🏆</div>
+      <div class="stat-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
       <div class="stat-info">
         <strong id="statPrivadas">8</strong>
         <span>Complejos Privados</span>
@@ -421,7 +440,9 @@
     </div>
 
     <div class="stat-card">
-      <div class="stat-icon">❤️</div>
+      <div class="stat-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+      </div>
       <div class="stat-info">
         <strong id="statFavoritos">0</strong>
         <span>En tus Favoritas</span>
@@ -435,8 +456,8 @@
   <section id="tarjetas" class="tarjetas-section">
     <div class="tarjetas-header">
       <div class="tarjetas-header-left">
-        <h2>🏆 Canchas de Vóley Playa en el AMVA</h2>
-        <p class="tarjetas-sub">Información técnica detallada con fotos de alta resolución, rutas directas y reserva en línea.</p>
+        <h2>Canchas en el Valle de Aburrá</h2>
+        <p class="tarjetas-sub">Escenarios deportivos con información técnica verificada, horarios y rutas directas.</p>
       </div>
       <span id="tarjetasContador" class="tarjetas-contador-badge">Cargando canchas…</span>
     </div>
@@ -449,25 +470,34 @@
           <img src="https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=700&q=80" alt="Cancha de vóley playa #1 - Unidad Deportiva Atanasio Girardot" class="card-img" />
           <div class="card-badges-top">
             <span class="card-badge badge-publica">Pública</span>
-            <span class="card-badge badge-verif">✅ Verificada</span>
+            <span class="card-badge badge-verif">Verificada</span>
           </div>
         </div>
         <div class="card-body">
           <h3 class="card-title">Cancha de vóley playa #1 - Unidad Deportiva Atanasio Girardot</h3>
-          <div class="card-location">📍 Laureles-Estadio, Medellín</div>
+          <div class="card-location">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>Laureles-Estadio, Medellín</span>
+          </div>
           <div class="card-chips">
-            <span class="chip-item">🆓 Gratuito</span>
-            <span class="chip-item">📅 Con reserva SIMON</span>
-            <span class="chip-item chip-luz">💡 Luz nocturna</span>
+            <span class="chip-item">Gratuito</span>
+            <span class="chip-item">Reserva SIMON</span>
+            <span class="chip-item chip-luz">Iluminación</span>
           </div>
           <div class="card-condition">
-            <strong>Condición:</strong> Estar registrado en la página del INDER SIMON.
+            <strong>Acceso:</strong> Estar registrado en la plataforma del INDER SIMON.
           </div>
         </div>
         <div class="card-footer">
-          <button class="btn-card-action btn-ficha" type="button">🔍 Ficha</button>
-          <button class="btn-card-action btn-mapa" type="button">🗺️ En mapa</button>
-          <a class="btn-card-action btn-rutas" href="https://www.google.com/maps/dir/?api=1&destination=6.257816,-75.591004" target="_blank" rel="noopener noreferrer">🚗 Rutas</a>
+          <button class="btn-card-details btn-ficha" type="button">Ver detalles</button>
+          <div class="card-footer-icons">
+            <a class="btn-card-icon btn-rutas" href="https://www.google.com/maps/dir/?api=1&destination=6.257816,-75.591004" target="_blank" rel="noopener noreferrer" title="Cómo llegar con Google Maps" aria-label="Cómo llegar">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+            </a>
+            <button class="btn-card-icon btn-fav-card" type="button" aria-label="Favorito">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+            </button>
+          </div>
         </div>
       </article>
 
@@ -477,25 +507,34 @@
           <img src="https://images.unsplash.com/photo-1547347298-4074fc3086f0?auto=format&fit=crop&w=700&q=80" alt="Cancha de vóley playa - Unidad Deportiva Belén Andrés Escobar" class="card-img" />
           <div class="card-badges-top">
             <span class="card-badge badge-publica">Pública</span>
-            <span class="card-badge badge-verif">✅ Verificada</span>
+            <span class="card-badge badge-verif">Verificada</span>
           </div>
         </div>
         <div class="card-body">
           <h3 class="card-title">Cancha de vóley playa - Unidad Deportiva Belén Andrés Escobar</h3>
-          <div class="card-location">📍 Belén, Medellín</div>
+          <div class="card-location">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>Belén, Medellín</span>
+          </div>
           <div class="card-chips">
-            <span class="chip-item">🆓 Gratuito</span>
-            <span class="chip-item">📅 Con reserva SIMON</span>
-            <span class="chip-item chip-luz">💡 Luz nocturna</span>
+            <span class="chip-item">Gratuito</span>
+            <span class="chip-item">Reserva SIMON</span>
+            <span class="chip-item chip-luz">Iluminación</span>
           </div>
           <div class="card-condition">
-            <strong>Condición:</strong> Estar registrado en la página del INDER SIMON.
+            <strong>Acceso:</strong> Estar registrado en la plataforma del INDER SIMON.
           </div>
         </div>
         <div class="card-footer">
-          <button class="btn-card-action btn-ficha" type="button">🔍 Ficha</button>
-          <button class="btn-card-action btn-mapa" type="button">🗺️ En mapa</button>
-          <a class="btn-card-action btn-rutas" href="https://www.google.com/maps/dir/?api=1&destination=6.232900,-75.588291" target="_blank" rel="noopener noreferrer">🚗 Rutas</a>
+          <button class="btn-card-details btn-ficha" type="button">Ver detalles</button>
+          <div class="card-footer-icons">
+            <a class="btn-card-icon btn-rutas" href="https://www.google.com/maps/dir/?api=1&destination=6.232900,-75.588291" target="_blank" rel="noopener noreferrer" title="Cómo llegar con Google Maps" aria-label="Cómo llegar">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+            </a>
+            <button class="btn-card-icon btn-fav-card" type="button" aria-label="Favorito">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+            </button>
+          </div>
         </div>
       </article>
 
@@ -505,25 +544,34 @@
           <img src="https://images.unsplash.com/photo-1594909122845-11baa439b7bf?auto=format&fit=crop&w=700&q=80" alt="Cancha de vóley playa - Unidad Deportiva Tulio Ospina" class="card-img" />
           <div class="card-badges-top">
             <span class="card-badge badge-publica">Pública</span>
-            <span class="card-badge badge-verif">✅ Verificada</span>
+            <span class="card-badge badge-verif">Verificada</span>
           </div>
         </div>
         <div class="card-body">
           <h3 class="card-title">Cancha de vóley playa - Unidad Deportiva Tulio Ospina</h3>
-          <div class="card-location">📍 Tulio Ospina, Bello</div>
+          <div class="card-location">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>Tulio Ospina, Bello</span>
+          </div>
           <div class="card-chips">
-            <span class="chip-item">💰 Variable</span>
-            <span class="chip-item">📅 Con reserva INDER</span>
-            <span class="chip-item chip-duchas">🚿 Duchas</span>
+            <span class="chip-item">Variable</span>
+            <span class="chip-item">Reserva INDER</span>
+            <span class="chip-item chip-duchas">Duchas</span>
           </div>
           <div class="card-condition">
-            <strong>Condición:</strong> Ingresar al INDER Bello y reservar en su página.
+            <strong>Acceso:</strong> Ingresar al INDER Bello y reservar en su página.
           </div>
         </div>
         <div class="card-footer">
-          <button class="btn-card-action btn-ficha" type="button">🔍 Ficha</button>
-          <button class="btn-card-action btn-mapa" type="button">🗺️ En mapa</button>
-          <a class="btn-card-action btn-rutas" href="https://www.google.com/maps/dir/?api=1&destination=6.336374,-75.546036" target="_blank" rel="noopener noreferrer">🚗 Rutas</a>
+          <button class="btn-card-details btn-ficha" type="button">Ver detalles</button>
+          <div class="card-footer-icons">
+            <a class="btn-card-icon btn-rutas" href="https://www.google.com/maps/dir/?api=1&destination=6.336374,-75.546036" target="_blank" rel="noopener noreferrer" title="Cómo llegar con Google Maps" aria-label="Cómo llegar">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+            </a>
+            <button class="btn-card-icon btn-fav-card" type="button" aria-label="Favorito">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+            </button>
+          </div>
         </div>
       </article>
 
@@ -533,25 +581,34 @@
           <img src="https://images.unsplash.com/photo-1526676037777-05a232554f77?auto=format&fit=crop&w=700&q=80" alt="Polideportivo Sur Envigado - Cancha #1" class="card-img" />
           <div class="card-badges-top">
             <span class="card-badge badge-publica">Pública</span>
-            <span class="card-badge badge-verif">✅ Verificada</span>
+            <span class="card-badge badge-verif">Verificada</span>
           </div>
         </div>
         <div class="card-body">
           <h3 class="card-title">Polideportivo Sur Envigado - Cancha #1</h3>
-          <div class="card-location">📍 Sur, Envigado</div>
+          <div class="card-location">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>Sur, Envigado</span>
+          </div>
           <div class="card-chips">
-            <span class="chip-item">💳 Con costo</span>
-            <span class="chip-item">📅 Reserva INDER</span>
-            <span class="chip-item chip-luz">💡 Luz nocturna</span>
+            <span class="chip-item">Con costo</span>
+            <span class="chip-item">Reserva INDER</span>
+            <span class="chip-item chip-luz">Iluminación</span>
           </div>
           <div class="card-condition">
-            <strong>Condición:</strong> Ingresar al INDER Envigado para alquilar por horas.
+            <strong>Acceso:</strong> Ingresar al INDER Envigado para alquilar por horas.
           </div>
         </div>
         <div class="card-footer">
-          <button class="btn-card-action btn-ficha" type="button">🔍 Ficha</button>
-          <button class="btn-card-action btn-mapa" type="button">🗺️ En mapa</button>
-          <a class="btn-card-action btn-rutas" href="https://www.google.com/maps/dir/?api=1&destination=6.163937,-75.599642" target="_blank" rel="noopener noreferrer">🚗 Rutas</a>
+          <button class="btn-card-details btn-ficha" type="button">Ver detalles</button>
+          <div class="card-footer-icons">
+            <a class="btn-card-icon btn-rutas" href="https://www.google.com/maps/dir/?api=1&destination=6.163937,-75.599642" target="_blank" rel="noopener noreferrer" title="Cómo llegar con Google Maps" aria-label="Cómo llegar">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+            </a>
+            <button class="btn-card-icon btn-fav-card" type="button" aria-label="Favorito">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+            </button>
+          </div>
         </div>
       </article>
     </div>
@@ -565,7 +622,7 @@
        ============================================================ -->
   <section class="faq-section">
     <div class="faq-header">
-      <h2>❓ Preguntas Frecuentes sobre Vóley Playa</h2>
+      <h2>Preguntas frecuentes</h2>
       <p>Todo lo que necesitas saber para ir a jugar en el área metropolitana de Medellín.</p>
     </div>
 
@@ -626,8 +683,8 @@
             <circle cx="50" cy="50" r="9" fill="#FFFFFF" />
             <defs>
               <linearGradient id="brandGradientFooter" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#f59e0b" />
-                <stop offset="100%" stop-color="#0f7d7a" />
+                <stop offset="0%" stop-color="#E07A5F" />
+                <stop offset="100%" stop-color="#0F4C5C" />
               </linearGradient>
             </defs>
           </svg>

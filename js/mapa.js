@@ -33,7 +33,7 @@ export function iniciarMapa() {
   const satelitalConEtiquetas = L.layerGroup([satelital, etiquetasSatelital]);
 
   L.control.layers(
-    { "🗺️ Calles (OSM)": osm, "🏙️ Claro (Voyager)": carto, "🛰️ Satelital (Esri)": satelitalConEtiquetas },
+    { "Calles (OSM)": osm, "Mapa claro": carto, "Satelital (Esri)": satelitalConEtiquetas },
     {}, { position: 'bottomright', collapsed: true }
   ).addTo(map);
 

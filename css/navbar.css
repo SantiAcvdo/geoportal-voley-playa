@@ -46,13 +46,13 @@
 }
 
 .logo-badge-amva {
-  background: linear-gradient(135deg, var(--amarillo), var(--amarillo-dark));
+  background: var(--accent-terracota);
   color: #ffffff;
   font-size: 0.68rem;
-  font-weight: 800;
-  padding: 2px 6px;
+  font-weight: 700;
+  padding: 2px 7px;
   border-radius: 6px;
-  margin-left: 3px;
+  margin-left: 4px;
   letter-spacing: 0.04em;
   display: inline-block;
 }

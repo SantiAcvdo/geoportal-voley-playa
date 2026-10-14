@@ -117,16 +117,21 @@ export function renderizarTarjetas(geojson, resetearPagina = true) {
     if (typeof feature.distanciaKm === 'number') {
       const distTexto = feature.distanciaKm < 1
         ? `${Math.round(feature.distanciaKm * 1000)} m`
+    // Tag distancia si el usuario tiene GPS activo
+    let tagDistancia = '';
+    if (typeof feature.distanciaKm === 'number') {
+      const distTexto = feature.distanciaKm < 1
+        ? `${Math.round(feature.distanciaKm * 1000)} m`
         : `${feature.distanciaKm.toFixed(1)} km`;
-      tagDistancia = `<span class="card-distancia-chip">📍 A ${distTexto}</span>`;
+      tagDistancia = `<span class="card-distancia-chip">A ${distTexto}</span>`;
     }
 
-    // Chip de calificación
+    // Chip de calificación refinado
     let chipRating = '';
     if (typeof p.rating_promedio === 'number' && p.rating_total > 0) {
-      chipRating = `<span class="chip-item chip-rating">⭐ ${p.rating_promedio.toFixed(1)} (${p.rating_total})</span>`;
+      chipRating = `<span class="chip-item chip-rating">★ ${p.rating_promedio.toFixed(1)} (${p.rating_total})</span>`;
     } else {
-      chipRating = `<span class="chip-item chip-sin-rating">⭐ Nuevo</span>`;
+      chipRating = `<span class="chip-item chip-sin-rating">Nuevo</span>`;
     }
 
     card.innerHTML = `
@@ -140,74 +145,79 @@ export function renderizarTarjetas(geojson, resetearPagina = true) {
         />
         <div class="card-badges-top">
           <span class="card-badge badge-${tipo.toLowerCase().replace(/\s+/g, '-')}">${tipo}</span>
-          ${p.verificada ? '<span class="card-badge badge-verif">✅ Verificada</span>' : '<span class="card-badge badge-unverif">⚠️ Por confirmar</span>'}
+          ${p.verificada ? '<span class="card-badge badge-verif">Verificada</span>' : '<span class="card-badge badge-unverif">Por confirmar</span>'}
         </div>
         ${tagDistancia}
-        <button
-          class="btn-fav-card ${esFav ? 'activo' : ''}"
-          data-id="${p.id || ''}"
-          title="${esFav ? 'Quitar de favoritas' : 'Guardar en favoritas'}"
-          aria-label="Favorito"
-          type="button"
-        >
-          <span class="corazon-icon">♥</span>
-        </button>
       </div>
 
       <div class="card-body">
         <h3 class="card-title">${escaparHTML(p.nombre)}</h3>
-        <div class="card-location">📍 ${escaparHTML([p.barrio, p.municipio].filter(Boolean).join(', ') || 'Valle de Aburrá')}</div>
+        <div class="card-location" title="Ver en mapa">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>${escaparHTML([p.barrio, p.municipio].filter(Boolean).join(', ') || 'Valle de Aburrá')}</span>
+        </div>
 
         <div class="card-chips">
           ${chipRating}
-          <span class="chip-item">${iconoCosto(p.costo)} ${costo}</span>
-          <span class="chip-item">${p.reserva_requerida ? '📅 Con reserva' : '🚶 Acceso libre'}</span>
-          ${serv.iluminacion ? '<span class="chip-item chip-luz">💡 Luz nocturna</span>' : ''}
-          ${serv.duchas ? '<span class="chip-item chip-duchas">🚿 Duchas</span>' : ''}
+          <span class="chip-item">${costo}</span>
+          <span class="chip-item">${p.reserva_requerida ? 'Reserva requerida' : 'Acceso libre'}</span>
+          ${serv.iluminacion ? '<span class="chip-item chip-luz">Iluminación</span>' : ''}
+          ${serv.duchas ? '<span class="chip-item chip-duchas">Duchas</span>' : ''}
         </div>
 
         <div class="card-condition">
-          <strong>Condición:</strong> ${escaparHTML(p.condicion_acceso || 'Ingreso según normas del escenario.')}
+          <strong>Acceso:</strong> ${escaparHTML(p.condicion_acceso || 'Según normas del escenario.')}
         </div>
       </div>
 
       <div class="card-footer">
-        <button class="btn-card-action btn-ficha" type="button" title="Ver ficha técnica completa">
-          🔍 Ficha
+        <button class="btn-card-details btn-ficha" type="button">
+          Ver detalles
         </button>
-        <button class="btn-card-action btn-mapa" type="button" title="Ubicar en el mapa">
-          🗺️ En mapa
-        </button>
-        <a
-          class="btn-card-action btn-rutas"
-          href="https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}"
-          target="_blank"
-          rel="noopener noreferrer"
-          title="Cómo llegar con Google Maps"
-        >
-          🚗 Rutas
-        </a>
+        <div class="card-footer-icons">
+          <a
+            class="btn-card-icon btn-rutas"
+            href="https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Cómo llegar con Google Maps"
+            aria-label="Cómo llegar con Google Maps"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+          </a>
+          <button
+            class="btn-card-icon btn-fav-card ${esFav ? 'activo' : ''}"
+            data-id="${p.id || ''}"
+            title="${esFav ? 'Quitar de favoritas' : 'Guardar en favoritas'}"
+            aria-label="Favorito"
+            type="button"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="${esFav ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          </button>
+        </div>
       </div>
     `;
 
     // Conectar eventos
-    card.querySelector('.btn-ficha').addEventListener('click', () => {
+    card.querySelector('.btn-ficha')?.addEventListener('click', () => {
       abrirFichaCancha(feature);
     });
 
-    card.querySelector('.btn-mapa').addEventListener('click', () => {
+    card.querySelector('.card-location')?.addEventListener('click', () => {
       const hero = document.getElementById('hero');
       hero?.scrollIntoView({ behavior: 'smooth' });
       setTimeout(() => irACancha(lat, lon), 600);
     });
 
     const btnFavCard = card.querySelector('.btn-fav-card');
-    btnFavCard.addEventListener('click', (e) => {
+    btnFavCard?.addEventListener('click', (e) => {
       e.stopPropagation();
       const nuevaEsFav = toggleFavorito(p.id);
       btnFavCard.classList.toggle('activo', nuevaEsFav);
+      const svg = btnFavCard.querySelector('svg');
+      if (svg) svg.setAttribute('fill', nuevaEsFav ? 'currentColor' : 'none');
       mostrarToast(
-        nuevaEsFav ? '❤️ Agregada a tus canchas favoritas' : '🤍 Eliminada de favoritas',
+        nuevaEsFav ? 'Guardada en tus favoritas' : 'Eliminada de favoritas',
         'favorito'
       );
     });

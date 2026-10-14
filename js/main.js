@@ -255,6 +255,34 @@ function configurarFavoritosNav() {
   });
 }
 
+// Configurar panel flotante de Herramientas SIG
+function configurarHerramientasSIG() {
+  const btnToggle = document.getElementById('btnToggleSig');
+  const btnCerrar = document.getElementById('btnCerrarSig');
+  const panel = document.getElementById('panelSigTools');
+  if (!btnToggle || !panel) return;
+
+  btnToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isHidden = panel.hidden;
+    panel.hidden = !isHidden;
+    btnToggle.setAttribute('aria-expanded', String(isHidden));
+  });
+
+  btnCerrar?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    panel.hidden = true;
+    btnToggle.setAttribute('aria-expanded', 'false');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.sig-tools-container')) {
+      panel.hidden = true;
+      btnToggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+
 // FAQ Accordion
 function configurarFAQ() {
   const items = document.querySelectorAll('.faq-item-header');
@@ -283,6 +311,7 @@ async function init() {
   configurarModalesInformativos();
   configurarGeolocalizacionUI();
   configurarFavoritosNav();
+  configurarHerramientasSIG();
   configurarFAQ();
 
   document.getElementById('btnRecargarOSM')?.addEventListener('click', recargarTodo);
