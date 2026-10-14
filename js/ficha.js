@@ -54,16 +54,19 @@ export function abrirFichaCancha(feature) {
   const favActiva = esFavorita(p.id);
   btnFav.classList.toggle('activo', favActiva);
   btnFav.setAttribute('aria-label', favActiva ? 'Quitar de favoritas' : 'Añadir a favoritas');
-  btnFav.innerHTML = favActiva ? '❤️ Guardada en favoritas' : '🤍 Añadir a favoritas';
+  btnFav.innerHTML = `
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="${favActiva ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+    <span>${favActiva ? 'En favoritas' : 'Guardar'}</span>
+  `;
 
   // Amenidades y Servicios
   const serv = p.servicios || {};
   document.getElementById('fichaArena').textContent = serv.tipo_arena || 'Arena deportiva de río / sílice';
   document.getElementById('fichaNumCanchas').textContent = serv.num_canchas ? `${serv.num_canchas} cancha(s)` : '1 o más canchas';
-  document.getElementById('fichaIluminacion').textContent = serv.iluminacion ? '✅ Disponible (juego nocturno)' : '⚠️ Solo luz natural / no confirmada';
-  document.getElementById('fichaDuchas').textContent = serv.duchas ? '✅ Duchas y vestuarios disponibles' : '❌ Sin duchas exclusivas';
-  document.getElementById('fichaParqueadero').textContent = serv.parqueadero ? '✅ Parqueadero en el complejo' : '⚠️ En vía pública / zonas aledañas';
-  document.getElementById('fichaAccesibilidad').textContent = serv.accesibilidad ? '✅ Rampa y acceso PMR' : '⚠️ Acceso peatonal estándar';
+  document.getElementById('fichaIluminacion').textContent = serv.iluminacion ? 'Disponible (juego nocturno)' : 'Solo luz natural / no confirmada';
+  document.getElementById('fichaDuchas').textContent = serv.duchas ? 'Duchas y vestuarios disponibles' : 'Sin duchas exclusivas';
+  document.getElementById('fichaParqueadero').textContent = serv.parqueadero ? 'Parqueadero en el complejo' : 'En vía pública / zonas aledañas';
+  document.getElementById('fichaAccesibilidad').textContent = serv.accesibilidad ? 'Rampas y acceso PMR' : 'Acceso peatonal estándar';
 
   // Horarios y Reserva
   document.getElementById('fichaHorario').textContent = p.horario || 'Lunes a Domingo 6:00 a.m. - 10:00 p.m. (Sujeto a reservas)';
@@ -76,11 +79,11 @@ export function abrirFichaCancha(feature) {
   if (linkReserva && linkReserva.startsWith('http')) {
     btnReserva.href = linkReserva;
     btnReserva.hidden = false;
-    btnReserva.textContent = linkReserva.includes('inder.gov.co') ? '📅 Reservar en INDER SIMON' : '💬 Reservar vía Web / WhatsApp';
+    btnReserva.textContent = linkReserva.includes('inder.gov.co') ? 'Reservar en INDER SIMON' : 'Reservar vía Web / WhatsApp';
   } else if (linkReserva && linkReserva.startsWith('mailto:')) {
     btnReserva.href = linkReserva;
     btnReserva.hidden = false;
-    btnReserva.textContent = '✉️ Solicitar reserva por correo';
+    btnReserva.textContent = 'Solicitar reserva por correo';
   } else {
     btnReserva.hidden = true;
   }
@@ -270,15 +273,21 @@ async function cargarComentariosCancha(canchaId) {
 
   combinados.forEach(c => {
     const item = document.createElement('div');
-    item.className = 'comentario-item';
-    const estrellas = '⭐'.repeat(c.rating || 5);
+    const esConvocatoria = (c.texto && c.texto.startsWith('[CONVOCATORIA]')) || c.tipo === 'convocatoria';
+    const textoLimpio = esConvocatoria ? c.texto.replace(/^\[CONVOCATORIA\]\s*/, '') : c.texto;
+    item.className = esConvocatoria ? 'comentario-item comentario-convocatoria' : 'comentario-item';
+
+    const headerBadge = esConvocatoria
+      ? '<span class="chip-convocatoria-badge">🏐 Convocatoria de juego</span>'
+      : `<span class="comentario-estrellas">${'★'.repeat(c.rating || 5)}</span>`;
+
     item.innerHTML = `
       <div class="comentario-header">
         <strong>${escaparHTML(c.nombre)}</strong>
-        <span class="comentario-estrellas">${estrellas}</span>
+        ${headerBadge}
         <span class="comentario-fecha">${escaparHTML(c.fecha || 'Reciente')}</span>
       </div>
-      <p class="comentario-texto">${escaparHTML(c.texto)}</p>
+      <p class="comentario-texto">${escaparHTML(textoLimpio)}</p>
     `;
     lista.appendChild(item);
   });
@@ -350,6 +359,32 @@ export function configurarFicha() {
     }
   });
 
+  // Botón Compartir Cancha (WhatsApp / Web Share API)
+  document.getElementById('btnFichaCompartir')?.addEventListener('click', async () => {
+    if (!canchaActual) return;
+    const p = canchaActual.properties;
+    const url = `${window.location.origin}${window.location.pathname}#cancha=${p.id}`;
+    const titulo = `${p.nombre} — VoleyPlaya AMVA`;
+    const texto = `¡Vamos a jugar vóley playa en ${p.nombre} (${p.municipio})! Mira la ubicación y horarios aquí:`;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: titulo, text: texto, url });
+        return;
+      } catch (err) {
+        if (err.name !== 'AbortError') console.warn('Error al compartir nativo:', err);
+      }
+    }
+
+    // Fallback portapapeles
+    try {
+      await navigator.clipboard.writeText(`${texto} ${url}`);
+      mostrarToast('Enlace copiado al portapapeles para compartir', 'exito');
+    } catch {
+      prompt('Copia este enlace para compartir:', `${texto} ${url}`);
+    }
+  });
+
   // Botón Reportar desde la Ficha
   document.getElementById('btnFichaReportar')?.addEventListener('click', () => {
     if (!canchaActual) return;
@@ -365,8 +400,11 @@ export function configurarFicha() {
     const esFav = toggleFavorito(p.id);
     const btn = document.getElementById('btnFichaFavorito');
     btn.classList.toggle('activo', esFav);
-    btn.innerHTML = esFav ? '❤️ Guardada en favoritas' : '🤍 Añadir a favoritas';
-    mostrarToast(esFav ? `❤️ Agregada a tus favoritas` : `🤍 Eliminada de favoritas`, 'favorito');
+    btn.innerHTML = `
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="${esFav ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+      <span>${esFav ? 'En favoritas' : 'Guardar'}</span>
+    `;
+    mostrarToast(esFav ? 'Agregada a tus canchas favoritas' : 'Eliminada de favoritas', 'favorito');
 
     // Sincronizar tarjeta en pantalla si existe
     const cardFavBtn = document.querySelector(`.btn-fav-card[data-id="${p.id}"]`);
@@ -375,7 +413,22 @@ export function configurarFicha() {
     }
   });
 
-  // Formulario nuevo comentario
+  // Selector de Tipo de Publicación (Reseña vs Convocatoria)
+  const tipoSelect = document.getElementById('comentarioTipo');
+  const ratingSelect = document.getElementById('comentarioRating');
+  const textoInput = document.getElementById('comentarioTexto');
+
+  tipoSelect?.addEventListener('change', () => {
+    if (tipoSelect.value === 'convocatoria') {
+      if (ratingSelect) ratingSelect.hidden = true;
+      if (textoInput) textoInput.placeholder = '¿Cuándo y a qué hora quieres jugar? Ej: Este sábado 4:00 PM nos faltan 2 para jugar cuartetas.';
+    } else {
+      if (ratingSelect) ratingSelect.hidden = false;
+      if (textoInput) textoInput.placeholder = '¿Cómo está la arena, la malla, la iluminación y la reserva?';
+    }
+  });
+
+  // Formulario nuevo comentario o convocatoria
   const formComentario = document.getElementById('formNuevoComentario');
   formComentario?.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -383,16 +436,19 @@ export function configurarFicha() {
 
     const nombre = document.getElementById('comentarioNombre').value.trim();
     const texto = document.getElementById('comentarioTexto').value.trim();
-    const rating = parseInt(document.getElementById('comentarioRating').value || '5', 10);
+    const esConvo = tipoSelect?.value === 'convocatoria';
+    const rating = esConvo ? 5 : parseInt(ratingSelect?.value || '5', 10);
 
     if (!nombre || !texto) {
-      mostrarToast('Por favor completa tu nombre y comentario.', 'advertencia');
+      mostrarToast('Por favor completa tu nombre y el mensaje.', 'advertencia');
       return;
     }
 
+    const textoGuardar = esConvo ? `[CONVOCATORIA] ${texto}` : texto;
+
     const nuevo = {
       nombre,
-      texto,
+      texto: textoGuardar,
       rating,
       fecha: new Date().toLocaleDateString('es-CO', { day: 'numeric', month: 'short' })
     };
@@ -404,7 +460,7 @@ export function configurarFicha() {
       supabase.from('comentarios').insert({
         cancha_id: canchaActual.properties.id,
         nombre: nombre,
-        comentario: texto,
+        comentario: textoGuardar,
         rating: rating
       }).then(({ error }) => {
         if (error) console.warn('Aviso Supabase comentarios:', error.message);
@@ -415,7 +471,8 @@ export function configurarFicha() {
 
     cargarComentariosCancha(canchaActual.properties.id);
     formComentario.reset();
-    mostrarToast('✅ ¡Comentario publicado con éxito!', 'exito');
+    if (ratingSelect) ratingSelect.hidden = false;
+    mostrarToast(esConvo ? '¡Convocatoria de juego publicada!' : '¡Reseña publicada con éxito!', 'exito');
 
     window.dispatchEvent(new CustomEvent('comentarioAgregado', {
       detail: { canchaId: canchaActual.properties.id, rating }

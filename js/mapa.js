@@ -6,6 +6,7 @@ import { abrirFichaCancha } from './ficha.js';
 
 export let map;
 export let canchasLayer;
+export let buffersLayer;
 let marcadorClic = null;
 let resaltadoTemporal = null;
 
@@ -37,6 +38,7 @@ export function iniciarMapa() {
     {}, { position: 'bottomright', collapsed: true }
   ).addTo(map);
 
+  buffersLayer = L.layerGroup().addTo(map);
   canchasLayer = L.layerGroup().addTo(map);
 
   const crsEl = document.getElementById('crsMapa');
@@ -204,4 +206,88 @@ export function irAResultados(geojson) {
     features.map(f => [f.geometry.coordinates[1], f.geometry.coordinates[0]])
   );
   map.flyToBounds(bounds, { padding: [50, 50], maxZoom: 15, animate: true, duration: 1.2 });
+}
+
+export function toggleBuffers(activar, geojson) {
+  if (!buffersLayer) {
+    buffersLayer = L.layerGroup().addTo(map);
+  }
+  buffersLayer.clearLayers();
+
+  if (!activar || !geojson?.features) return;
+
+  geojson.features.forEach(f => {
+    if (!f.geometry || !f.geometry.coordinates) return;
+    const [lon, lat] = f.geometry.coordinates;
+    const p = f.properties || {};
+    const circulo = L.circle([lat, lon], {
+      radius: 1500, // 1.5 km (~15-20 min caminata/bici)
+      color: '#0F4C5C',
+      fillColor: '#0F4C5C',
+      fillOpacity: 0.1,
+      weight: 1.5,
+      dashArray: '4, 4'
+    });
+    circulo.bindTooltip(`Radio de influencia: 1.5 km<br><strong>${p.nombre || 'Cancha'}</strong>`, {
+      sticky: true,
+      className: 'sig-buffer-tooltip'
+    });
+    circulo.addTo(buffersLayer);
+  });
+}
+
+export function exportarGeoJSON(geojson) {
+  if (!geojson || !geojson.features || geojson.features.length === 0) {
+    alert('No hay canchas para exportar.');
+    return;
+  }
+  const blob = new Blob([JSON.stringify(geojson, null, 2)], { type: 'application/geo+json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `voleyplaya_amva_${new Date().toISOString().slice(0, 10)}.geojson`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+export function exportarCSV(geojson) {
+  if (!geojson || !geojson.features || geojson.features.length === 0) {
+    alert('No hay canchas para exportar.');
+    return;
+  }
+  const cabeceras = ['id', 'nombre', 'municipio', 'barrio', 'latitud', 'longitud', 'tipo', 'costo', 'iluminacion', 'duchas', 'reserva_requerida', 'rating_promedio'];
+  const filas = [cabeceras.join(',')];
+
+  geojson.features.forEach(f => {
+    const p = f.properties || {};
+    const coords = f.geometry?.coordinates || [0, 0];
+    const serv = p.servicios || {};
+    const valores = [
+      `"${p.id || ''}"`,
+      `"${(p.nombre || '').replace(/"/g, '""')}"`,
+      `"${(p.municipio || '').replace(/"/g, '""')}"`,
+      `"${(p.barrio || '').replace(/"/g, '""')}"`,
+      coords[1],
+      coords[0],
+      `"${p.tipo || ''}"`,
+      `"${(p.costo || '').replace(/"/g, '""')}"`,
+      serv.iluminacion ? 'Sí' : 'No',
+      serv.duchas ? 'Sí' : 'No',
+      p.reserva_requerida ? 'Sí' : 'No',
+      p.rating_promedio || ''
+    ];
+    filas.push(valores.join(','));
+  });
+
+  const blob = new Blob(['\uFEFF' + filas.join('\r\n')], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `voleyplaya_amva_${new Date().toISOString().slice(0, 10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }

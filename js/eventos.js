@@ -66,13 +66,11 @@ export async function cargarEventos() {
   contenedor.innerHTML = '';
   mostrarEstado('Cargando eventos…');
 
-  const hoy = new Date().toISOString().slice(0, 10);
   const { data, error } = await supabase
     .from('eventos')
     .select('id, titulo, resumen, descripcion, municipio, lugar, fecha_evento, hora_evento, tipo_evento, imagen_url, enlace_externo')
     .eq('publicado', true)
-    .gte('fecha_evento', hoy)
-    .order('fecha_evento', { ascending: true })
+    .order('fecha_evento', { ascending: false })
     .limit(20);
 
   if (error) {
@@ -82,7 +80,7 @@ export async function cargarEventos() {
   }
 
   if (!data || data.length === 0) {
-    mostrarEstado('Todavía no hay eventos publicados.', 'vacio');
+    mostrarEstado('Todavía no hay eventos publicados en el área metropolitana.', 'vacio');
     return;
   }
 

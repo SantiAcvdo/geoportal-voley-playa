@@ -151,6 +151,10 @@
   font-size: 0.82rem;
   padding: 8px 14px;
   border-radius: var(--radio-md);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: var(--trans-suave);
 }
 
 .btn-ficha-fav.activo {
@@ -419,6 +423,25 @@
   font-size: 0.84rem;
   color: var(--texto-secundario);
   line-height: 1.4;
+}
+
+.comentario-convocatoria {
+  border-left: 3px solid var(--terracota);
+  background: #fffaf8;
+  border-radius: var(--radio-sm);
+  padding: 10px 12px;
+}
+
+.chip-convocatoria-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #ffedd5;
+  color: #c2410c;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radio-pill);
 }
 
 .comentario-vacio {

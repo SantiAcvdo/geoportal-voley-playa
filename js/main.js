@@ -3,7 +3,7 @@
 
 import { definirSistemasDeCoordenadas } from './config.js';
 import { cargarManual, cargarOverpass, FALLBACK_GEOJSON } from './api.js';
-import { iniciarMapa, pintarCapa, irAResultados, irACancha } from './mapa.js';
+import { iniciarMapa, pintarCapa, irAResultados, irACancha, toggleBuffers, exportarGeoJSON, exportarCSV } from './mapa.js';
 import { configurarFiltro } from './filtro.js';
 import { renderizarTarjetas, actualizarStats, renderizarSkeletons } from './ui.js';
 import { configurarNavbarMovil } from './navbar.js';
@@ -18,6 +18,7 @@ import { supabase } from './supabase.js';
 let manualFeatures = [];
 let osmFeatures = [];
 let datosOriginales = { type: 'FeatureCollection', features: [] };
+let datosFiltradosActuales = null;
 let filtroControlador = null;
 let ratingsCanchas = {};
 
@@ -137,8 +138,14 @@ async function recargarTodo() {
 }
 
 function alFiltrar(filtrado, textoBuscado, criterios) {
+  datosFiltradosActuales = filtrado;
   pintarCapa(filtrado);
   renderizarTarjetas(filtrado);
+
+  const chkBuffer = document.getElementById('chkBufferCobertura');
+  if (chkBuffer && chkBuffer.checked) {
+    toggleBuffers(true, filtrado);
+  }
 
   const hayTexto = textoBuscado && textoBuscado.trim().length > 0;
   const hayFiltrosActivos = criterios.municipio !== 'todos' || criterios.tipo !== 'todos' || criterios.costo !== 'todos' || criterios.soloFavoritas;
@@ -281,6 +288,30 @@ function configurarHerramientasSIG() {
       btnToggle.setAttribute('aria-expanded', 'false');
     }
   });
+
+  // Toggle Buffer de Cobertura (1.5 km)
+  const chkBuffer = document.getElementById('chkBufferCobertura');
+  chkBuffer?.addEventListener('change', () => {
+    const geo = datosFiltradosActuales || datosOriginales;
+    toggleBuffers(chkBuffer.checked, geo);
+    if (chkBuffer.checked) {
+      mostrarToast('Áreas de cobertura (1.5 km) activadas', 'info');
+    }
+  });
+
+  // Exportar GeoJSON
+  document.getElementById('btnExportarGeoJSON')?.addEventListener('click', () => {
+    const geo = datosFiltradosActuales || datosOriginales;
+    exportarGeoJSON(geo);
+    mostrarToast('Descargando archivo GeoJSON…', 'exito');
+  });
+
+  // Exportar CSV
+  document.getElementById('btnExportarCSV')?.addEventListener('click', () => {
+    const geo = datosFiltradosActuales || datosOriginales;
+    exportarCSV(geo);
+    mostrarToast('Descargando tabla CSV para Excel/GIS…', 'exito');
+  });
 }
 
 // FAQ Accordion
@@ -331,6 +362,15 @@ async function init() {
 
   await cargarPrimeroLoLocal();
   cargarLuegoOSM();
+
+  // Registro de Service Worker para PWA
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').catch((err) => {
+        console.warn('Aviso Service Worker:', err);
+      });
+    });
+  }
 }
 
 init();
