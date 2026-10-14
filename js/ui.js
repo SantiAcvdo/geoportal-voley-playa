@@ -117,11 +117,6 @@ export function renderizarTarjetas(geojson, resetearPagina = true) {
     if (typeof feature.distanciaKm === 'number') {
       const distTexto = feature.distanciaKm < 1
         ? `${Math.round(feature.distanciaKm * 1000)} m`
-    // Tag distancia si el usuario tiene GPS activo
-    let tagDistancia = '';
-    if (typeof feature.distanciaKm === 'number') {
-      const distTexto = feature.distanciaKm < 1
-        ? `${Math.round(feature.distanciaKm * 1000)} m`
         : `${feature.distanciaKm.toFixed(1)} km`;
       tagDistancia = `<span class="card-distancia-chip">A ${distTexto}</span>`;
     }
