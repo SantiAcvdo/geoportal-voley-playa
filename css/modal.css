@@ -167,6 +167,114 @@
   gap: 24px;
 }
 
+/* ============================================================
+   WIDGET DE CLIMA EN VIVO (OPEN-METEO)
+   ============================================================ */
+.ficha-clima-box {
+  background: linear-gradient(135deg, #f0fdfa, #f7fefc);
+  border: 1.5px solid #ccfbf1;
+  border-radius: var(--radio-md);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  box-shadow: var(--sombra-sm);
+}
+
+.clima-info-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.clima-icono-principal {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.clima-detalles-principales {
+  display: flex;
+  flex-direction: column;
+}
+
+.clima-titulo {
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--teal-dark);
+}
+
+.clima-temp {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--texto-principal);
+  line-height: 1.1;
+}
+
+.clima-grid-stats {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.clima-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #ffffff;
+  padding: 6px 12px;
+  border-radius: var(--radio-sm);
+  border: 1px solid #bde5e2;
+  min-width: 72px;
+}
+
+.clima-stat-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--texto-secundario);
+}
+
+.clima-stat-val {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--texto-principal);
+}
+
+.clima-badge-estado {
+  padding: 6px 14px;
+  border-radius: var(--radio-pill);
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.clima-badge-ideal {
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #86efac;
+}
+
+.clima-badge-lluvia {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+.clima-loading {
+  font-size: 0.84rem;
+  color: var(--teal-dark);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .ficha-seccion h3 {
   font-size: 1.05rem;
   color: var(--teal-dark);

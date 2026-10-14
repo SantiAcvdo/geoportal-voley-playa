@@ -19,11 +19,69 @@ let manualFeatures = [];
 let osmFeatures = [];
 let datosOriginales = { type: 'FeatureCollection', features: [] };
 let filtroControlador = null;
+let ratingsCanchas = {};
 
 const loadingEl = document.getElementById('loadingState');
 let temporizadorVuelo = null;
 
+async function cargarRatingsSupabase() {
+  try {
+    const { data, error } = await supabase
+      .from('comentarios')
+      .select('cancha_id, rating');
+
+    if (error) {
+      console.warn('Error consultando comentarios de Supabase:', error.message);
+      return {};
+    }
+
+    if (!Array.isArray(data)) return {};
+
+    const acumulador = {};
+    data.forEach(item => {
+      const cid = item.cancha_id;
+      const r = Number(item.rating);
+      if (!cid || isNaN(r) || r < 1 || r > 5) return;
+
+      if (!acumulador[cid]) {
+        acumulador[cid] = { suma: 0, total: 0 };
+      }
+      acumulador[cid].suma += r;
+      acumulador[cid].total += 1;
+    });
+
+    const resultado = {};
+    for (const [cid, datos] of Object.entries(acumulador)) {
+      resultado[cid] = {
+        promedio: Number((datos.suma / datos.total).toFixed(1)),
+        total: datos.total
+      };
+    }
+    return resultado;
+  } catch (err) {
+    console.warn('Fallo cargando calificaciones de Supabase:', err);
+    return {};
+  }
+}
+
+function inyectarRatings(features, ratingsMap) {
+  if (!Array.isArray(features)) return;
+  features.forEach(f => {
+    if (!f || !f.properties) return;
+    const cid = f.properties.id;
+    if (ratingsMap && ratingsMap[cid]) {
+      f.properties.rating_promedio = ratingsMap[cid].promedio;
+      f.properties.rating_total = ratingsMap[cid].total;
+    } else {
+      f.properties.rating_promedio = null;
+      f.properties.rating_total = 0;
+    }
+  });
+}
+
 function refrescarVista(mantenerFiltros = true) {
+  inyectarRatings(manualFeatures, ratingsCanchas);
+  inyectarRatings(osmFeatures, ratingsCanchas);
   datosOriginales = { type: 'FeatureCollection', features: [...manualFeatures, ...osmFeatures] };
   
   if (mantenerFiltros && filtroControlador) {
@@ -73,6 +131,7 @@ async function cargarLuegoOSM() {
 async function recargarTodo() {
   osmFeatures = [];
   mostrarToast('Actualizando datos de canchas…', 'info');
+  ratingsCanchas = await cargarRatingsSupabase();
   await cargarPrimeroLoLocal();
   await cargarLuegoOSM();
 }
@@ -229,6 +288,17 @@ async function init() {
   document.getElementById('btnRecargarOSM')?.addEventListener('click', recargarTodo);
 
   window.addEventListener('hashchange', verificarHashInicial);
+
+  window.addEventListener('comentarioAgregado', async () => {
+    ratingsCanchas = await cargarRatingsSupabase();
+    refrescarVista(true);
+  });
+
+  // Cargar calificaciones de Supabase
+  cargarRatingsSupabase().then(ratings => {
+    ratingsCanchas = ratings;
+    refrescarVista(true);
+  });
 
   await cargarPrimeroLoLocal();
   cargarLuegoOSM();

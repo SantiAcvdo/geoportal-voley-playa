@@ -92,6 +92,9 @@ export function abrirFichaCancha(feature) {
   // Coordenadas con selector
   actualizarCoordenadasFicha(lat, lon);
 
+  // Consultar clima en vivo de la cancha
+  cargarClimaCancha(lat, lon);
+
   // Cargar comentarios
   cargarComentariosCancha(p.id);
 
@@ -102,6 +105,70 @@ export function abrirFichaCancha(feature) {
   // Actualizar hash URL para poder compartir
   if (p.id) {
     history.replaceState(null, '', `#cancha=${p.id}`);
+  }
+}
+
+async function cargarClimaCancha(lat, lon) {
+  const box = document.getElementById('fichaClimaBox');
+  if (!box) return;
+
+  if (typeof lat !== 'number' || typeof lon !== 'number') {
+    box.innerHTML = '';
+    return;
+  }
+
+  box.innerHTML = `
+    <div class="clima-loading">
+      <span>⏳ Consultando pronóstico meteorológico en vivo…</span>
+    </div>
+  `;
+
+  try {
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,precipitation,wind_speed_10m,uv_index&timezone=America%2FBogota`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+    const data = await res.json();
+    const cur = data.current || {};
+
+    const temp = cur.temperature_2m !== undefined ? Math.round(cur.temperature_2m) : '--';
+    const viento = cur.wind_speed_10m !== undefined ? Math.round(cur.wind_speed_10m) : '--';
+    const uv = cur.uv_index !== undefined ? Number(cur.uv_index).toFixed(1) : '--';
+    const precip = cur.precipitation !== undefined ? Number(cur.precipitation) : 0;
+
+    const esLluvia = precip > 0.1;
+    const badgeTexto = esLluvia ? '🌧️ Posible lluvia en la zona' : '☀️ Ideal para jugar';
+    const badgeClase = esLluvia ? 'clima-badge-lluvia' : 'clima-badge-ideal';
+    const icono = esLluvia ? '🌧️' : '☀️';
+
+    box.innerHTML = `
+      <div class="clima-info-left">
+        <div class="clima-icono-principal">${icono}</div>
+        <div class="clima-detalles-principales">
+          <span class="clima-titulo">Clima en tiempo real</span>
+          <span class="clima-temp">${temp}°C</span>
+        </div>
+      </div>
+      <div class="clima-grid-stats">
+        <div class="clima-stat-item">
+          <span class="clima-stat-label">Viento</span>
+          <span class="clima-stat-val">${viento} km/h</span>
+        </div>
+        <div class="clima-stat-item">
+          <span class="clima-stat-label">Índice UV</span>
+          <span class="clima-stat-val">${uv}</span>
+        </div>
+      </div>
+      <div class="clima-badge-estado ${badgeClase}">
+        ${badgeTexto}
+      </div>
+    `;
+  } catch (err) {
+    console.warn('Error al cargar clima de cancha:', err);
+    box.innerHTML = `
+      <div class="clima-loading">
+        <span>🌤️ Pronóstico meteorológico temporalmente no disponible</span>
+      </div>
+    `;
   }
 }
 
@@ -349,6 +416,10 @@ export function configurarFicha() {
     cargarComentariosCancha(canchaActual.properties.id);
     formComentario.reset();
     mostrarToast('✅ ¡Comentario publicado con éxito!', 'exito');
+
+    window.dispatchEvent(new CustomEvent('comentarioAgregado', {
+      detail: { canchaId: canchaActual.properties.id, rating }
+    }));
   });
 }
 

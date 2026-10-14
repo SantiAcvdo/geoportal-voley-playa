@@ -330,6 +330,7 @@
             <label class="filter-label" for="filtroOrden">Ordenar por</label>
             <select id="filtroOrden" class="filter-select">
               <option value="relevancia">Relevancia deportiva</option>
+              <option value="rating_desc">⭐ Mejor calificadas</option>
               <option value="distancia">Cercanía (GPS activo)</option>
               <option value="nombre_asc">Nombre (A - Z)</option>
               <option value="nombre_desc">Nombre (Z - A)</option>
@@ -737,6 +738,9 @@
 
       <!-- Cuerpo de la Ficha Técnica -->
       <div class="ficha-body">
+        <!-- Widget de Clima en Vivo (Open-Meteo) -->
+        <div id="fichaClimaBox" class="ficha-clima-box"></div>
+
         <!-- Grilla de Amenidades y Especificaciones Técnicas -->
         <div class="ficha-seccion">
           <h3>🏐 Especificaciones y Servicios</h3>

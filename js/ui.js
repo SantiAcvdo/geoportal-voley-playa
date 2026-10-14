@@ -121,6 +121,14 @@ export function renderizarTarjetas(geojson, resetearPagina = true) {
       tagDistancia = `<span class="card-distancia-chip">📍 A ${distTexto}</span>`;
     }
 
+    // Chip de calificación
+    let chipRating = '';
+    if (typeof p.rating_promedio === 'number' && p.rating_total > 0) {
+      chipRating = `<span class="chip-item chip-rating">⭐ ${p.rating_promedio.toFixed(1)} (${p.rating_total})</span>`;
+    } else {
+      chipRating = `<span class="chip-item chip-sin-rating">⭐ Nuevo</span>`;
+    }
+
     card.innerHTML = `
       <div class="card-photo-wrapper">
         <img
@@ -151,6 +159,7 @@ export function renderizarTarjetas(geojson, resetearPagina = true) {
         <div class="card-location">📍 ${escaparHTML([p.barrio, p.municipio].filter(Boolean).join(', ') || 'Valle de Aburrá')}</div>
 
         <div class="card-chips">
+          ${chipRating}
           <span class="chip-item">${iconoCosto(p.costo)} ${costo}</span>
           <span class="chip-item">${p.reserva_requerida ? '📅 Con reserva' : '🚶 Acceso libre'}</span>
           ${serv.iluminacion ? '<span class="chip-item chip-luz">💡 Luz nocturna</span>' : ''}

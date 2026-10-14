@@ -91,6 +91,13 @@ export function filtrarColeccion(geojson, criterios = {}) {
   // Ordenar
   if (orden === 'distancia' && ubicacion) {
     features.sort((a, b) => (a.distanciaKm || 9999) - (b.distanciaKm || 9999));
+  } else if (orden === 'rating_desc') {
+    features.sort((a, b) => {
+      const rA = a.properties.rating_promedio ?? -1;
+      const rB = b.properties.rating_promedio ?? -1;
+      if (rB !== rA) return rB - rA;
+      return (b.properties.rating_total ?? 0) - (a.properties.rating_total ?? 0);
+    });
   } else if (orden === 'nombre_asc') {
     features.sort((a, b) => (a.properties.nombre || '').localeCompare(b.properties.nombre || ''));
   } else if (orden === 'nombre_desc') {
