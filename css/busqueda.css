@@ -1,75 +1,290 @@
-/* Guarda este archivo en: css/busqueda.css
-   Responsabilidad única: tarjeta de búsqueda, estado de carga y sistema de coordenadas. */
+/* ============================================================
+   VOLEYPLAYA AMVA - BUSQUEDA Y FILTROS (css/busqueda.css)
+   ============================================================ */
 
 .search-card {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-  padding: 20px;
-  max-width: 460px;
+  background: #ffffff;
+  border-radius: var(--radio-lg);
+  box-shadow: var(--sombra-md);
+  border: 1px solid var(--arena-border);
+  padding: 22px;
+  width: 100%;
+  max-width: 540px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Fila principal de búsqueda */
+.search-input-wrapper {
+  position: relative;
   width: 100%;
 }
-.search-row {
-  display: flex; align-items: center; gap: 8px;
-  border: 1px solid #e2e2e2; border-radius: 10px; padding: 10px 14px;
-  margin-bottom: 12px;
-}
-.search-row input { flex: 1; border: none; outline: none; font-size: 0.9rem; min-width: 0; }
-.search-actions { display: flex; gap: 10px; margin-bottom: 12px; }
 
-/* Estado de carga + botón "Recargar datos" */
+.search-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fbfaf7;
+  border: 1.5px solid var(--arena-border);
+  border-radius: var(--radio-md);
+  padding: 10px 14px;
+  transition: var(--trans-suave);
+}
+
+.search-row:focus-within {
+  border-color: var(--teal);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(15, 125, 122, 0.15);
+}
+
+.search-icon {
+  font-size: 1.1rem;
+  color: var(--texto-mutado);
+  line-height: 1;
+}
+
+.search-row input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--texto-principal);
+  min-width: 0;
+}
+
+.search-row input::placeholder {
+  color: var(--texto-mutado);
+}
+
+.btn-search-gps {
+  border: none;
+  background: var(--azul-light);
+  color: var(--azul);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  transition: var(--trans-suave);
+  flex-shrink: 0;
+}
+
+.btn-search-gps:hover {
+  background: #dbeafe;
+  transform: scale(1.05);
+}
+
+/* Dropdown de Sugerencias */
+.search-sugerencias {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border-radius: var(--radio-md);
+  box-shadow: var(--sombra-lg);
+  border: 1px solid var(--arena-border);
+  max-height: 260px;
+  overflow-y: auto;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-sugerencias[hidden] {
+  display: none;
+}
+
+.sugerencia-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--arena-accent);
+  transition: background 0.15s ease;
+}
+
+.sugerencia-item:last-child {
+  border-bottom: none;
+}
+
+.sugerencia-item:hover {
+  background: var(--teal-light);
+}
+
+.sugerencia-icono {
+  font-size: 1.1rem;
+}
+
+.sugerencia-texto {
+  display: flex;
+  flex-direction: column;
+}
+
+.sugerencia-texto strong {
+  font-size: 0.85rem;
+  color: var(--texto-principal);
+}
+
+.sugerencia-texto small {
+  font-size: 0.72rem;
+  color: var(--texto-secundario);
+}
+
+/* Grilla de Filtros Avanzados */
+.filters-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.filter-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--texto-secundario);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.filter-select {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: var(--radio-sm);
+  border: 1px solid var(--arena-border);
+  background: #ffffff;
+  font-family: inherit;
+  font-size: 0.82rem;
+  color: var(--texto-principal);
+  cursor: pointer;
+  outline: none;
+  transition: var(--trans-suave);
+}
+
+.filter-select:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 2px rgba(15, 125, 122, 0.15);
+}
+
+/* Acciones y Botones de búsqueda */
+.search-actions-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-filter-fav {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  color: var(--texto-secundario);
+  border: 1px solid var(--arena-border);
+  padding: 8px 12px;
+  border-radius: var(--radio-md);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--trans-suave);
+}
+
+.btn-filter-fav:hover {
+  background: #fff1f2;
+  color: #e11d48;
+  border-color: #fecdd3;
+}
+
+.btn-filter-fav.activo {
+  background: #ffe4e6;
+  color: #e11d48;
+  border-color: #f43f5e;
+}
+
+/* Status Box */
 .status-box {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  background: #f4f8f7;
-  border-radius: 8px;
+  background: var(--teal-light);
+  border: 1px solid var(--teal-border);
+  border-radius: var(--radio-sm);
   padding: 8px 12px;
-  margin-bottom: 10px;
 }
-.status-text { font-size: 0.75rem; color: var(--gris-texto); line-height: 1.3; }
-.btn-link {
-  background: none; border: none; color: var(--teal-dark);
-  font-size: 0.72rem; font-weight: 600; cursor: pointer;
-  white-space: nowrap; padding: 4px 6px;
-}
-.btn-link:hover { text-decoration: underline; }
 
-/* Sistema de coordenadas + coordenada capturada */
-.coord-box {
-  background: #fbf8ef;
-  border: 1px solid #f0e6c8;
-  border-radius: 8px;
-  padding: 10px 12px;
-  margin-bottom: 14px;
+.status-text {
+  font-size: 0.76rem;
+  color: var(--teal-dark);
+  font-weight: 500;
+  line-height: 1.35;
 }
-.coord-row { margin-bottom: 6px; }
+
+.btn-reload-osm {
+  background: none;
+  border: none;
+  color: var(--teal-dark);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  padding: 2px 4px;
+}
+
+.btn-reload-osm:hover {
+  text-decoration: underline;
+}
+
+/* Herramienta GIS de Coordenadas */
+.coord-box {
+  background: #fffdf5;
+  border: 1px solid #fef3c7;
+  border-radius: var(--radio-sm);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.coord-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
 .mini-label-claro {
-  display: block;
-  font-size: 0.65rem;
+  font-size: 0.68rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #a67c00;
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-.select-mini-claro {
-  width: 100%;
-  padding: 6px 8px;
-  border-radius: 6px;
-  border: 1px solid #e2d9b8;
-  background: white;
-  font-size: 0.75rem;
-  color: #17313e;
-}
-.mono-claro {
-  font-family: 'Courier New', monospace;
-  font-size: 0.7rem;
-  color: #6b5c1e;
-  word-break: break-word;
-  margin-top: 4px;
+  color: var(--amarillo-dark);
+  font-weight: 700;
 }
 
-.search-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-.tag { font-size: 0.72rem; background: #f4f4f4; color: var(--gris-texto); padding: 4px 10px; border-radius: 12px; }
+.select-mini-claro {
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid #fde68a;
+  background: #ffffff;
+  font-size: 0.72rem;
+  color: var(--texto-principal);
+  cursor: pointer;
+}
+
+.mono-claro {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.72rem;
+  color: #78350f;
+  word-break: break-all;
+}

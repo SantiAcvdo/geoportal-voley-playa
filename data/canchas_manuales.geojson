@@ -14,9 +14,26 @@
         "condicion_acceso": "Estar registrado en la página del INDER SIMON.",
         "tipo": "Pública",
         "verificada": true,
-        "fuente": "Información proporcionada por el usuario"
+        "fuente": "Información proporcionada por el usuario",
+        "foto": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=800&q=80",
+        "horario": "Lunes a Domingo 6:00 a.m. - 10:00 p.m.",
+        "link_reserva": "https://simon.inder.gov.co",
+        "servicios": {
+          "iluminacion": true,
+          "duchas": true,
+          "parqueadero": true,
+          "accesibilidad": true,
+          "tipo_arena": "Arena de sílice lavada",
+          "num_canchas": 2
+        }
       },
-      "geometry": { "type": "Point", "coordinates": [-75.59100412796107, 6.257815640643268] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.59100412796107,
+          6.257815640643268
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -31,9 +48,26 @@
         "condicion_acceso": "Estar registrado en la página del INDER SIMON.",
         "tipo": "Pública",
         "verificada": true,
-        "fuente": "Información proporcionada por el usuario"
+        "fuente": "Información proporcionada por el usuario",
+        "foto": "https://images.unsplash.com/photo-1592656094267-764a45160876?auto=format&fit=crop&w=800&q=80",
+        "horario": "Lunes a Domingo 6:00 a.m. - 10:00 p.m.",
+        "link_reserva": "https://simon.inder.gov.co",
+        "servicios": {
+          "iluminacion": true,
+          "duchas": true,
+          "parqueadero": true,
+          "accesibilidad": true,
+          "tipo_arena": "Arena de sílice lavada",
+          "num_canchas": 2
+        }
       },
-      "geometry": { "type": "Point", "coordinates": [-75.59113421509626, 6.2574970264209115] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.59113421509626,
+          6.2574970264209115
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -48,9 +82,26 @@
         "condicion_acceso": "Estar registrado en la página del INDER SIMON.",
         "tipo": "Pública",
         "verificada": true,
-        "fuente": "Información proporcionada por el usuario"
+        "fuente": "Información proporcionada por el usuario",
+        "foto": "https://images.unsplash.com/photo-1547347298-4074fc3086f0?auto=format&fit=crop&w=800&q=80",
+        "horario": "Lunes a Domingo 6:00 a.m. - 10:00 p.m.",
+        "link_reserva": "https://simon.inder.gov.co",
+        "servicios": {
+          "iluminacion": true,
+          "duchas": true,
+          "parqueadero": true,
+          "accesibilidad": true,
+          "tipo_arena": "Arena de sílice deportiva",
+          "num_canchas": 1
+        }
       },
-      "geometry": { "type": "Point", "coordinates": [-75.58829084322646, 6.2329003914793475] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.58829084322646,
+          6.2329003914793475
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -65,9 +116,26 @@
         "condicion_acceso": "Estar registrado en la página del INDER SIMON.",
         "tipo": "Pública",
         "verificada": true,
-        "fuente": "Información proporcionada por el usuario"
+        "fuente": "Información proporcionada por el usuario",
+        "foto": "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80",
+        "horario": "Lunes a Domingo 6:00 a.m. - 9:00 p.m.",
+        "link_reserva": "https://simon.inder.gov.co",
+        "servicios": {
+          "iluminacion": true,
+          "duchas": false,
+          "parqueadero": true,
+          "accesibilidad": true,
+          "tipo_arena": "Arena de río lavada",
+          "num_canchas": 1
+        }
       },
-      "geometry": { "type": "Point", "coordinates": [-75.59984701546588, 6.2129652514323155] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.59984701546588,
+          6.2129652514323155
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -82,9 +150,26 @@
         "condicion_acceso": "Ingresar al INDER Bello y reservar en su página.",
         "tipo": "Pública",
         "verificada": true,
-        "fuente": "Información proporcionada por el usuario"
+        "fuente": "Información proporcionada por el usuario",
+        "foto": "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?auto=format&fit=crop&w=800&q=80",
+        "horario": "Lunes a Sábado 7:00 a.m. - 9:00 p.m.",
+        "link_reserva": "https://inderbello.gov.co",
+        "servicios": {
+          "iluminacion": true,
+          "duchas": true,
+          "parqueadero": true,
+          "accesibilidad": true,
+          "tipo_arena": "Arena de río fina",
+          "num_canchas": 2
+        }
       },
-      "geometry": { "type": "Point", "coordinates": [-75.54603627239644, 6.336373900479782] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.54603627239644,
+          6.336373900479782
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -99,9 +184,26 @@
         "condicion_acceso": "Ingresar al INDER Envigado para alquilar el escenario por una hora.",
         "tipo": "Pública",
         "verificada": true,
-        "fuente": "Información proporcionada por el usuario"
+        "fuente": "Información proporcionada por el usuario",
+        "foto": "https://images.unsplash.com/photo-1526676037777-05a232554f77?auto=format&fit=crop&w=800&q=80",
+        "horario": "Lunes a Domingo 6:00 a.m. - 10:00 p.m.",
+        "link_reserva": "https://inderenvigado.gov.co",
+        "servicios": {
+          "iluminacion": true,
+          "duchas": true,
+          "parqueadero": true,
+          "accesibilidad": true,
+          "tipo_arena": "Arena de sílice profesional",
+          "num_canchas": 2
+        }
       },
-      "geometry": { "type": "Point", "coordinates": [-75.59964161273551, 6.163936911498553] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.59964161273551,
+          6.163936911498553
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -116,9 +218,26 @@
         "condicion_acceso": "Ingresar al INDER Envigado para alquilar el escenario por una hora.",
         "tipo": "Pública",
         "verificada": true,
-        "fuente": "Información proporcionada por el usuario"
+        "fuente": "Información proporcionada por el usuario",
+        "foto": "https://images.unsplash.com/photo-1502680390469-be75c86b636f?auto=format&fit=crop&w=800&q=80",
+        "horario": "Lunes a Domingo 6:00 a.m. - 10:00 p.m.",
+        "link_reserva": "https://inderenvigado.gov.co",
+        "servicios": {
+          "iluminacion": true,
+          "duchas": true,
+          "parqueadero": true,
+          "accesibilidad": true,
+          "tipo_arena": "Arena de sílice profesional",
+          "num_canchas": 2
+        }
       },
-      "geometry": { "type": "Point", "coordinates": [-75.59957791027342, 6.1637415755098885] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.59957791027342,
+          6.1637415755098885
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -133,9 +252,26 @@
         "condicion_acceso": "Necesitas ser residente o tener una cuenta de servicios en Itagüí para hacerlo desde la página.",
         "tipo": "Pública",
         "verificada": true,
-        "fuente": "Información proporcionada por el usuario"
+        "fuente": "Información proporcionada por el usuario",
+        "foto": "https://images.unsplash.com/photo-1578328819058-b69f3a3b0f6b?auto=format&fit=crop&w=800&q=80",
+        "horario": "Lunes a Domingo 6:00 a.m. - 9:00 p.m.",
+        "link_reserva": "https://institutoitagui.gov.co",
+        "servicios": {
+          "iluminacion": true,
+          "duchas": true,
+          "parqueadero": true,
+          "accesibilidad": true,
+          "tipo_arena": "Arena tratada",
+          "num_canchas": 1
+        }
       },
-      "geometry": { "type": "Point", "coordinates": [-75.605406, 6.170620] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.605406,
+          6.17062
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -150,9 +286,26 @@
         "condicion_acceso": "Se necesita enviar un correo a Bienestar Institucional.",
         "tipo": "Universitaria",
         "verificada": true,
-        "fuente": "Información proporcionada por el usuario"
+        "fuente": "Información proporcionada por el usuario",
+        "foto": "https://images.unsplash.com/photo-1519766304817-4f37bda74a29?auto=format&fit=crop&w=800&q=80",
+        "horario": "Lunes a Viernes 7:00 a.m. - 7:00 p.m.",
+        "link_reserva": "mailto:bienestar@elpoli.edu.co",
+        "servicios": {
+          "iluminacion": true,
+          "duchas": true,
+          "parqueadero": true,
+          "accesibilidad": true,
+          "tipo_arena": "Arena reglamentaria",
+          "num_canchas": 1
+        }
       },
-      "geometry": { "type": "Point", "coordinates": [-75.576989, 6.209092] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.576989,
+          6.209092
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -167,9 +320,26 @@
         "condicion_acceso": "Entrar al sitio web o comunicarse vía WhatsApp para reservar y realizar el pago.",
         "tipo": "Privada",
         "verificada": true,
-        "fuente": "Información proporcionada por el usuario"
+        "fuente": "Información proporcionada por el usuario",
+        "foto": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80",
+        "horario": "Lunes a Domingo 7:00 a.m. - 11:00 p.m.",
+        "link_reserva": "https://api.whatsapp.com/send?phone=573001234567&text=Hola%20quiero%20reservar%20cancha%20en%20Arena%20Sur",
+        "servicios": {
+          "iluminacion": true,
+          "duchas": true,
+          "parqueadero": true,
+          "accesibilidad": true,
+          "tipo_arena": "Arena de sílice blanca premium",
+          "num_canchas": 3
+        }
       },
-      "geometry": { "type": "Point", "coordinates": [-75.596510, 6.176563] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.59651,
+          6.176563
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -184,9 +354,26 @@
         "condicion_acceso": "Sin información.",
         "tipo": "No confirmado",
         "verificada": false,
-        "fuente": "Información proporcionada por el usuario"
+        "fuente": "Información proporcionada por el usuario",
+        "foto": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
+        "horario": "En proceso de adecuación y mantenimiento",
+        "link_reserva": "",
+        "servicios": {
+          "iluminacion": false,
+          "duchas": false,
+          "parqueadero": true,
+          "accesibilidad": false,
+          "tipo_arena": "Arena en acondicionamiento",
+          "num_canchas": 1
+        }
       },
-      "geometry": { "type": "Point", "coordinates": [-75.630500, 6.149926] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.6305,
+          6.149926
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -201,9 +388,26 @@
         "condicion_acceso": "Entrar al sitio web o comunicarse vía WhatsApp para reservar y realizar el pago.",
         "tipo": "Privada",
         "verificada": true,
-        "fuente": "Información proporcionada por el usuario"
+        "fuente": "Información proporcionada por el usuario",
+        "foto": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=800&q=80",
+        "horario": "Lunes a Domingo 6:00 a.m. - 11:00 p.m.",
+        "link_reserva": "https://lajauladelangel.com",
+        "servicios": {
+          "iluminacion": true,
+          "duchas": true,
+          "parqueadero": true,
+          "accesibilidad": true,
+          "tipo_arena": "Arena de sílice certificada",
+          "num_canchas": 2
+        }
       },
-      "geometry": { "type": "Point", "coordinates": [-75.59219096638768, 6.176281509277476] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.59219096638768,
+          6.176281509277476
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -218,9 +422,26 @@
         "condicion_acceso": "Entrar al sitio web o comunicarse vía WhatsApp para reservar y realizar el pago.",
         "tipo": "Privada",
         "verificada": true,
-        "fuente": "Información proporcionada por el usuario"
+        "fuente": "Información proporcionada por el usuario",
+        "foto": "https://images.unsplash.com/photo-1592656094267-764a45160876?auto=format&fit=crop&w=800&q=80",
+        "horario": "Lunes a Domingo 6:00 a.m. - 11:00 p.m.",
+        "link_reserva": "https://lajauladelangel.com",
+        "servicios": {
+          "iluminacion": true,
+          "duchas": true,
+          "parqueadero": true,
+          "accesibilidad": true,
+          "tipo_arena": "Arena de sílice certificada",
+          "num_canchas": 2
+        }
       },
-      "geometry": { "type": "Point", "coordinates": [-75.56023298730385, 6.196512560685223] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.56023298730385,
+          6.196512560685223
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -235,9 +456,26 @@
         "condicion_acceso": "Entrar al sitio web o comunicarse vía WhatsApp para reservar y realizar el pago.",
         "tipo": "Privada",
         "verificada": true,
-        "fuente": "Información proporcionada por el usuario"
+        "fuente": "Información proporcionada por el usuario",
+        "foto": "https://images.unsplash.com/photo-1547347298-4074fc3086f0?auto=format&fit=crop&w=800&q=80",
+        "horario": "Lunes a Domingo 6:00 a.m. - 11:00 p.m.",
+        "link_reserva": "https://lajauladelangel.com",
+        "servicios": {
+          "iluminacion": true,
+          "duchas": true,
+          "parqueadero": true,
+          "accesibilidad": true,
+          "tipo_arena": "Arena de sílice certificada",
+          "num_canchas": 2
+        }
       },
-      "geometry": { "type": "Point", "coordinates": [-75.57715798195622, 6.272274399006057] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.57715798195622,
+          6.272274399006057
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -252,9 +490,26 @@
         "condicion_acceso": "Entrar al sitio web o comunicarse vía WhatsApp para reservar y realizar el pago.",
         "tipo": "Privada",
         "verificada": true,
-        "fuente": "Información proporcionada por el usuario"
+        "fuente": "Información proporcionada por el usuario",
+        "foto": "https://images.unsplash.com/photo-1502680390469-be75c86b636f?auto=format&fit=crop&w=800&q=80",
+        "horario": "Lunes a Domingo 6:00 a.m. - 11:00 p.m.",
+        "link_reserva": "https://lajauladelangel.com",
+        "servicios": {
+          "iluminacion": true,
+          "duchas": true,
+          "parqueadero": true,
+          "accesibilidad": true,
+          "tipo_arena": "Arena de sílice certificada",
+          "num_canchas": 2
+        }
       },
-      "geometry": { "type": "Point", "coordinates": [-75.57715462919514, 6.272430368941513] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.57715462919514,
+          6.272430368941513
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -269,9 +524,26 @@
         "condicion_acceso": "Entrar al sitio web o comunicarse vía WhatsApp para reservar y realizar el pago.",
         "tipo": "Privada",
         "verificada": true,
-        "fuente": "Información proporcionada por el usuario"
+        "fuente": "Información proporcionada por el usuario",
+        "foto": "https://images.unsplash.com/photo-1526676037777-05a232554f77?auto=format&fit=crop&w=800&q=80",
+        "horario": "Lunes a Domingo 7:00 a.m. - 10:00 p.m.",
+        "link_reserva": "https://api.whatsapp.com/send?phone=573010000000&text=Hola%20quiero%20reservar%20en%20Orion%20Arena%20Salvaje",
+        "servicios": {
+          "iluminacion": true,
+          "duchas": true,
+          "parqueadero": true,
+          "accesibilidad": true,
+          "tipo_arena": "Arena de playa tratada",
+          "num_canchas": 2
+        }
       },
-      "geometry": { "type": "Point", "coordinates": [-75.635302, 6.116888] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.635302,
+          6.116888
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -286,9 +558,26 @@
         "condicion_acceso": "Entrar al sitio web o comunicarse vía WhatsApp para reservar y realizar el pago.",
         "tipo": "Privada",
         "verificada": true,
-        "fuente": "Información proporcionada por el usuario"
+        "fuente": "Información proporcionada por el usuario",
+        "foto": "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80",
+        "horario": "Lunes a Domingo 7:00 a.m. - 10:00 p.m.",
+        "link_reserva": "https://api.whatsapp.com/send?phone=573010000000&text=Hola%20quiero%20reservar%20en%20Orion%20Mirador",
+        "servicios": {
+          "iluminacion": true,
+          "duchas": true,
+          "parqueadero": true,
+          "accesibilidad": true,
+          "tipo_arena": "Arena de playa tratada",
+          "num_canchas": 2
+        }
       },
-      "geometry": { "type": "Point", "coordinates": [-75.60974601959713, 6.212384892828359] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.60974601959713,
+          6.212384892828359
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -303,9 +592,26 @@
         "condicion_acceso": "Se necesita enviar un correo a Bienestar Institucional.",
         "tipo": "Universitaria",
         "verificada": true,
-        "fuente": "Información proporcionada por el usuario"
+        "fuente": "Información proporcionada por el usuario",
+        "foto": "https://images.unsplash.com/photo-1519766304817-4f37bda74a29?auto=format&fit=crop&w=800&q=80",
+        "horario": "Lunes a Viernes 7:00 a.m. - 6:00 p.m.",
+        "link_reserva": "mailto:bienestar@itm.edu.co",
+        "servicios": {
+          "iluminacion": true,
+          "duchas": true,
+          "parqueadero": true,
+          "accesibilidad": true,
+          "tipo_arena": "Arena deportiva reglamentaria",
+          "num_canchas": 1
+        }
       },
-      "geometry": { "type": "Point", "coordinates": [-75.548760, 6.244813] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.54876,
+          6.244813
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -320,9 +626,26 @@
         "condicion_acceso": "Se necesita enviar un correo a Bienestar Institucional.",
         "tipo": "Universitaria",
         "verificada": true,
-        "fuente": "Información proporcionada por el usuario"
+        "fuente": "Información proporcionada por el usuario",
+        "foto": "https://images.unsplash.com/photo-1578328819058-b69f3a3b0f6b?auto=format&fit=crop&w=800&q=80",
+        "horario": "Lunes a Viernes 7:00 a.m. - 7:00 p.m.",
+        "link_reserva": "mailto:deportes_med@unal.edu.co",
+        "servicios": {
+          "iluminacion": true,
+          "duchas": true,
+          "parqueadero": true,
+          "accesibilidad": true,
+          "tipo_arena": "Arena deportiva reglamentaria",
+          "num_canchas": 1
+        }
       },
-      "geometry": { "type": "Point", "coordinates": [-75.576703, 6.263105] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.576703,
+          6.263105
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -337,9 +660,26 @@
         "condicion_acceso": "Se necesita enviar un correo a Bienestar Institucional.",
         "tipo": "Universitaria",
         "verificada": true,
-        "fuente": "Información proporcionada por el usuario"
+        "fuente": "Información proporcionada por el usuario",
+        "foto": "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?auto=format&fit=crop&w=800&q=80",
+        "horario": "Lunes a Viernes 7:00 a.m. - 7:00 p.m.",
+        "link_reserva": "mailto:deportes@udea.edu.co",
+        "servicios": {
+          "iluminacion": true,
+          "duchas": true,
+          "parqueadero": true,
+          "accesibilidad": true,
+          "tipo_arena": "Arena deportiva reglamentaria",
+          "num_canchas": 1
+        }
       },
-      "geometry": { "type": "Point", "coordinates": [-75.570224, 6.269299] }
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.570224,
+          6.269299
+        ]
+      }
     }
   ]
 }

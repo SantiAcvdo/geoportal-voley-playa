@@ -1,7 +1,8 @@
 // Guarda este archivo en: js/mapa.js
-// Responsabilidad única: crear el mapa Leaflet, pintar capas y capturar coordenadas.
+// Responsabilidad única: inicializar Leaflet, capas base, pintar pines de canchas y volar a coordenadas.
 
 import { CENTRO_MAPA, ZOOM_INICIAL } from './config.js';
+import { abrirFichaCancha } from './ficha.js';
 
 export let map;
 export let canchasLayer;
@@ -16,13 +17,13 @@ export function iniciarMapa() {
     attribution: '&copy; OpenStreetMap contributors', maxZoom: 19
   }).addTo(map);
 
-  const carto = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  const carto = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
     attribution: '&copy; OpenStreetMap, &copy; CARTO', maxZoom: 19
   });
 
   const satelital = L.tileLayer(
     'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-    { attribution: 'Tiles &copy; Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community', maxZoom: 19 }
+    { attribution: 'Tiles &copy; Esri, Maxar, Earthstar Geographics', maxZoom: 19 }
   );
 
   const etiquetasSatelital = L.tileLayer(
@@ -32,47 +33,78 @@ export function iniciarMapa() {
   const satelitalConEtiquetas = L.layerGroup([satelital, etiquetasSatelital]);
 
   L.control.layers(
-    { "Estándar (OSM)": osm, "Claro (CartoDB)": carto, "Satelital (Esri)": satelitalConEtiquetas },
+    { "🗺️ Calles (OSM)": osm, "🏙️ Claro (Voyager)": carto, "🛰️ Satelital (Esri)": satelitalConEtiquetas },
     {}, { position: 'bottomright', collapsed: true }
   ).addTo(map);
 
   canchasLayer = L.layerGroup().addTo(map);
 
-  document.getElementById('crsMapa').textContent = map.options.crs.code || 'EPSG:3857';
- // map.on('click', capturarCoordenada);
+  const crsEl = document.getElementById('crsMapa');
+  if (crsEl) {
+    crsEl.textContent = map.options.crs.code || 'EPSG:3857';
+  }
+
+  // Capturar coordenadas al hacer clic con tecla Shift o botón habilitado
+  map.on('click', (e) => {
+    capturarCoordenada(e);
+  });
+
   return map;
 }
 
-function capturarCoordenada(e) {
+export function capturarCoordenada(e) {
   const lat = e.latlng.lat;
   const lon = e.latlng.lng;
-  const destino = document.getElementById('crsSelect').value;
+  const destinoSelect = document.getElementById('crsSelect');
+  const destino = destinoSelect ? destinoSelect.value : 'EPSG:4326';
   let texto = `WGS84: ${lat.toFixed(6)}, ${lon.toFixed(6)}`;
 
-  if (destino !== "EPSG:4326") {
-    const [x, y] = proj4("EPSG:4326", destino, [lon, lat]);
-    texto += ` · ${destino}: X=${x.toFixed(2)}, Y=${y.toFixed(2)}`;
+  if (destino !== 'EPSG:4326' && window.proj4) {
+    try {
+      const [x, y] = proj4('EPSG:4326', destino, [lon, lat]);
+      texto += ` · ${destino}: X=${x.toFixed(2)}, Y=${y.toFixed(2)}`;
+    } catch (err) {
+      console.warn(err);
+    }
   }
-  document.getElementById('coordCapturada').textContent = texto;
+
+  const coordCaptEl = document.getElementById('coordCapturada');
+  if (coordCaptEl) coordCaptEl.textContent = texto;
 
   if (marcadorClic) map.removeLayer(marcadorClic);
   marcadorClic = L.circleMarker(e.latlng, {
-    radius: 6, color: '#e63946', fillColor: '#e63946', fillOpacity: 1
+    radius: 7, color: '#f59e0b', weight: 2, fillColor: '#f59e0b', fillOpacity: 0.9
   }).addTo(map);
-
-  L.popup()
-    .setLatLng(e.latlng)
-    .setContent(`<div class="popup-title">📍 Coordenada capturada</div><div class="popup-row">${texto}</div>`)
-    .openOn(map);
 }
 
 function iconoCancha(tipo) {
-  const color = tipo === 'Privada' ? '#2d9cdb' : tipo === 'Universitaria' ? '#d8c5ff' : '#62a60e';
-  const borde = tipo === 'Privada' ? '#0a4a70' : tipo === 'Universitaria' ? '#8d67d8' : '#24500a';
+  const t = (tipo || '').toLowerCase();
+  let colorFondo = '#0f7d7a';
+  let colorBorde = '#074846';
+  let emoji = '🏐';
+
+  if (t.includes('privad')) {
+    colorFondo = '#2563eb';
+    colorBorde = '#1d4ed8';
+  } else if (t.includes('universitar')) {
+    colorFondo = '#8b5cf6';
+    colorBorde = '#6d28d9';
+    emoji = '🎓';
+  } else if (t.includes('osm')) {
+    colorFondo = '#64748b';
+    colorBorde = '#334155';
+  }
+
   return L.divIcon({
-    className: '',
-    html: `<div style="background:${color}; width:22px; height:22px; border-radius:50% 50% 50% 0; transform:rotate(-45deg); border:2px solid ${borde}; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(0,0,0,0.4);"><span style="transform:rotate(45deg); font-size:11px;">🏐</span></div>`,
-    iconSize: [22, 22], iconAnchor: [11, 22], popupAnchor: [0, -22]
+    className: 'custom-pin-marker',
+    html: `
+      <div class="pin-marker-inner" style="background:${colorFondo}; border-color:${colorBorde};">
+        <span class="pin-marker-emoji">${emoji}</span>
+      </div>
+    `,
+    iconSize: [28, 28],
+    iconAnchor: [14, 28],
+    popupAnchor: [0, -28]
   });
 }
 
@@ -81,24 +113,41 @@ export function pintarCapa(geojson) {
   L.geoJSON(geojson, {
     pointToLayer: (feature, latlng) => {
       const marker = L.marker(latlng, { icon: iconoCancha(feature.properties.tipo) });
-
-      // Al tocar/clicar directamente un punto del mapa, se ejecuta la misma
-      // experiencia que el botón "Ver en el mapa": zoom, resaltado y popup.
-      marker.on('click', (e) => {
-        L.DomEvent.stopPropagation(e);
-        const [lon, lat] = feature.geometry.coordinates;
-        irACancha(lat, lon, marker);
-      });
       return marker;
     },
     onEachFeature: (feature, layer) => {
-      const p = feature.properties;
-      layer.bindPopup(
-        `<div class="popup-title">🏐 ${p.nombre}</div>
-         <div class="popup-row">${[p.barrio, p.municipio].filter(Boolean).join(', ') || 'Sin barrio registrado'}</div>
-         ${p.tipo ? `<div class="popup-row">Tipo: ${p.tipo}</div>` : ''}
-         <div class="popup-row">Lat/Lon: ${feature.geometry.coordinates[1].toFixed(6)}, ${feature.geometry.coordinates[0].toFixed(6)}</div>`
-      );
+      const p = feature.properties || {};
+      const [lon, lat] = feature.geometry.coordinates;
+
+      const popupHtml = `
+        <div class="map-popup-card">
+          <div class="map-popup-header">
+            <span class="map-popup-badge">${p.tipo || 'Pública'}</span>
+            <strong class="map-popup-title">${p.nombre}</strong>
+          </div>
+          <div class="map-popup-body">
+            <div class="map-popup-row">📍 ${[p.barrio, p.municipio].filter(Boolean).join(', ') || 'Valle de Aburrá'}</div>
+            <div class="map-popup-row">💰 ${p.costo || 'Gratuito con reserva'}</div>
+          </div>
+          <div class="map-popup-actions">
+            <button class="btn-popup-ficha" data-cancha-id="${p.id || ''}" type="button">
+              🔍 Ver Ficha Completa
+            </button>
+            <a class="btn-popup-ruta" href="https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}" target="_blank" rel="noopener noreferrer">
+              🚗 Cómo llegar
+            </a>
+          </div>
+        </div>
+      `;
+
+      layer.bindPopup(popupHtml, { maxWidth: 300, minWidth: 240, className: 'leaflet-popup-custom' });
+
+      layer.on('popupopen', () => {
+        const btn = document.querySelector(`.btn-popup-ficha[data-cancha-id="${p.id || ''}"]`);
+        btn?.addEventListener('click', () => {
+          abrirFichaCancha(feature);
+        });
+      });
     }
   }).addTo(canchasLayer);
 }
@@ -106,7 +155,7 @@ export function pintarCapa(geojson) {
 function resaltarPunto(lat, lon) {
   if (resaltadoTemporal) map.removeLayer(resaltadoTemporal);
   resaltadoTemporal = L.circleMarker([lat, lon], {
-    radius: 18, color: '#e63946', weight: 3, fillColor: '#e63946', fillOpacity: 0.25
+    radius: 22, color: '#f59e0b', weight: 4, fillColor: '#f59e0b', fillOpacity: 0.35
   }).addTo(map);
 
   window.setTimeout(() => {
@@ -114,7 +163,7 @@ function resaltarPunto(lat, lon) {
       map.removeLayer(resaltadoTemporal);
       resaltadoTemporal = null;
     }
-  }, 3500);
+  }, 4000);
 }
 
 function abrirPopupEnCoordenada(lat, lon, markerSeleccionado = null) {
@@ -123,9 +172,11 @@ function abrirPopupEnCoordenada(lat, lon, markerSeleccionado = null) {
     return;
   }
   canchasLayer.eachLayer(layer => {
-    const ll = layer.getLatLng();
-    if (Math.abs(ll.lat - lat) < 0.00001 && Math.abs(ll.lng - lon) < 0.00001) {
-      layer.openPopup();
+    if (layer.getLatLng) {
+      const ll = layer.getLatLng();
+      if (Math.abs(ll.lat - lat) < 0.0001 && Math.abs(ll.lng - lon) < 0.0001) {
+        layer.openPopup();
+      }
     }
   });
 }
@@ -136,7 +187,7 @@ export function irACancha(lat, lon, markerSeleccionado = null) {
 
   window.setTimeout(() => {
     abrirPopupEnCoordenada(lat, lon, markerSeleccionado);
-  }, 1300);
+  }, 1250);
 }
 
 export function irAResultados(geojson) {
@@ -152,5 +203,5 @@ export function irAResultados(geojson) {
   const bounds = L.latLngBounds(
     features.map(f => [f.geometry.coordinates[1], f.geometry.coordinates[0]])
   );
-  map.flyToBounds(bounds, { padding: [60, 60], maxZoom: 15, animate: true, duration: 1.2 });
+  map.flyToBounds(bounds, { padding: [50, 50], maxZoom: 15, animate: true, duration: 1.2 });
 }

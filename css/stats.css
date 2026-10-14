@@ -1,15 +1,64 @@
-/* Guarda este archivo en: css/stats.css
-   Responsabilidad única: barra de estadísticas (canchas, municipios, públicas, privadas). */
+/* ============================================================
+   VOLEYPLAYA AMVA - ESTADÍSTICAS (css/stats.css)
+   ============================================================ */
 
 .stats-bar {
-  display: flex;
-  justify-content: space-around;
-  background: var(--teal-dark);
-  color: white;
-  padding: 24px 20px;
-  flex-wrap: wrap;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 32px 48px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--arena-border);
+  box-shadow: var(--sombra-sm);
+  max-width: 1400px;
+  margin: 0 auto;
 }
-.stat { text-align: center; }
-.stat strong { display: block; font-size: 1.6rem; }
-.stat span { font-size: 0.78rem; opacity: 0.85; }
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border-radius: var(--radio-md);
+  background: var(--arena-bg);
+  border: 1px solid var(--arena-border);
+  transition: var(--trans-suave);
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-md);
+  border-color: var(--teal-border);
+}
+
+.stat-icon {
+  font-size: 1.8rem;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radio-md);
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--sombra-sm);
+  flex-shrink: 0;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-info strong {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: var(--teal-dark);
+  line-height: 1.1;
+}
+
+.stat-info span {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--texto-secundario);
+}

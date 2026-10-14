@@ -1,71 +1,765 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>VoleyPlaya AMVA — Encuentra tu cancha</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VoleyPlaya AMVA — Geoportal de Canchas de Vóley Playa en el Valle de Aburrá</title>
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/base.css" />
-<link rel="stylesheet" href="css/navbar.css" />
-<link rel="stylesheet" href="css/hero.css" />
-<link rel="stylesheet" href="css/busqueda.css" />
-<link rel="stylesheet" href="css/stats.css" />
-<link rel="stylesheet" href="css/tarjetas.css" />
-<link rel="stylesheet" href="css/modal.css" />
-<link rel="stylesheet" href="css/blog.css" />
-<link rel="stylesheet" href="css/clubes.css" />
-<link rel="stylesheet" href="css/footer.css" />
-<link rel="stylesheet" href="css/responsive.css" />
+  <!-- Metadatos SEO y Redes Sociales (Open Graph) -->
+  <meta name="description" content="Descubre todas las canchas de vóley playa en Medellín, Envigado, Bello, Itagüí, Sabaneta y La Estrella. Horarios, fotos, rutas, reserva INDER SIMON y datos abiertos." />
+  <meta name="theme-color" content="#0f7d7a" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="VoleyPlaya AMVA — Geoportal de Vóley Playa en el Valle de Aburrá" />
+  <meta property="og:description" content="Encuentra canchas públicas y privadas con fotos, rutas en Google Maps, horarios y reserva directa en INDER SIMON." />
+  <meta property="og:locale" content="es_CO" />
+
+  <!-- Favicon SVG en alta resolución -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23f59e0b'/%3E%3Cstop offset='100%25' stop-color='%230f7d7a'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='46' fill='url(%23g)'/%3E%3Cpath d='M18 50 A32 32 0 0 1 82 50' fill='none' stroke='%23ffffff' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M30 20 A36 36 0 0 1 70 80' fill='none' stroke='%23ffffff' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M30 80 A36 36 0 0 1 70 20' fill='none' stroke='%23ffffff' stroke-width='6' stroke-linecap='round'/%3E%3Ccircle cx='50' cy='50' r='10' fill='%23ffffff'/%3E%3C/svg%3E" />
+
+  <!-- Librerías de mapas y fuentes -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Hojas de estilo modularizadas -->
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/navbar.css" />
+  <link rel="stylesheet" href="css/hero.css" />
+  <link rel="stylesheet" href="css/busqueda.css" />
+  <link rel="stylesheet" href="css/stats.css" />
+  <link rel="stylesheet" href="css/tarjetas.css" />
+  <link rel="stylesheet" href="css/modal.css" />
+  <link rel="stylesheet" href="css/blog.css" />
+  <link rel="stylesheet" href="css/clubes.css" />
+  <link rel="stylesheet" href="css/footer.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
 </head>
 <body>
 
-<header class="navbar">
-  <div class="navbar-brand"><span class="logo-icon">🏝️</span><span class="logo-text">VoleyPlaya <small>AMVA</small></span></div>
-  <nav class="navbar-links" id="navLinks">
-    <a href="#hero" class="active">Inicio</a>
-    <a href="#tarjetas">Canchas</a>
-    <a href="clubes.html">Clubes</a>
-    <a href="#stats">Estadísticas</a>
-    <button id="btnAbrirEventos" class="nav-blog-btn" type="button">Eventos</button>
-    <span class="badge-proyecto badge-proyecto-movil">Mi primer geoportal</span>
-  </nav>
-  <div class="navbar-cta"><span class="badge-proyecto">Mi primer geoportal</span></div>
-  <button id="btnMenuMovil" class="btn-menu-movil" aria-label="Abrir menú">☰</button>
-</header>
+  <!-- ============================================================
+       NAVBAR SUPERIOR CON MARCA SVG Y CONTADOR DE FAVORITOS
+       ============================================================ -->
+  <header class="navbar">
+    <a href="#hero" class="navbar-brand" title="VoleyPlaya AMVA - Inicio">
+      <svg class="brand-svg-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="46" fill="url(#brandGradient)" />
+        <path d="M20 50 C20 30, 40 18, 50 18 C65 18, 80 30, 80 50" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" />
+        <path d="M26 74 C36 84, 64 84, 74 74" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" />
+        <path d="M30 25 C45 35, 55 65, 70 75" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" />
+        <path d="M70 25 C55 35, 45 65, 30 75" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" />
+        <circle cx="50" cy="50" r="9" fill="#FFFFFF" />
+        <defs>
+          <linearGradient id="brandGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#f59e0b" />
+            <stop offset="100%" stop-color="#0f7d7a" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="logo-info">
+        <div class="logo-title">VoleyPlaya <span class="logo-badge-amva">AMVA</span></div>
+        <span class="logo-sub">Geoportal Metropolitano</span>
+      </div>
+    </a>
 
-<section id="hero" class="hero">
-  <div class="hero-left">
-    <h1>Encuentra tu <span class="highlight">cancha perfecta</span></h1>
-    <p class="hero-sub">Explora canchas de vóley playa desde Bello hasta Medellín, en un solo mapa.</p>
-    <div class="search-card">
-      <div class="search-row"><span class="icon">🔎</span><input id="filtro" type="text" placeholder="¿Dónde quieres jugar? (barrio, municipio, nombre)"/></div>
-      <div class="search-actions"><button id="btnFiltrar" class="btn btn-primary">Buscar</button><button id="btnReset" class="btn btn-ghost">Limpiar</button></div>
-      <div class="status-box"><span id="loadingState" class="status-text">Cargando…</span><button id="btnRecargarOSM" class="btn-link">↻ Recargar datos</button></div>
-      <div class="coord-box"><div class="coord-row"><label class="mini-label-claro" for="crsSelect">Sistema de coordenadas</label><select id="crsSelect" class="select-mini-claro"><option value="EPSG:4326">EPSG:4326 — WGS84</option><option value="EPSG:3116">EPSG:3116 — MAGNA-SIRGAS</option><option value="EPSG:32618">EPSG:32618 — UTM 18N</option></select></div><p class="mono-claro">SRC mapa: <span id="crsMapa">EPSG:3857</span></p><p class="mono-claro">Clic capturado: <span id="coordCapturada">—</span></p></div>
-      <div class="search-tags"><span class="tag">✅ Reservas propias del sitio</span><span class="tag">📍 Datos abiertos OSM</span><span class="tag">🔄 Actualización en vivo</span></div>
+    <nav class="navbar-links" id="navLinks">
+      <a href="#hero" class="nav-link active">Inicio</a>
+      <a href="#tarjetas" class="nav-link">Canchas</a>
+      <a href="#hero" class="nav-link">Mapa</a>
+      <a href="clubes.html" class="nav-link">Clubes</a>
+      <button id="btnAbrirEventos" class="nav-action-btn" type="button">Eventos</button>
+      <button id="btnAbrirGuiaInder" class="nav-action-btn" type="button">Guía INDER</button>
+      <button id="btnAbrirSobre" class="nav-action-btn" type="button">Sobre el Proyecto</button>
+    </nav>
+
+    <div class="navbar-right">
+      <button id="btnNavFavoritos" class="nav-fav-btn" type="button" title="Ver mis canchas favoritas">
+        <span>❤️</span>
+        <span>Favoritas</span>
+        <span class="fav-count-badge" hidden>0</span>
+      </button>
+      <div class="badge-academico" title="Proyecto Universitario de Georreferenciación Deportiva">
+        <span>🎓</span>
+        <span>SIG AMVA</span>
+      </div>
+      <button id="btnMenuMovil" class="btn-menu-movil" type="button" aria-label="Abrir menú de navegación">☰</button>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       HERO PRINCIPAL CON BÚSQUEDA AVANZADA Y MAPA LEAFLET
+       ============================================================ -->
+  <section id="hero" class="hero">
+    <div class="hero-left">
+      <div class="hero-trust-bar">
+        <span>🛡️</span>
+        <span>20 Escenarios Verificados · Datos Abiertos INDER & OSM</span>
+      </div>
+
+      <h1 class="hero-title">
+        Siente la arena bajo tus pies: <span class="highlight">Tu cancha ideal</span> en el Valle de Aburrá
+      </h1>
+
+      <p class="hero-sub">
+        Descubre escenarios públicos y privados desde Bello hasta La Estrella. Consulta horarios, tipo de arena, rutas en Google Maps y reserva directa en SIMON.
+      </p>
+
+      <!-- Botones de Acción Rápida (Pills) -->
+      <div class="hero-pills">
+        <button id="btnGpsHero" class="hero-pill-btn pill-gps" type="button">
+          <span>📍</span> Canchas cerca de mí
+        </button>
+        <button class="hero-pill-btn hero-pill-filtro" data-filtro="gratis" type="button">
+          <span>🆓</span> Públicas gratuitas
+        </button>
+        <button class="hero-pill-btn hero-pill-filtro" data-filtro="favoritas" type="button">
+          <span>❤️</span> Mis favoritas
+        </button>
+        <button id="btnHeroEventos" class="hero-pill-btn" type="button">
+          <span>📢</span> Ver torneos
+        </button>
+        <a href="clubes.html" class="hero-pill-btn">
+          <span>👥</span> Explorar clubes
+        </a>
+      </div>
+
+      <!-- Tarjeta de Búsqueda y Filtros Avanzados -->
+      <div class="search-card">
+        <!-- Input con Autocompletado y GPS -->
+        <div class="search-input-wrapper">
+          <div class="search-row">
+            <span class="search-icon">🔎</span>
+            <input
+              id="filtro"
+              type="text"
+              placeholder="¿Dónde quieres jugar? (Atanasio, Belén, Envigado, Bello…)"
+              autocomplete="off"
+            />
+            <button id="btnGpsSearch" class="btn-search-gps" type="button" title="Usar mi ubicación actual">
+              📍
+            </button>
+          </div>
+          <!-- Dropdown flotante de sugerencias -->
+          <div id="sugerenciasBusqueda" class="search-sugerencias" hidden></div>
+        </div>
+
+        <!-- Filtros Avanzados en Grilla -->
+        <div class="filters-grid">
+          <div class="filter-group">
+            <label class="filter-label" for="filtroMunicipio">Municipio</label>
+            <select id="filtroMunicipio" class="filter-select">
+              <option value="todos">Todos los municipios</option>
+              <option value="Medellín">Medellín</option>
+              <option value="Envigado">Envigado</option>
+              <option value="Bello">Bello</option>
+              <option value="Itagüí">Itagüí</option>
+              <option value="Sabaneta">Sabaneta</option>
+              <option value="La Estrella">La Estrella</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label class="filter-label" for="filtroTipo">Tipo de Cancha</label>
+            <select id="filtroTipo" class="filter-select">
+              <option value="todos">Todos los tipos</option>
+              <option value="Pública">Pública (INDER)</option>
+              <option value="Privada">Privada / Club</option>
+              <option value="Universitaria">Universitaria</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label class="filter-label" for="filtroCosto">Costo de Acceso</label>
+            <select id="filtroCosto" class="filter-select">
+              <option value="todos">Cualquier costo</option>
+              <option value="gratis">Gratuito (INDER)</option>
+              <option value="pago">Con costo / Variable</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label class="filter-label" for="filtroOrden">Ordenar por</label>
+            <select id="filtroOrden" class="filter-select">
+              <option value="relevancia">Relevancia deportiva</option>
+              <option value="distancia">Cercanía (GPS activo)</option>
+              <option value="nombre_asc">Nombre (A - Z)</option>
+              <option value="nombre_desc">Nombre (Z - A)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Barra de Botones de Acción -->
+        <div class="search-actions-bar">
+          <button id="btnFiltrar" class="btn btn-primary" type="button">Buscar canchas</button>
+          <button id="btnReset" class="btn btn-ghost" type="button">Limpiar</button>
+          <button id="btnFiltroFavoritas" class="btn-filter-fav" type="button" title="Filtrar canchas marcadas como favoritas">
+            <span>❤️</span> Solo favoritas
+          </button>
+        </div>
+
+        <!-- Estado de Carga y Recarga OSM -->
+        <div class="status-box">
+          <span id="loadingState" class="status-text">Cargando escenarios deportivos…</span>
+          <button id="btnRecargarOSM" class="btn-reload-osm" type="button" title="Reconsultar Overpass API">
+            ↻ Recargar datos
+          </button>
+        </div>
+
+        <!-- Selector de Coordenadas GIS -->
+        <div class="coord-box">
+          <div class="coord-row">
+            <label class="mini-label-claro" for="crsSelect">Sistema de Coordenadas GIS</label>
+            <select id="crsSelect" class="select-mini-claro">
+              <option value="EPSG:4326">EPSG:4326 — WGS84 (Global / GPS)</option>
+              <option value="EPSG:3116">EPSG:3116 — MAGNA-SIRGAS Colombia</option>
+              <option value="EPSG:32618">EPSG:32618 — UTM Zona 18N</option>
+            </select>
+          </div>
+          <p class="mono-claro">SRC Mapa: <strong id="crsMapa">EPSG:3857</strong> · Clic capturado: <span id="coordCapturada">Haz clic en el mapa para capturar</span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mapa Leaflet Interactivo -->
+    <div class="hero-right">
+      <div id="map"></div>
+      <button id="btnGpsMap" class="btn-map-gps" type="button" title="Centrar mapa en mi ubicación actual">
+        <span>📍</span> Mi ubicación
+      </button>
+      <div class="map-legend">
+        <div class="legend-item"><span class="legend-dot dot-publica"></span> Pública (INDER)</div>
+        <div class="legend-item"><span class="legend-dot dot-privada"></span> Privada</div>
+        <div class="legend-item"><span class="legend-dot dot-universitaria"></span> Universitaria</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       BARRA DE ESTADÍSTICAS METROPOLITANAS
+       ============================================================ -->
+  <section id="stats" class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-icon">🏐</div>
+      <div class="stat-info">
+        <strong id="statTotal">20</strong>
+        <span>Canchas Registradas</span>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">🏙️</div>
+      <div class="stat-info">
+        <strong id="statMunicipios">6</strong>
+        <span>Municipios AMVA</span>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">🆓</div>
+      <div class="stat-info">
+        <strong id="statPublicas">9</strong>
+        <span>Públicas Gratuitas</span>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">🏆</div>
+      <div class="stat-info">
+        <strong id="statPrivadas">8</strong>
+        <span>Complejos Privados</span>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">❤️</div>
+      <div class="stat-info">
+        <strong id="statFavoritos">0</strong>
+        <span>En tus Favoritas</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECCIÓN DE TARJETAS DE CANCHAS CON FOTOS REALES
+       ============================================================ -->
+  <section id="tarjetas" class="tarjetas-section">
+    <div class="tarjetas-header">
+      <div class="tarjetas-header-left">
+        <h2>🏆 Canchas de Vóley Playa en el AMVA</h2>
+        <p class="tarjetas-sub">Información técnica detallada con fotos de alta resolución, rutas directas y reserva en línea.</p>
+      </div>
+      <span id="tarjetasContador" class="tarjetas-contador-badge">Cargando canchas…</span>
+    </div>
+
+    <!-- Grid de tarjetas de canchas -->
+    <div id="cardsGrid" class="cards-grid"></div>
+
+    <!-- Contenedor para botón Cargar Más -->
+    <div id="tarjetasPaginacion" class="tarjetas-paginacion"></div>
+  </section>
+
+  <!-- ============================================================
+       PREGUNTAS FRECUENTES (FAQ INTERACTIVO)
+       ============================================================ -->
+  <section class="faq-section">
+    <div class="faq-header">
+      <h2>❓ Preguntas Frecuentes sobre Vóley Playa</h2>
+      <p>Todo lo que necesitas saber para ir a jugar en el área metropolitana de Medellín.</p>
+    </div>
+
+    <div class="faq-accordion">
+      <div class="faq-item activo">
+        <div class="faq-item-header">
+          <h3>¿Las canchas públicas del INDER son gratuitas?</h3>
+          <span class="faq-item-icon">+</span>
+        </div>
+        <div class="faq-item-content">
+          Sí, las canchas públicas como las de la Unidad Deportiva Atanasio Girardot, Belén Andrés Escobar y Belén Rincón son 100% gratuitas. Únicamente debes estar registrado en la plataforma oficial SIMON del INDER y reservar tu turno con antelación.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-item-header">
+          <h3>¿Se debe llevar balón y malla propia?</h3>
+          <span class="faq-item-icon">+</span>
+        </div>
+        <div class="faq-item-content">
+          Las canchas públicas cuentan con postes y mallas instaladas de uso permanente. Sin embargo, debes llevar tu propio balón de vóley playa oficial (cuero sintético resistente al agua) e hidratación adecuada.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-item-header">
+          <h3>¿Cómo reservo en complejos privados como La Jaula del Ángel o Arena Sur?</h3>
+          <span class="faq-item-icon">+</span>
+        </div>
+        <div class="faq-item-content">
+          Los complejos privados cuentan con reserva directa mediante su página web o canal de WhatsApp. El pago se realiza por hora de alquiler e incluye iluminación profesional, arena blanca certificada y acceso a duchas y vestuarios.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-item-header">
+          <h3>¿Cómo puedo reportar un error o registrar una cancha nueva?</h3>
+          <span class="faq-item-icon">+</span>
+        </div>
+        <div class="faq-item-content">
+          En cada tarjeta encontrarás el botón "Reportar", donde puedes avisar si hay mallas deterioradas, cambio de horario o información desactualizada. Además, puedes escribirnos para incorporar nuevos escenarios en la base de datos abierta.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER PROFESIONAL CON CRÉDITOS Y DATOS ABIERTOS
+       ============================================================ -->
+  <footer class="footer-main">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="navbar-brand">
+          <svg class="brand-svg-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="46" fill="url(#brandGradientFooter)" />
+            <path d="M20 50 C20 30, 40 18, 50 18 C65 18, 80 30, 80 50" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" />
+            <path d="M26 74 C36 84, 64 84, 74 74" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" />
+            <circle cx="50" cy="50" r="9" fill="#FFFFFF" />
+            <defs>
+              <linearGradient id="brandGradientFooter" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#f59e0b" />
+                <stop offset="100%" stop-color="#0f7d7a" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="logo-info">
+            <div class="logo-title">VoleyPlaya <span class="logo-badge-amva">AMVA</span></div>
+            <span class="logo-sub">Geoportal Deportivo</span>
+          </div>
+        </div>
+        <p>
+          Plataforma metropolitana dedicada a impulsar la práctica del vóley playa en el Valle de Aburrá, facilitando el acceso a escenarios públicos y privados mediante Sistemas de Información Geográfica (SIG).
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Explorar</h4>
+        <ul class="footer-links">
+          <li><a href="#hero">Mapa interactivo</a></li>
+          <li><a href="#tarjetas">Canchas deportivas</a></li>
+          <li><a href="clubes.html">Clubes y entrenamientos</a></li>
+          <li><a href="#stats">Estadísticas AMVA</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Comunidad</h4>
+        <ul class="footer-links">
+          <li><button id="btnFooterEventos" type="button">Torneos y eventos</button></li>
+          <li><button id="btnFooterGuia" type="button">¿Cómo reservar en SIMON?</button></li>
+          <li><button id="btnFooterSobre" type="button">Sobre el proyecto SIG</button></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Fuentes de Datos Abiertos</h4>
+        <ul class="footer-links">
+          <li><a href="https://simon.inder.gov.co" target="_blank" rel="noopener noreferrer">INDER Medellín (SIMON)</a></li>
+          <li><a href="https://www.inderenvigado.gov.co" target="_blank" rel="noopener noreferrer">INDER Envigado</a></li>
+          <li><a href="https://www.openstreetmap.org" target="_blank" rel="noopener noreferrer">OpenStreetMap / Overpass API</a></li>
+          <li><a href="https://medata.gov.co" target="_blank" rel="noopener noreferrer">MEData Alcaldía de Medellín</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 VoleyPlaya AMVA · Proyecto Académico de Tecnologías Geoespaciales y Desarrollo Web</span>
+      <span>Medellín · Bello · Envigado · Itagüí · Sabaneta · La Estrella</span>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       MODAL 1: FICHA TÉCNICA DETALLADA DE CADA CANCHA
+       ============================================================ -->
+  <div id="modalFicha" class="modal-base" hidden>
+    <div class="ficha-contenido" role="dialog" aria-modal="true" aria-labelledby="fichaNombre">
+      <!-- Banner Cabecera con Foto Real -->
+      <div id="fichaFoto" class="ficha-header-banner">
+        <div class="ficha-header-top-actions">
+          <div class="ficha-badges-container">
+            <span id="fichaBadgeTipo" class="ficha-badge">Pública</span>
+            <span id="fichaBadgeVerificada" class="ficha-badge badge-verificada">✅ Verificada</span>
+          </div>
+          <button id="btnCerrarFicha" class="btn-cerrar-modal" type="button" aria-label="Cerrar ficha">×</button>
+        </div>
+        <div class="ficha-header-info">
+          <h2 id="fichaNombre">Cancha de vóley playa</h2>
+          <p id="fichaUbicacion">📍 Ubicación</p>
+        </div>
+      </div>
+
+      <!-- Toolbar de Acciones Rápidas -->
+      <div class="ficha-actions-bar">
+        <a id="btnFichaComoLlegar" class="btn btn-primary btn-ficha-action" href="#" target="_blank" rel="noopener noreferrer">
+          🚗 Cómo llegar (Google Maps)
+        </a>
+        <button id="btnFichaVerMapa" class="btn btn-secondary btn-ficha-action" type="button">
+          🗺️ Ver en el mapa
+        </a>
+        <button id="btnFichaCompartir" class="btn btn-secondary btn-ficha-action" type="button">
+          🔗 Compartir
+        </button>
+        <button id="btnFichaFavorito" class="btn btn-secondary btn-ficha-action btn-ficha-fav" type="button">
+          🤍 Añadir a favoritas
+        </button>
+        <button id="btnFichaReportar" class="btn btn-ghost btn-ficha-action" type="button">
+          ⚑ Reportar novedad
+        </button>
+      </div>
+
+      <!-- Cuerpo de la Ficha Técnica -->
+      <div class="ficha-body">
+        <!-- Grilla de Amenidades y Especificaciones Técnicas -->
+        <div class="ficha-seccion">
+          <h3>🏐 Especificaciones y Servicios</h3>
+          <div class="amenities-grid">
+            <div class="amenity-card">
+              <span class="amenity-icon">🏖️</span>
+              <div class="amenity-meta">
+                <span class="amenity-title">Superficie</span>
+                <span id="fichaArena" class="amenity-value">Arena de sílice lavada</span>
+              </div>
+            </div>
+
+            <div class="amenity-card">
+              <span class="amenity-icon">📐</span>
+              <div class="amenity-meta">
+                <span class="amenity-title">Número de canchas</span>
+                <span id="fichaNumCanchas" class="amenity-value">1 cancha</span>
+              </div>
+            </div>
+
+            <div class="amenity-card">
+              <span class="amenity-icon">💡</span>
+              <div class="amenity-meta">
+                <span class="amenity-title">Iluminación</span>
+                <span id="fichaIluminacion" class="amenity-value">Disponible nocturna</span>
+              </div>
+            </div>
+
+            <div class="amenity-card">
+              <span class="amenity-icon">🚿</span>
+              <div class="amenity-meta">
+                <span class="amenity-title">Duchas / Baños</span>
+                <span id="fichaDuchas" class="amenity-value">Disponibles</span>
+              </div>
+            </div>
+
+            <div class="amenity-card">
+              <span class="amenity-icon">🚗</span>
+              <div class="amenity-meta">
+                <span class="amenity-title">Parqueadero</span>
+                <span id="fichaParqueadero" class="amenity-value">En el complejo</span>
+              </div>
+            </div>
+
+            <div class="amenity-card">
+              <span class="amenity-icon">♿</span>
+              <div class="amenity-meta">
+                <span class="amenity-title">Accesibilidad PMR</span>
+                <span id="fichaAccesibilidad" class="amenity-value">Rampas de acceso</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Horarios y Requisitos de Reserva -->
+        <div class="ficha-seccion">
+          <h3>📅 Horarios y Acceso</h3>
+          <div class="ficha-reserva-box">
+            <div>
+              <strong>⏰ Horario habitual:</strong> <span id="fichaHorario">Lunes a Domingo</span>
+            </div>
+            <div>
+              <strong>💰 Costo:</strong> <span id="fichaCosto">Gratuito</span>
+            </div>
+            <div class="ficha-reserva-info">
+              <strong>📋 Requisito de reserva:</strong> <span id="fichaCondicion">Estar registrado en INDER SIMON.</span>
+            </div>
+            <a id="btnFichaIrReserva" class="btn btn-gold" href="#" target="_blank" rel="noopener noreferrer" style="align-self: flex-start; margin-top: 6px;">
+              📅 Reservar turno oficial
+            </a>
+          </div>
+        </div>
+
+        <!-- Selector y Copiado de Coordenadas GIS -->
+        <div class="ficha-seccion">
+          <h3>📍 Georreferenciación y Coordenadas</h3>
+          <div class="ficha-gis-box">
+            <div class="ficha-gis-row">
+              <label for="fichaCrsSelect" style="font-size: 0.82rem; font-weight: 600;">Proyección:</label>
+              <select id="fichaCrsSelect" class="filter-select" style="max-width: 220px;">
+                <option value="EPSG:4326">EPSG:4326 (WGS84)</option>
+                <option value="EPSG:3116">EPSG:3116 (MAGNA)</option>
+                <option value="EPSG:32618">EPSG:32618 (UTM 18N)</option>
+              </select>
+            </div>
+            <div class="ficha-gis-row">
+              <span id="fichaCoordTexto" class="ficha-gis-texto">WGS84: 0, 0</span>
+              <button id="btnFichaCopiarCoords" class="btn btn-secondary" type="button" style="padding: 6px 12px; font-size: 0.8rem;">
+                📋 Copiar coordenadas
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Comentarios y Reseñas de la Comunidad Deportiva -->
+        <div class="ficha-seccion comentarios-seccion">
+          <h3>💬 Reseñas y Experiencia de la Comunidad</h3>
+          
+          <div id="fichaListaComentarios" class="lista-comentarios">
+            <!-- Inyectados por ficha.js -->
+          </div>
+
+          <!-- Formulario para agregar nuevo comentario -->
+          <form id="formNuevoComentario" class="form-comentario">
+            <strong style="font-size: 0.88rem; color: var(--teal-dark);">Comparte tu opinión sobre esta cancha:</strong>
+            <div class="form-comentario-row">
+              <input id="comentarioNombre" type="text" placeholder="Tu nombre o alias" required maxlength="40" />
+              <select id="comentarioRating" style="max-width: 140px;">
+                <option value="5">⭐⭐⭐⭐⭐ Excelente</option>
+                <option value="4">⭐⭐⭐⭐ Muy buena</option>
+                <option value="3">⭐⭐⭐ Regular</option>
+                <option value="2">⭐⭐ Por mejorar</option>
+                <option value="1">⭐ Mala condición</option>
+              </select>
+            </div>
+            <textarea id="comentarioTexto" placeholder="¿Cómo está la arena, la malla, la iluminación y la reserva?" required maxlength="400"></textarea>
+            <button class="btn btn-primary" type="submit" style="align-self: flex-end; padding: 8px 16px;">
+              Publicar comentario
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="hero-right"><div id="map"></div><div class="map-legend"><span class="dot dot-yellow"></span> Pública<span class="dot dot-blue"></span> Privada</div></div>
-</section>
 
-<section id="stats" class="stats-bar"><div class="stat"><strong id="statTotal">0</strong><span>canchas registradas</span></div><div class="stat"><strong id="statMunicipios">0</strong><span>municipios cubiertos</span></div><div class="stat"><strong id="statPublicas">0</strong><span>canchas públicas</span></div><div class="stat"><strong id="statPrivadas">0</strong><span>canchas privadas</span></div></section>
+  <!-- ============================================================
+       MODAL 2: REPORTE DE INFORMACIÓN COMUNITARIA
+       ============================================================ -->
+  <div id="modalReporte" class="modal-base" hidden>
+    <div class="modal-contenido" role="dialog" aria-modal="true">
+      <div class="modal-encabezado">
+        <div>
+          <h2>Reportar información</h2>
+          <p id="reporteCanchaNombre">Cancha seleccionada</p>
+          <p id="reporteCanchaId" style="font-size: 0.75rem; color: var(--texto-mutado);"></p>
+        </div>
+        <button id="btnCerrarReporte" class="btn-cerrar-modal" type="button">×</button>
+      </div>
 
-<section id="tarjetas" class="tarjetas-section"><h2>🏆 Canchas destacadas</h2><p class="tarjetas-sub">Datos reales combinados de OpenStreetMap y verificación manual.</p><div id="cardsGrid" class="cards-grid"></div></section>
+      <form id="formReporte" class="form-reporte">
+        <label>
+          Tu nombre o club
+          <input id="reporteNombre" type="text" maxlength="50" placeholder="Ej. Camila Restrepo" required>
+        </label>
 
+        <label>
+          Tipo de novedad
+          <select id="reporteTipo" required>
+            <option value="Información desactualizada">Información desactualizada</option>
+            <option value="Malla o arena en mal estado">Malla o arena en mal estado</option>
+            <option value="Ubicación incorrecta">Ubicación incorrecta en el mapa</option>
+            <option value="Cancha cerrada o en obra">Cancha cerrada temporalmente / en obra</option>
+            <option value="Acceso o reserva incorrectos">Acceso o método de reserva incorrecto</option>
+            <option value="Otro">Otro reporte</option>
+          </select>
+        </label>
 
+        <label>
+          Detalle de la novedad
+          <textarea id="reporteDetalle" maxlength="700" placeholder="Explica detalladamente la situación observada..." required></textarea>
+        </label>
 
-<footer class="footer">Proyecto académico — Datos: OpenStreetMap / Overpass API · MEData Alcaldía de Medellín</footer>
+        <div id="comunidadMensaje" class="comunidad-mensaje" hidden></div>
 
-<div id="modalReporte" class="modal-reporte" hidden><div class="modal-contenido" role="dialog" aria-modal="true"><div class="modal-encabezado"><div><h2>Reportar información</h2><p id="reporteCanchaNombre">Cancha seleccionada</p><p id="reporteCanchaId"></p></div><button id="btnCerrarReporte" class="btn-cerrar-modal" type="button">×</button></div><form id="formReporte" class="form-reporte"><label>Tu nombre<input id="reporteNombre" type="text" maxlength="50" required></label><label>Tipo de reporte<select id="reporteTipo" required><option value="Información desactualizada">Información desactualizada</option><option value="Ubicación incorrecta">Ubicación incorrecta</option><option value="Cancha cerrada">Cancha cerrada</option><option value="Acceso o reserva incorrectos">Acceso o reserva incorrectos</option><option value="Otro">Otro</option></select></label><label>Detalle del reporte<textarea id="reporteDetalle" maxlength="700" required></textarea></label><div id="comunidadMensaje" class="comunidad-mensaje" hidden></div><div class="acciones-modal"><button id="btnCancelarReporte" class="btn btn-cancelar" type="button">Cancelar</button><button id="btnEnviarReporte" class="btn btn-enviar-reporte" type="submit">Enviar reporte</button></div></form></div></div>
+        <div class="acciones-modal">
+          <button id="btnCancelarReporte" class="btn btn-cancelar" type="button">Cancelar</button>
+          <button id="btnEnviarReporte" class="btn btn-primary" type="submit">Enviar reporte</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
-<div id="modalEventos" class="modal-eventos" hidden><div class="eventos-contenedor" role="dialog" aria-modal="true"><div class="eventos-encabezado"><div><h2>📢 Eventos de vóley playa</h2><p>Descubre torneos, encuentros y actividades disponibles.</p></div><button id="btnCerrarEventos" class="btn-cerrar-eventos" type="button">×</button></div><div id="eventosEstado" class="eventos-estado">Cargando eventos…</div><div id="eventosGrid" class="eventos-grid"></div></div></div>
+  <!-- ============================================================
+       MODAL 3: EVENTOS Y TORNEOS DE VÓLEY PLAYA
+       ============================================================ -->
+  <div id="modalEventos" class="modal-base modal-eventos" hidden>
+    <div class="eventos-contenedor" role="dialog" aria-modal="true">
+      <div class="eventos-encabezado">
+        <div>
+          <h2>📢 Torneos y Eventos de Vóley Playa</h2>
+          <p>Conoce las próximas competencias, encuentros recreativos y copas en el Valle de Aburrá.</p>
+        </div>
+        <button id="btnCerrarEventos" class="btn-cerrar-modal" type="button">×</button>
+      </div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/proj4@2.11.0/dist/proj4.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script type="module" src="js/main.js"></script>
+      <div id="eventosEstado" class="eventos-estado">Cargando eventos…</div>
+      <div id="eventosGrid" class="eventos-grid"></div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MODAL 4: GUÍA PASO A PASO PARA RESERVAR EN INDER SIMON
+       ============================================================ -->
+  <div id="modalGuiaInder" class="modal-base" hidden>
+    <div class="modal-info-contenido" role="dialog" aria-modal="true">
+      <div class="modal-encabezado">
+        <div>
+          <h2>📖 ¿Cómo reservar una cancha en INDER SIMON?</h2>
+          <p>Guía rápida para reservar turnos gratuitos en escenarios públicos de Medellín.</p>
+        </div>
+        <button id="btnCerrarGuiaInder" class="btn-cerrar-modal" type="button">×</button>
+      </div>
+
+      <div class="guia-pasos">
+        <div class="guia-paso">
+          <span class="paso-numero">1</span>
+          <div class="paso-texto">
+            <h4>Crea tu cuenta en la plataforma SIMON</h4>
+            <p>Ingresa al portal <a href="https://simon.inder.gov.co" target="_blank" rel="noopener noreferrer" style="color: var(--teal); font-weight: 600;">simon.inder.gov.co</a> con tu documento de identidad y completa tu registro de usuario.</p>
+          </div>
+        </div>
+
+        <div class="guia-paso">
+          <span class="paso-numero">2</span>
+          <div class="paso-texto">
+            <h4>Busca el escenario deportivo</h4>
+            <p>Dirígete a la sección "Reserva de Escenarios", selecciona la comuna (ej. Comuna 11 - Laureles Estadio o Comuna 16 - Belén) y busca la disciplina <strong>Vóley Playa</strong>.</p>
+          </div>
+        </div>
+
+        <div class="guia-paso">
+          <span class="paso-numero">3</span>
+          <div class="paso-texto">
+            <h4>Selecciona fecha y turno disponible</h4>
+            <p>El sistema te mostrará los horarios habilitados (generalmente en turnos de 1 hora). Elige el que mejor se adapte a tu grupo de juego.</p>
+          </div>
+        </div>
+
+        <div class="guia-paso">
+          <span class="paso-numero">4</span>
+          <div class="paso-texto">
+            <h4>Confirma y guarda tu comprobante</h4>
+            <p>Recibirás un código de confirmación digital. Preséntalo ante el administrador del escenario al momento de ingresar a la arena.</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
+        <a href="https://simon.inder.gov.co" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+          Ir a INDER SIMON →
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MODAL 5: SOBRE EL PROYECTO GEOESPACIAL
+       ============================================================ -->
+  <div id="modalSobre" class="modal-base" hidden>
+    <div class="modal-info-contenido" role="dialog" aria-modal="true">
+      <div class="modal-encabezado">
+        <div>
+          <h2>ℹ️ Sobre VoleyPlaya AMVA</h2>
+          <p>Proyecto de georreferenciación deportiva y datos abiertos metropolitanos.</p>
+        </div>
+        <button id="btnCerrarSobre" class="btn-cerrar-modal" type="button">×</button>
+      </div>
+
+      <div style="font-size: 0.9rem; color: var(--texto-secundario); line-height: 1.6; display: flex; flex-direction: column; gap: 14px;">
+        <p>
+          <strong>VoleyPlaya AMVA</strong> es una iniciativa académica y comunitaria que busca cartografiar y hacer visible la infraestructura de voleibol de playa en los diez municipios del Área Metropolitana del Valle de Aburrá (Medellín, Envigado, Bello, Itagüí, Sabaneta, La Estrella, Copacabana, Girardota, Caldas y Barbosa).
+        </p>
+
+        <h4 style="color: var(--teal-dark); font-size: 1rem;">🎯 Objetivo del Geoportal</h4>
+        <p>
+          Democratizar el acceso a los escenarios deportivos de arena, reducir las barreras para que deportistas y clubes encuentren espacios de entrenamiento, e integrar datos geográficos abiertos con servicios de reserva oficiales.
+        </p>
+
+        <h4 style="color: var(--teal-dark); font-size: 1rem;">🌐 Metodología y Tecnologías</h4>
+        <ul style="padding-left: 20px; display: flex; flex-direction: column; gap: 6px;">
+          <li><strong>Mapeo Geoespacial:</strong> Leaflet.js para visualización web de mapas y capas múltiples (OSM, CartoDB Voyager, Esri Satelital).</li>
+          <li><strong>Transformación de Coordenadas:</strong> Proj4js para interoperabilidad entre WGS84 (EPSG:4326), MAGNA-SIRGAS (EPSG:3116) y UTM Zona 18N (EPSG:32618).</li>
+          <li><strong>Fuentes de Información:</strong> Levantamiento manual verificado, catálogo MEData de la Alcaldía de Medellín y consultas dinámicas en tiempo real a OpenStreetMap mediante Overpass API.</li>
+          <li><strong>Base de Datos y Comunidad:</strong> Supabase para gestión de reportes de novedades, comentarios de escenarios y torneos.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenedor flotante para Toast Notifications -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Scripts Externos -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/proj4@2.11.0/dist/proj4.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Script Principal de Entrada Modular -->
+  <script type="module" src="js/main.js"></script>
+
+  <!-- Enlace a eventos desde footer y hero -->
+  <script>
+    document.getElementById('btnHeroEventos')?.addEventListener('click', () => {
+      document.getElementById('btnAbrirEventos')?.click();
+    });
+    document.getElementById('btnFooterEventos')?.addEventListener('click', () => {
+      document.getElementById('btnAbrirEventos')?.click();
+    });
+    document.getElementById('btnFooterGuia')?.addEventListener('click', () => {
+      document.getElementById('btnAbrirGuiaInder')?.click();
+    });
+    document.getElementById('btnFooterSobre')?.addEventListener('click', () => {
+      document.getElementById('btnAbrirSobre')?.click();
+    });
+  </script>
 </body>
 </html>

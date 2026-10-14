@@ -1,27 +1,378 @@
-/* Guarda este archivo en: css/modal.css
-   Responsabilidad única: diseño del modal de reportes. */
+/* ============================================================
+   VOLEYPLAYA AMVA - MODALES Y FICHA TÉCNICA (css/modal.css)
+   ============================================================ */
 
-.modal-reporte[hidden] { display: none; }
+.modal-base[hidden] {
+  display: none !important;
+}
 
-.modal-reporte {
+.modal-base {
   position: fixed;
   inset: 0;
-  z-index: 2000;
+  z-index: 2500;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 18px;
-  background: rgba(10, 35, 42, 0.64);
+  padding: 20px;
+  background: rgba(10, 35, 42, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  overflow-y: auto;
+  animation: fadeInModal 0.25s ease-out;
 }
 
-.modal-contenido {
-  width: min(100%, 520px);
+@keyframes fadeInModal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.btn-cerrar-modal {
+  border: none;
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--texto-secundario);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--trans-suave);
+  flex-shrink: 0;
+}
+
+.btn-cerrar-modal:hover {
+  background: rgba(0, 0, 0, 0.12);
+  color: var(--texto-principal);
+  transform: scale(1.05);
+}
+
+/* ============================================================
+   FICHA TÉCNICA DE CANCHA (DRAWER / MODAL COMPLETO)
+   ============================================================ */
+.ficha-contenido {
+  width: min(100%, 780px);
   max-height: 90vh;
   overflow-y: auto;
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 16px 50px rgba(0,0,0,0.25);
+  background: #ffffff;
+  border-radius: var(--radio-lg);
+  box-shadow: var(--sombra-lg);
+  border: 1px solid var(--arena-border);
+  display: flex;
+  flex-direction: column;
+}
+
+.ficha-header-banner {
+  position: relative;
+  height: 220px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: flex-end;
+  padding: 20px;
+}
+
+.ficha-header-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(10, 35, 42, 0.85) 100%);
+}
+
+.ficha-header-top-actions {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 2;
+}
+
+.ficha-header-top-actions .btn-cerrar-modal {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.ficha-badges-container {
+  display: flex;
+  gap: 8px;
+}
+
+.ficha-badge {
+  padding: 4px 12px;
+  border-radius: var(--radio-pill);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.ficha-badge.badge-verificada {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.ficha-badge.badge-unverified {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.ficha-header-info {
+  position: relative;
+  z-index: 2;
+  color: #ffffff;
+}
+
+.ficha-header-info h2 {
+  font-size: 1.6rem;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.ficha-header-info p {
+  font-size: 0.88rem;
+  opacity: 0.9;
+  margin-top: 4px;
+}
+
+/* Toolbar de acciones rápidas dentro de la ficha */
+.ficha-actions-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 14px 24px;
+  background: var(--arena-accent);
+  border-bottom: 1px solid var(--arena-border);
+}
+
+.btn-ficha-action {
+  font-size: 0.82rem;
+  padding: 8px 14px;
+  border-radius: var(--radio-md);
+}
+
+.btn-ficha-fav.activo {
+  background: #fff1f2;
+  color: #e11d48;
+  border-color: #fecdd3;
+}
+
+/* Cuerpo de la ficha */
+.ficha-body {
   padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.ficha-seccion h3 {
+  font-size: 1.05rem;
+  color: var(--teal-dark);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Grilla de amenidades / servicios */
+.amenities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.amenity-card {
+  background: #fbfaf7;
+  border: 1px solid var(--arena-border);
+  border-radius: var(--radio-md);
+  padding: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.amenity-icon {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.amenity-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.amenity-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--texto-secundario);
+  letter-spacing: 0.04em;
+}
+
+.amenity-value {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--texto-principal);
+  margin-top: 2px;
+}
+
+/* Caja de reserva y acceso */
+.ficha-reserva-box {
+  background: #f0fdfa;
+  border: 1.5px solid #ccfbf1;
+  border-radius: var(--radio-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ficha-reserva-info {
+  font-size: 0.86rem;
+  color: #115e59;
+  line-height: 1.45;
+}
+
+/* Herramienta GIS de Coordenadas en Ficha */
+.ficha-gis-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radio-md);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ficha-gis-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ficha-gis-texto {
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  color: #334155;
+  background: #ffffff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  flex: 1;
+  min-width: 200px;
+}
+
+/* Comentarios comunitarios en ficha */
+.comentarios-seccion {
+  border-top: 1px solid var(--arena-border);
+  padding-top: 20px;
+}
+
+.lista-comentarios {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.comentario-item {
+  background: #fbfaf7;
+  border-radius: var(--radio-md);
+  padding: 12px 14px;
+  border: 1px solid var(--arena-border);
+}
+
+.comentario-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.comentario-header strong {
+  font-size: 0.88rem;
+}
+
+.comentario-estrellas {
+  font-size: 0.78rem;
+}
+
+.comentario-fecha {
+  font-size: 0.72rem;
+  color: var(--texto-mutado);
+  margin-left: auto;
+}
+
+.comentario-texto {
+  font-size: 0.84rem;
+  color: var(--texto-secundario);
+  line-height: 1.4;
+}
+
+.comentario-vacio {
+  text-align: center;
+  padding: 24px;
+  color: var(--texto-secundario);
+  font-size: 0.86rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.comentario-vacio span {
+  font-size: 1.8rem;
+}
+
+.form-comentario {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--arena-accent);
+  border-radius: var(--radio-md);
+  padding: 16px;
+}
+
+.form-comentario-row {
+  display: flex;
+  gap: 10px;
+}
+
+.form-comentario input,
+.form-comentario select,
+.form-comentario textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: var(--radio-sm);
+  border: 1px solid var(--arena-border);
+  background: #ffffff;
+  font-family: inherit;
+  font-size: 0.84rem;
+  outline: none;
+}
+
+.form-comentario textarea {
+  min-height: 70px;
+  resize: vertical;
+}
+
+/* ============================================================
+   MODAL REPORTE DE INFORMACIÓN
+   ============================================================ */
+.modal-contenido {
+  width: min(100%, 540px);
+  background: #ffffff;
+  border-radius: var(--radio-lg);
+  box-shadow: var(--sombra-lg);
+  border: 1px solid var(--arena-border);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
 .modal-encabezado {
@@ -29,54 +380,120 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 18px;
-}
-.modal-encabezado h2 { color: var(--teal-dark); font-size: 1.25rem; }
-.modal-encabezado p { color: var(--gris-texto); font-size: 0.78rem; margin-top: 4px; }
-
-.btn-cerrar-modal {
-  border: none;
-  background: #f1f4f4;
-  color: #456;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 1.1rem;
 }
 
-.form-reporte { display: flex; flex-direction: column; gap: 12px; }
-.form-reporte label { color: #344c53; font-size: 0.78rem; font-weight: 600; }
+.modal-encabezado h2 {
+  color: var(--teal-dark);
+  font-size: 1.35rem;
+}
+
+.modal-encabezado p {
+  color: var(--texto-secundario);
+  font-size: 0.84rem;
+  margin-top: 4px;
+}
+
+.form-reporte {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-reporte label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--texto-principal);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
 .form-reporte input,
 .form-reporte select,
 .form-reporte textarea {
   width: 100%;
-  margin-top: 5px;
   padding: 10px 12px;
-  border: 1px solid #dce4e5;
-  border-radius: 8px;
+  border-radius: var(--radio-sm);
+  border: 1px solid var(--arena-border);
   font-family: inherit;
-  font-size: 0.82rem;
+  font-size: 0.86rem;
   outline: none;
+  background: #ffffff;
+  transition: var(--trans-suave);
 }
-.form-reporte textarea { min-height: 110px; resize: vertical; }
+
+.form-reporte textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
 .form-reporte input:focus,
 .form-reporte select:focus,
-.form-reporte textarea:focus { border-color: var(--teal); box-shadow: 0 0 0 3px #d9f1ef; }
+.form-reporte textarea:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(15, 125, 122, 0.15);
+}
 
-.acciones-modal { display: flex; justify-content: flex-end; gap: 10px; margin-top: 5px; }
-.btn-cancelar { background: #eef1f1; color: #344c53; }
-.btn-enviar-reporte { background: var(--teal-dark); color: white; }
-.btn-enviar-reporte:disabled { opacity: 0.6; cursor: wait; }
+.acciones-modal {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 6px;
+}
 
-.comunidad-mensaje { border-radius: 8px; padding: 10px; font-size: 0.78rem; line-height: 1.4; }
-.comunidad-mensaje[hidden] { display: none; }
-.comunidad-mensaje.info { background: #eef8f7; color: #176460; }
-.comunidad-mensaje.error { background: #fff0f0; color: #a22d2d; }
-.comunidad-mensaje.exito { background: #ecf9f0; color: #21743b; }
+/* ============================================================
+   MODALES INFORMATIVOS (GUIA INDER & SOBRE EL PROYECTO)
+   ============================================================ */
+.modal-info-contenido {
+  width: min(100%, 720px);
+  background: #ffffff;
+  border-radius: var(--radio-lg);
+  box-shadow: var(--sombra-lg);
+  border: 1px solid var(--arena-border);
+  padding: 32px;
+  max-height: 85vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 
-@media (max-width: 600px) {
-  .modal-contenido { padding: 18px; }
-  .acciones-modal { flex-direction: column-reverse; }
-  .acciones-modal button { width: 100%; }
+.guia-pasos {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.guia-paso {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  background: #fbfaf7;
+  padding: 16px;
+  border-radius: var(--radio-md);
+  border-left: 4px solid var(--teal);
+}
+
+.paso-numero {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--teal);
+  color: #ffffff;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.paso-texto h4 {
+  font-size: 0.96rem;
+  margin-bottom: 4px;
+}
+
+.paso-texto p {
+  font-size: 0.85rem;
+  color: var(--texto-secundario);
+  line-height: 1.45;
 }

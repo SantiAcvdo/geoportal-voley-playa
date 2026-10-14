@@ -1,26 +1,297 @@
-/* Guarda este archivo en: css/base.css
-   Responsabilidad única: reset, variables globales y estilos base del body. */
+/* ============================================================
+   VOLEYPLAYA AMVA - DESIGN SYSTEM BASE (css/base.css)
+   ============================================================ */
 
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', system-ui, Arial, sans-serif; }
-html { overflow-x: hidden; }
-body { color: #17313e; background: #fbfaf7; overflow-x: hidden; }
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Poppins:wght@600;700;800&display=swap');
 
 :root {
+  /* Paleta Principal Deportiva: Turquesa + Arena + Oro Sol */
   --teal: #0f7d7a;
-  --teal-dark: #0a5c5a;
-  --amarillo: #f2b705;
-  --azul: #2d9cdb;
-  --gris-texto: #5b6b73;
+  --teal-dark: #095452;
+  --teal-deep: #063937;
+  --teal-light: #e8f7f5;
+  --teal-border: #bde5e2;
+
+  --arena-bg: #f8f6f0;
+  --arena-card: #ffffff;
+  --arena-border: #e9e3d5;
+  --arena-accent: #f2ece0;
+
+  --amarillo: #f59e0b;
+  --amarillo-dark: #b45309;
+  --amarillo-light: #fef3c7;
+
+  --azul: #2563eb;
+  --azul-light: #eff6ff;
+
+  --coral: #ea580c;
+  --coral-light: #ffedd5;
+
+  --verde: #16a34a;
+  --verde-light: #dcfce7;
+
+  --texto-principal: #132a35;
+  --texto-secundario: #4b616d;
+  --texto-mutado: #788c97;
+
+  /* Elevaciones y sombras suaves */
+  --sombra-sm: 0 2px 6px rgba(15, 125, 122, 0.05), 0 1px 3px rgba(0, 0, 0, 0.04);
+  --sombra-md: 0 8px 24px -4px rgba(15, 125, 122, 0.08), 0 3px 8px -2px rgba(0, 0, 0, 0.04);
+  --sombra-lg: 0 16px 40px -8px rgba(15, 125, 122, 0.14), 0 6px 16px -4px rgba(0, 0, 0, 0.06);
+
+  /* Radios */
+  --radio-sm: 8px;
+  --radio-md: 14px;
+  --radio-lg: 20px;
+  --radio-pill: 9999px;
+
+  /* Transición */
+  --trans-suave: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-a { text-decoration: none; color: inherit; }
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-/* Botones genéricos reutilizados en varias secciones (búsqueda, tarjetas, etc.) */
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  color: var(--texto-principal);
+  background: var(--arena-bg);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .font-heading {
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--texto-principal);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: var(--trans-suave);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ============================================================
+   SISTEMA DE BOTONES CON ESTADOS COMPLETOS
+   ============================================================ */
 .btn {
-  border: none; border-radius: 8px; padding: 10px 16px;
-  font-weight: 600; font-size: 0.85rem; cursor: pointer;
-  font-family: inherit; transition: transform 0.1s ease, opacity 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.88rem;
+  padding: 10px 18px;
+  border-radius: var(--radio-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: var(--trans-suave);
+  text-align: center;
+  white-space: nowrap;
+  user-select: none;
 }
-.btn:active { transform: scale(0.97); }
-.btn-primary { background: var(--teal); color: white; flex: 1; }
-.btn-ghost { background: #f1f1f1; color: #333; flex: 1; }
+
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(15, 125, 122, 0.35);
+}
+
+.btn:hover {
+  transform: translateY(-1.5px);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Variantes */
+.btn-primary {
+  background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(15, 125, 122, 0.3);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #129390, var(--teal));
+  box-shadow: 0 6px 18px rgba(15, 125, 122, 0.4);
+}
+
+.btn-secondary {
+  background: #ffffff;
+  color: var(--teal-dark);
+  border: 1px solid var(--teal-border);
+  box-shadow: var(--sombra-sm);
+}
+
+.btn-secondary:hover {
+  background: var(--teal-light);
+  border-color: var(--teal);
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, var(--amarillo), var(--amarillo-dark));
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.btn-ghost {
+  background: var(--arena-accent);
+  color: var(--texto-secundario);
+}
+
+.btn-ghost:hover {
+  background: #e5ded0;
+  color: var(--texto-principal);
+}
+
+.btn-danger {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.btn-danger:hover {
+  background: #fecaca;
+}
+
+/* ============================================================
+   SKELETON LOADER CON EFECTO SHIMMER
+   ============================================================ */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.card-skeleton {
+  background: #ffffff;
+  border-radius: var(--radio-md);
+  overflow: hidden;
+  box-shadow: var(--sombra-sm);
+  border: 1px solid var(--arena-border);
+}
+
+.skeleton-img {
+  height: 180px;
+  background: linear-gradient(90deg, #edeae1 25%, #f7f5ed 50%, #edeae1 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite;
+}
+
+.skeleton-body {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skeleton-line {
+  height: 14px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #edeae1 25%, #f7f5ed 50%, #edeae1 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite;
+}
+
+.skeleton-line.title {
+  width: 80%;
+  height: 18px;
+}
+
+.skeleton-line.sub {
+  width: 50%;
+}
+
+.skeleton-pills {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.skeleton-pill {
+  width: 65px;
+  height: 22px;
+  border-radius: var(--radio-pill);
+  background: linear-gradient(90deg, #edeae1 25%, #f7f5ed 50%, #edeae1 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite;
+}
+
+/* ============================================================
+   TOAST NOTIFICATIONS FLOTANTES
+   ============================================================ */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #ffffff;
+  color: var(--texto-principal);
+  padding: 12px 18px;
+  border-radius: var(--radio-md);
+  box-shadow: var(--sombra-lg);
+  border-left: 4px solid var(--teal);
+  font-size: 0.88rem;
+  font-weight: 500;
+  max-width: 360px;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+}
+
+.toast-enter {
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+}
+
+.toast-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.toast-exit {
+  opacity: 0;
+  transform: translateY(10px) scale(0.95);
+}
+
+.toast-exito { border-left-color: var(--verde); }
+.toast-advertencia { border-left-color: var(--amarillo); }
+.toast-error { border-left-color: #ef4444; }
+.toast-favorito { border-left-color: #f43f5e; }
+.toast-gps { border-left-color: var(--azul); }
+
+.toast-icono {
+  font-size: 1.15rem;
+}

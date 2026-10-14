@@ -1,23 +1,172 @@
-/* Guarda este archivo en: css/navbar.css */
+/* ============================================================
+   VOLEYPLAYA AMVA - NAVBAR (css/navbar.css)
+   ============================================================ */
 
 .navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 32px;
-  border-bottom: 1px solid #eee;
-  background: white;
+  padding: 12px 36px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--arena-border);
   position: sticky;
   top: 0;
   z-index: 1000;
+  transition: var(--trans-suave);
 }
-.navbar-brand { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1.1rem; }
-.logo-icon { font-size: 1.5rem; }
-.logo-text small { color: var(--gris-texto); font-weight: 400; font-size: 0.7rem; }
-.navbar-links { display: flex; gap: 24px; font-size: 0.9rem; color: var(--gris-texto); align-items: center; }
-.navbar-links .active { color: var(--teal); font-weight: 600; }
-.badge-proyecto { background: #eafaf7; color: var(--teal-dark); padding: 6px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; }
-.badge-proyecto-movil { display: none; }
-.btn-menu-movil { display: none; background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--teal-dark); }
-.nav-blog-btn { border: none; background: transparent; color: var(--gris-texto); font: inherit; font-size: 0.9rem; cursor: pointer; }
-.nav-blog-btn:hover { color: var(--teal); }
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.brand-svg-logo {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 4px rgba(15, 125, 122, 0.2));
+}
+
+.logo-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.logo-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  font-size: 1.18rem;
+  letter-spacing: -0.02em;
+  color: var(--teal-dark);
+  line-height: 1.1;
+}
+
+.logo-badge-amva {
+  background: linear-gradient(135deg, var(--amarillo), var(--amarillo-dark));
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 6px;
+  margin-left: 3px;
+  letter-spacing: 0.04em;
+  display: inline-block;
+}
+
+.logo-sub {
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--texto-mutado);
+  letter-spacing: 0.02em;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.nav-link {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--texto-secundario);
+  padding: 6px 4px;
+  position: relative;
+  transition: color 0.18s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--teal);
+  font-weight: 600;
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--teal);
+  border-radius: 2px;
+}
+
+.nav-action-btn {
+  border: none;
+  background: transparent;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--texto-secundario);
+  cursor: pointer;
+  padding: 6px 4px;
+  transition: color 0.18s ease;
+}
+
+.nav-action-btn:hover {
+  color: var(--teal);
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-fav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff1f2;
+  color: #e11d48;
+  border: 1px solid #fecdd3;
+  padding: 7px 14px;
+  border-radius: var(--radio-pill);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--trans-suave);
+}
+
+.nav-fav-btn:hover {
+  background: #ffe4e6;
+  transform: translateY(-1px);
+}
+
+.fav-count-badge {
+  background: #e11d48;
+  color: #ffffff;
+  font-size: 0.7rem;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+.badge-academico {
+  background: var(--teal-light);
+  color: var(--teal-dark);
+  border: 1px solid var(--teal-border);
+  padding: 6px 12px;
+  border-radius: var(--radio-pill);
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-menu-movil {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  cursor: pointer;
+  color: var(--teal-dark);
+  padding: 4px;
+  line-height: 1;
+}
