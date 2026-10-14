@@ -5,13 +5,162 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>VoleyPlaya AMVA — Geoportal de Canchas de Vóley Playa en el Valle de Aburrá</title>
 
-  <!-- Metadatos SEO y Redes Sociales (Open Graph) -->
-  <meta name="description" content="Descubre todas las canchas de vóley playa en Medellín, Envigado, Bello, Itagüí, Sabaneta y La Estrella. Horarios, fotos, rutas, reserva INDER SIMON y datos abiertos." />
+  <!-- Metadatos SEO e Indexación -->
+  <meta name="description" content="Guía y mapa de canchas de vóley playa en Medellín y el Valle de Aburrá (Bello, Envigado, Itagüí, Sabaneta, La Estrella). Consulta horarios, fotos reales, rutas en Google Maps y reserva en INDER SIMON." />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <link rel="canonical" href="https://geoportal-voley-playa.vercel.app/" />
   <meta name="theme-color" content="#0f7d7a" />
+
+  <!-- Geotagging para SEO Local (Medellín / AMVA, Colombia) -->
+  <meta name="geo.region" content="CO-ANT" />
+  <meta name="geo.placename" content="Medellín, Antioquia, Colombia" />
+  <meta name="geo.position" content="6.2442;-75.5812" />
+  <meta name="ICBM" content="6.2442, -75.5812" />
+
+  <!-- Open Graph (Facebook, WhatsApp, LinkedIn) -->
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://geoportal-voley-playa.vercel.app/" />
+  <meta property="og:site_name" content="VoleyPlaya AMVA" />
   <meta property="og:title" content="VoleyPlaya AMVA — Geoportal de Vóley Playa en el Valle de Aburrá" />
-  <meta property="og:description" content="Encuentra canchas públicas y privadas con fotos, rutas en Google Maps, horarios y reserva directa en INDER SIMON." />
+  <meta property="og:description" content="Encuentra canchas públicas y privadas con fotos, rutas directas en Google Maps, horarios y reserva oficial en INDER SIMON." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=1200&h=630&q=85" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta property="og:locale" content="es_CO" />
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="VoleyPlaya AMVA — Geoportal de Vóley Playa en el Valle de Aburrá" />
+  <meta name="twitter:description" content="Descubre todas las canchas de vóley playa en Medellín, Envigado, Bello e Itagüí con fotos y reserva directa." />
+  <meta name="twitter:image" content="https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=1200&h=630&q=85" />
+
+  <!-- Google Search Console Tag de Verificación (Reemplazar TU_CODIGO cuando te registres en Search Console) -->
+  <!-- <meta name="google-site-verification" content="TU_CODIGO_DE_SEARCH_CONSOLE" /> -->
+
+  <!-- Datos Estructurados Schema.org (JSON-LD) para Rich Snippets en Google -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://geoportal-voley-playa.vercel.app/#website",
+        "url": "https://geoportal-voley-playa.vercel.app/",
+        "name": "VoleyPlaya AMVA",
+        "description": "Geoportal de canchas de vóley playa en el Valle de Aburrá",
+        "inLanguage": "es"
+      },
+      {
+        "@type": "ItemList",
+        "name": "Canchas de Vóley Playa en el Valle de Aburrá",
+        "description": "Lista de escenarios deportivos públicos y privados de vóley playa",
+        "itemListElement": [
+          {
+            "@type": "SportsActivityLocation",
+            "position": 1,
+            "name": "Cancha de vóley playa #1 - Unidad Deportiva Atanasio Girardot",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Medellín",
+              "addressRegion": "Antioquia",
+              "addressCountry": "CO"
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 6.257816,
+              "longitude": -75.591004
+            }
+          },
+          {
+            "@type": "SportsActivityLocation",
+            "position": 2,
+            "name": "Cancha de vóley playa - Unidad Deportiva de Belén Andrés Escobar",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Medellín",
+              "addressRegion": "Antioquia",
+              "addressCountry": "CO"
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 6.232900,
+              "longitude": -75.588291
+            }
+          },
+          {
+            "@type": "SportsActivityLocation",
+            "position": 3,
+            "name": "Cancha de vóley playa - Unidad Deportiva Tulio Ospina",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Bello",
+              "addressRegion": "Antioquia",
+              "addressCountry": "CO"
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 6.336374,
+              "longitude": -75.546036
+            }
+          },
+          {
+            "@type": "SportsActivityLocation",
+            "position": 4,
+            "name": "Polideportivo Sur Envigado - Cancha #1",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Envigado",
+              "addressRegion": "Antioquia",
+              "addressCountry": "CO"
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 6.163937,
+              "longitude": -75.599642
+            }
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "¿Las canchas públicas del INDER son gratuitas?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sí, las canchas públicas como las de la Unidad Deportiva Atanasio Girardot, Belén Andrés Escobar y Belén Rincón son 100% gratuitas. Únicamente debes estar registrado en la plataforma oficial SIMON del INDER y reservar tu turno con antelación."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Se debe llevar balón y malla propia?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Las canchas públicas cuentan con postes y mallas instaladas de uso permanente. Sin embargo, debes llevar tu propio balón de vóley playa oficial e hidratación adecuada."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Cómo reservo en complejos privados como La Jaula del Ángel o Arena Sur?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Los complejos privados cuentan con reserva directa mediante su página web o canal de WhatsApp. El pago se realiza por hora de alquiler e incluye iluminación profesional, arena blanca certificada y acceso a duchas y vestuarios."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Cómo puedo reportar un error o registrar una cancha nueva?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "En cada tarjeta encontrarás el botón 'Reportar', donde puedes avisar si hay mallas deterioradas, cambio de horario o información desactualizada."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 
   <!-- Favicon SVG en alta resolución -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23f59e0b'/%3E%3Cstop offset='100%25' stop-color='%230f7d7a'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='46' fill='url(%23g)'/%3E%3Cpath d='M18 50 A32 32 0 0 1 82 50' fill='none' stroke='%23ffffff' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M30 20 A36 36 0 0 1 70 80' fill='none' stroke='%23ffffff' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M30 80 A36 36 0 0 1 70 20' fill='none' stroke='%23ffffff' stroke-width='6' stroke-linecap='round'/%3E%3Ccircle cx='50' cy='50' r='10' fill='%23ffffff'/%3E%3C/svg%3E" />
@@ -291,8 +440,120 @@
       <span id="tarjetasContador" class="tarjetas-contador-badge">Cargando canchas…</span>
     </div>
 
-    <!-- Grid de tarjetas de canchas -->
-    <div id="cardsGrid" class="cards-grid"></div>
+    <!-- Grid de tarjetas de canchas (Pre-renderizado para Indexación SEO y Carga Instantánea) -->
+    <div id="cardsGrid" class="cards-grid">
+      <!-- Cancha 1: Atanasio Girardot -->
+      <article class="card">
+        <div class="card-photo-wrapper">
+          <img src="https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=700&q=80" alt="Cancha de vóley playa #1 - Unidad Deportiva Atanasio Girardot" class="card-img" />
+          <div class="card-badges-top">
+            <span class="card-badge badge-publica">Pública</span>
+            <span class="card-badge badge-verif">✅ Verificada</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">Cancha de vóley playa #1 - Unidad Deportiva Atanasio Girardot</h3>
+          <div class="card-location">📍 Laureles-Estadio, Medellín</div>
+          <div class="card-chips">
+            <span class="chip-item">🆓 Gratuito</span>
+            <span class="chip-item">📅 Con reserva SIMON</span>
+            <span class="chip-item chip-luz">💡 Luz nocturna</span>
+          </div>
+          <div class="card-condition">
+            <strong>Condición:</strong> Estar registrado en la página del INDER SIMON.
+          </div>
+        </div>
+        <div class="card-footer">
+          <button class="btn-card-action btn-ficha" type="button">🔍 Ficha</button>
+          <button class="btn-card-action btn-mapa" type="button">🗺️ En mapa</button>
+          <a class="btn-card-action btn-rutas" href="https://www.google.com/maps/dir/?api=1&destination=6.257816,-75.591004" target="_blank" rel="noopener noreferrer">🚗 Rutas</a>
+        </div>
+      </article>
+
+      <!-- Cancha 2: Belén Andrés Escobar -->
+      <article class="card">
+        <div class="card-photo-wrapper">
+          <img src="https://images.unsplash.com/photo-1547347298-4074fc3086f0?auto=format&fit=crop&w=700&q=80" alt="Cancha de vóley playa - Unidad Deportiva Belén Andrés Escobar" class="card-img" />
+          <div class="card-badges-top">
+            <span class="card-badge badge-publica">Pública</span>
+            <span class="card-badge badge-verif">✅ Verificada</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">Cancha de vóley playa - Unidad Deportiva Belén Andrés Escobar</h3>
+          <div class="card-location">📍 Belén, Medellín</div>
+          <div class="card-chips">
+            <span class="chip-item">🆓 Gratuito</span>
+            <span class="chip-item">📅 Con reserva SIMON</span>
+            <span class="chip-item chip-luz">💡 Luz nocturna</span>
+          </div>
+          <div class="card-condition">
+            <strong>Condición:</strong> Estar registrado en la página del INDER SIMON.
+          </div>
+        </div>
+        <div class="card-footer">
+          <button class="btn-card-action btn-ficha" type="button">🔍 Ficha</button>
+          <button class="btn-card-action btn-mapa" type="button">🗺️ En mapa</button>
+          <a class="btn-card-action btn-rutas" href="https://www.google.com/maps/dir/?api=1&destination=6.232900,-75.588291" target="_blank" rel="noopener noreferrer">🚗 Rutas</a>
+        </div>
+      </article>
+
+      <!-- Cancha 3: Tulio Ospina Bello -->
+      <article class="card">
+        <div class="card-photo-wrapper">
+          <img src="https://images.unsplash.com/photo-1594909122845-11baa439b7bf?auto=format&fit=crop&w=700&q=80" alt="Cancha de vóley playa - Unidad Deportiva Tulio Ospina" class="card-img" />
+          <div class="card-badges-top">
+            <span class="card-badge badge-publica">Pública</span>
+            <span class="card-badge badge-verif">✅ Verificada</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">Cancha de vóley playa - Unidad Deportiva Tulio Ospina</h3>
+          <div class="card-location">📍 Tulio Ospina, Bello</div>
+          <div class="card-chips">
+            <span class="chip-item">💰 Variable</span>
+            <span class="chip-item">📅 Con reserva INDER</span>
+            <span class="chip-item chip-duchas">🚿 Duchas</span>
+          </div>
+          <div class="card-condition">
+            <strong>Condición:</strong> Ingresar al INDER Bello y reservar en su página.
+          </div>
+        </div>
+        <div class="card-footer">
+          <button class="btn-card-action btn-ficha" type="button">🔍 Ficha</button>
+          <button class="btn-card-action btn-mapa" type="button">🗺️ En mapa</button>
+          <a class="btn-card-action btn-rutas" href="https://www.google.com/maps/dir/?api=1&destination=6.336374,-75.546036" target="_blank" rel="noopener noreferrer">🚗 Rutas</a>
+        </div>
+      </article>
+
+      <!-- Cancha 4: Polideportivo Sur Envigado -->
+      <article class="card">
+        <div class="card-photo-wrapper">
+          <img src="https://images.unsplash.com/photo-1526676037777-05a232554f77?auto=format&fit=crop&w=700&q=80" alt="Polideportivo Sur Envigado - Cancha #1" class="card-img" />
+          <div class="card-badges-top">
+            <span class="card-badge badge-publica">Pública</span>
+            <span class="card-badge badge-verif">✅ Verificada</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">Polideportivo Sur Envigado - Cancha #1</h3>
+          <div class="card-location">📍 Sur, Envigado</div>
+          <div class="card-chips">
+            <span class="chip-item">💳 Con costo</span>
+            <span class="chip-item">📅 Reserva INDER</span>
+            <span class="chip-item chip-luz">💡 Luz nocturna</span>
+          </div>
+          <div class="card-condition">
+            <strong>Condición:</strong> Ingresar al INDER Envigado para alquilar por horas.
+          </div>
+        </div>
+        <div class="card-footer">
+          <button class="btn-card-action btn-ficha" type="button">🔍 Ficha</button>
+          <button class="btn-card-action btn-mapa" type="button">🗺️ En mapa</button>
+          <a class="btn-card-action btn-rutas" href="https://www.google.com/maps/dir/?api=1&destination=6.163937,-75.599642" target="_blank" rel="noopener noreferrer">🚗 Rutas</a>
+        </div>
+      </article>
+    </div>
 
     <!-- Contenedor para botón Cargar Más -->
     <div id="tarjetasPaginacion" class="tarjetas-paginacion"></div>
@@ -414,6 +675,26 @@
       <span>Medellín · Bello · Envigado · Itagüí · Sabaneta · La Estrella</span>
     </div>
   </footer>
+
+  <!-- Respaldo semántico para indexación SEO sin JavaScript -->
+  <noscript>
+    <div style="padding: 24px 32px; background: #fffdf5; border-top: 1px solid #e9e3d5; font-size: 0.85rem; color: #334155;">
+      <h3 style="color: #0f7d7a; margin-bottom: 8px;">Directorio de Canchas de Vóley Playa en el Valle de Aburrá</h3>
+      <p style="margin-bottom: 12px;">Para explorar el mapa interactivo en tiempo real y filtrar por cercanía GPS, por favor activa JavaScript en tu navegador.</p>
+      <ul style="line-height: 1.7; padding-left: 20px;">
+        <li><strong>Unidad Deportiva Atanasio Girardot (Canchas #1 y #2)</strong> — Laureles-Estadio, Medellín (Pública INDER SIMON)</li>
+        <li><strong>Unidad Deportiva de Belén Andrés Escobar Saldarriaga</strong> — Belén, Medellín (Pública INDER SIMON)</li>
+        <li><strong>Unidad Deportiva Belén Rincón</strong> — Belén, Medellín (Pública INDER SIMON)</li>
+        <li><strong>Unidad Deportiva Tulio Ospina</strong> — Bello (Pública INDER Bello)</li>
+        <li><strong>Polideportivo Sur Envigado (Canchas #1 y #2)</strong> — Sur, Envigado (Pública INDER Envigado)</li>
+        <li><strong>Polideportivo Óscar López Escobar</strong> — Los Naranjos, Itagüí (Pública)</li>
+        <li><strong>La Jaula del Ángel (Viva Envigado, El Tesoro, Florida)</strong> — Escenarios privados en Envigado y Medellín</li>
+        <li><strong>Arena Sur</strong> — La Esmeralda, Itagüí (Complejo privado)</li>
+        <li><strong>Orión Arena Salvaje & Orión Mirador</strong> — La Estrella e Itagüí</li>
+        <li><strong>Canchas Universitarias:</strong> Politécnico Jaime Isaza Cadavid, ITM Campus Fraternidad, UNAL Medellín, Universidad de Antioquia.</li>
+      </ul>
+    </div>
+  </noscript>
 
   <!-- ============================================================
        MODAL 1: FICHA TÉCNICA DETALLADA DE CADA CANCHA
