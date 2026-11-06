@@ -102,20 +102,22 @@ export function capturarCoordenada(e) {
 
 function iconoCancha(tipo) {
   const t = (tipo || '').toLowerCase();
-  let colorFondo = '#0f7d7a';
-  let colorBorde = '#074846';
+  let colorFondo = '#0F766E';
+  let colorBorde = '#042F2E';
   let emoji = '🏐';
 
   if (t.includes('privad')) {
-    colorFondo = '#2563eb';
-    colorBorde = '#1d4ed8';
+    colorFondo = '#2563EB';
+    colorBorde = '#1E3A8A';
+    emoji = '🏐';
   } else if (t.includes('universitar')) {
-    colorFondo = '#8b5cf6';
-    colorBorde = '#6d28d9';
-    emoji = '🎓';
+    colorFondo = '#7C3AED';
+    colorBorde = '#4C1D95';
+    emoji = '🏐';
   } else if (t.includes('osm')) {
-    colorFondo = '#64748b';
+    colorFondo = '#64748B';
     colorBorde = '#334155';
+    emoji = '🏐';
   }
 
   return L.divIcon({
@@ -351,44 +353,86 @@ export async function toggleLimitesMunicipales(activar) {
 
     if (!geojson || !geojson.features) return;
 
+    // Paleta cartográfica sobria y moderna (no satura ni distorsiona las canchas)
+    const estiloBase = {
+      color: '#2563EB',
+      weight: 1.4,
+      dashArray: '5, 5',
+      fillColor: '#3B82F6',
+      fillOpacity: 0.03
+    };
+
+    const estiloHover = {
+      color: '#0F4C5C',
+      weight: 2.2,
+      dashArray: '',
+      fillColor: '#0F4C5C',
+      fillOpacity: 0.08
+    };
+
+    let tooltipActivoLayer = null;
+
+    function cerrarCualquierTooltip() {
+      if (tooltipActivoLayer) {
+        tooltipActivoLayer.closeTooltip();
+        tooltipActivoLayer = null;
+      }
+    }
+
     const capaGeo = L.geoJSON(geojson, {
-      style: () => ({
-        color: '#0F4C5C',
-        weight: 1.8,
-        dashArray: '4, 4',
-        fillColor: '#0F4C5C',
-        fillOpacity: 0.04
-      }),
+      style: () => estiloBase,
       onEachFeature: (feature, layer) => {
         const p = feature.properties || {};
         const nombre = p.MPIO_NOMBR || p.NOMBRE || 'Municipio';
         const cod = p.COD_MPIO || '';
 
+        // Tooltip blanco, limpio y sin sticky para evitar que se quede pegado
         layer.bindTooltip(`
-          <div style="font-family: inherit; font-size: 0.8rem; font-weight: 700; color: #0F4C5C; padding: 2px;">
-            🏛️ ${nombre}
-            <div style="font-weight: 500; font-size: 0.68rem; color: #64748b;">DANE: ${cod} · ArcGIS REST</div>
+          <div class="sig-mun-title">
+            <span>🏛️</span>
+            <span>${nombre}</span>
           </div>
-        `, { sticky: true, className: 'sig-buffer-tooltip' });
+          <div class="sig-mun-sub">
+            <span>DANE: ${cod}</span>
+            <span class="sig-mun-badge">ArcGIS REST</span>
+          </div>
+        `, {
+          permanent: false,
+          sticky: false,
+          direction: 'top',
+          offset: [0, -6],
+          className: 'sig-municipio-tooltip'
+        });
 
         layer.on({
           mouseover: (e) => {
             const l = e.target;
-            l.setStyle({
-              weight: 2.8,
-              color: '#E07A5F',
-              dashArray: '',
-              fillColor: '#E07A5F',
-              fillOpacity: 0.15
-            });
+            cerrarCualquierTooltip();
+            l.setStyle(estiloHover);
             l.bringToBack();
+            l.openTooltip();
+            tooltipActivoLayer = l;
           },
           mouseout: (e) => {
-            capaGeo.resetStyle(e.target);
+            const l = e.target;
+            l.closeTooltip();
+            capaGeo.resetStyle(l);
+            if (tooltipActivoLayer === l) {
+              tooltipActivoLayer = null;
+            }
+          },
+          click: (e) => {
+            const l = e.target;
+            cerrarCualquierTooltip();
+            l.openTooltip();
+            tooltipActivoLayer = l;
           }
         });
       }
     });
+
+    // Cerrar automáticamente cualquier tooltip al arrastrar, hacer zoom o clic en el mapa
+    map.on('movestart zoomstart click', cerrarCualquierTooltip);
 
     capaGeo.addTo(limitesMunicipiosLayer);
 

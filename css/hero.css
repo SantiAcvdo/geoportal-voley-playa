@@ -264,6 +264,52 @@
   border: none;
 }
 
+/* Tooltip limpio para municipios (ArcGIS REST) */
+.sig-municipio-tooltip {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 8px !important;
+  padding: 6px 12px !important;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.12) !important;
+  font-family: inherit !important;
+  pointer-events: none !important;
+}
+
+.sig-municipio-tooltip::before {
+  border-top-color: #ffffff !important;
+  border-bottom-color: #ffffff !important;
+}
+
+.sig-mun-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sig-mun-sub {
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: #64748b;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sig-mun-badge {
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 0.62rem;
+  font-weight: 600;
+  padding: 1px 5px;
+  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+}
+
 
 /* Hero Right: Map */
 .hero-right {
@@ -310,9 +356,9 @@
   display: inline-block;
 }
 
-.dot-publica { background: #0f7d7a; border: 2px solid #063937; }
-.dot-privada { background: #2563eb; border: 2px solid #1d4ed8; }
-.dot-universitaria { background: #8b5cf6; border: 2px solid #6d28d9; }
+.dot-publica { background: #0F766E; border: 2px solid #042F2E; }
+.dot-privada { background: #2563EB; border: 2px solid #1E3A8A; }
+.dot-universitaria { background: #7C3AED; border: 2px solid #4C1D95; }
 
 /* Botón flotante Mi Ubicación en el mapa */
 .btn-map-gps {
