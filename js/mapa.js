@@ -8,6 +8,7 @@ export let map;
 export let canchasLayer;
 export let buffersLayer;
 export let limitesMunicipiosLayer;
+export let capasControl;
 let marcadorClic = null;
 let resaltadoTemporal = null;
 let datosMunicipiosCacheados = null;
@@ -37,7 +38,7 @@ export function iniciarMapa() {
 
   limitesMunicipiosLayer = L.layerGroup();
 
-  L.control.layers(
+  capasControl = L.control.layers(
     { "Calles (OSM)": osm, "Mapa claro": carto, "Satelital (Esri)": satelitalConEtiquetas },
     { "Límites AMVA (ArcGIS)": limitesMunicipiosLayer },
     { position: 'bottomright', collapsed: true }
@@ -441,5 +442,126 @@ export async function toggleLimitesMunicipales(activar) {
     }
   } catch (err) {
     console.error('Error cargando límites municipales desde ArcGIS:', err);
+  }
+}
+
+let capasArcGISRegistradas = [];
+
+// Función oficial según arquitectura de la clase:
+// Recibe la URL del Feature Service y el nombre para agregarlo al visor
+export function agregarCapaArcGIS(url, nombre) {
+  if (!map || !url) return null;
+
+  if (capasArcGISRegistradas.some(c => c.url === url)) {
+    return capasArcGISRegistradas.find(c => c.url === url).capa;
+  }
+
+  const estiloBase = {
+    color: '#2563EB',
+    weight: 1.4,
+    dashArray: '5, 5',
+    fillColor: '#3B82F6',
+    fillOpacity: 0.03
+  };
+
+  const estiloHover = {
+    color: '#0F4C5C',
+    weight: 2.2,
+    dashArray: '',
+    fillColor: '#0F4C5C',
+    fillOpacity: 0.08
+  };
+
+  let capaCargada = null;
+
+  // Si Esri Leaflet está disponible, usar el cargador nativo L.esri.featureLayer
+  if (window.L && window.L.esri && typeof window.L.esri.featureLayer === 'function') {
+    capaCargada = L.esri.featureLayer({
+      url: url,
+      style: () => estiloBase
+    });
+
+    capaCargada.on('mouseover', (e) => {
+      const l = e.layer;
+      if (l && l.setStyle) l.setStyle(estiloHover);
+      const p = l ? l.feature.properties : {};
+      const nom = p.MPIO_NOMBR || p.NOMBRE || nombre;
+      const cod = p.COD_MPIO || '';
+      l.bindTooltip(`
+        <div class="sig-mun-title"><span>🏛️</span><span>${nom}</span></div>
+        <div class="sig-mun-sub"><span>DANE: ${cod}</span><span class="sig-mun-badge">ArcGIS REST</span></div>
+      `, { permanent: false, sticky: false, direction: 'top', className: 'sig-municipio-tooltip' }).openTooltip();
+    });
+
+    capaCargada.on('mouseout', (e) => {
+      const l = e.layer;
+      if (l && l.closeTooltip) l.closeTooltip();
+      if (l && l.setStyle) l.setStyle(estiloBase);
+    });
+  } else {
+    // Fallback GeoJSON
+    const queryUrl = url.includes('query') ? url : `${url.replace(/\/$/, '')}/query?where=1=1&outFields=*&f=geojson`;
+    capaCargada = L.layerGroup();
+    fetch(queryUrl)
+      .then(r => r.json())
+      .then(geojson => {
+        const geo = L.geoJSON(geojson, {
+          style: () => estiloBase,
+          onEachFeature: (feature, layer) => {
+            const p = feature.properties || {};
+            const nom = p.MPIO_NOMBR || p.NOMBRE || nombre;
+            const cod = p.COD_MPIO || '';
+
+            layer.bindTooltip(`
+              <div class="sig-mun-title"><span>🏛️</span><span>${nom}</span></div>
+              <div class="sig-mun-sub"><span>DANE: ${cod}</span><span class="sig-mun-badge">ArcGIS REST</span></div>
+            `, { permanent: false, sticky: false, direction: 'top', className: 'sig-municipio-tooltip' });
+
+            layer.on('mouseover', () => {
+              layer.setStyle(estiloHover);
+              layer.openTooltip();
+            });
+            layer.on('mouseout', () => {
+              layer.closeTooltip();
+              geo.resetStyle(layer);
+            });
+          }
+        });
+        geo.addTo(capaCargada);
+      })
+      .catch(console.warn);
+  }
+
+  if (capasControl && capaCargada) {
+    capasControl.addOverlay(capaCargada, nombre);
+  }
+
+  capasArcGISRegistradas.push({ url, nombre, capa: capaCargada });
+  return capaCargada;
+}
+
+// Cargar dinámicamente desde /api/capas exactamente como el profesor lo mostró en pantalla
+export async function cargarCapasDesdeServidor() {
+  try {
+    let respuesta;
+    try {
+      respuesta = await fetch("/api/capas");
+    } catch {
+      respuesta = await fetch("api/capas.json");
+    }
+
+    if (!respuesta || !respuesta.ok) {
+      throw new Error("No se pudo cargar la configuración de capas");
+    }
+
+    const capas = await respuesta.json();
+
+    for (const capa of capas) {
+      // Aquí usas el cargador correspondiente a tu visor:
+      // ArcGIS Maps SDK, Leaflet con Esri Leaflet u OpenLayers.
+      agregarCapaArcGIS(capa.url, capa.nombre);
+    }
+  } catch (err) {
+    console.warn("Fallo cargando configuración de capas desde /api/capas:", err);
   }
 }

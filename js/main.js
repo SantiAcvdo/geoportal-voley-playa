@@ -3,7 +3,7 @@
 
 import { definirSistemasDeCoordenadas } from './config.js';
 import { cargarManual, cargarOverpass, FALLBACK_GEOJSON } from './api.js';
-import { iniciarMapa, pintarCapa, irAResultados, irACancha, toggleBuffers, exportarGeoJSON, exportarCSV, toggleLimitesMunicipales } from './mapa.js';
+import { iniciarMapa, pintarCapa, irAResultados, irACancha, toggleBuffers, exportarGeoJSON, exportarCSV, toggleLimitesMunicipales, cargarCapasDesdeServidor } from './mapa.js';
 import { configurarFiltro } from './filtro.js';
 import { renderizarTarjetas, actualizarStats, renderizarSkeletons } from './ui.js';
 import { configurarNavbarMovil } from './navbar.js';
@@ -351,6 +351,9 @@ async function init() {
   configurarFavoritosNav();
   configurarHerramientasSIG();
   configurarFAQ();
+
+  // Carga dinámica de capas ArcGIS REST desde /api/capas (arquitectura de la clase)
+  cargarCapasDesdeServidor();
 
   document.getElementById('btnRecargarOSM')?.addEventListener('click', recargarTodo);
 

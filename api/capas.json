@@ -1,0 +1,9 @@
+[
+  {
+    "id": 1,
+    "nombre": "Límites Municipales AMVA",
+    "url": "https://services6.arcgis.com/UH4DPLk0MmWXQPyg/arcgis/rest/services/Acevedo_Prueba_WFL1/FeatureServer/0",
+    "tipo": "arcgis_feature",
+    "activa": true
+  }
+]
