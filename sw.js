@@ -31,7 +31,8 @@ const ASSETS_ESTATICOS = [
   './js/toast.js',
   './js/supabase.js',
   './js/main.js',
-  './data/canchas_manuales.geojson'
+  './data/canchas_manuales.geojson',
+  './data/municipios_amva.geojson'
 ];
 
 self.addEventListener('install', (evento) => {
@@ -91,3 +92,4 @@ self.addEventListener('fetch', (evento) => {
       })
   );
 });
+

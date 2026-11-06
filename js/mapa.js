@@ -1,14 +1,16 @@
 // Guarda este archivo en: js/mapa.js
 // Responsabilidad única: inicializar Leaflet, capas base, pintar pines de canchas y volar a coordenadas.
 
-import { CENTRO_MAPA, ZOOM_INICIAL } from './config.js';
+import { CENTRO_MAPA, ZOOM_INICIAL, ARCGIS_REST_MUNICIPIOS_URL, RUTA_MUNICIPIOS_LOCAL } from './config.js';
 import { abrirFichaCancha } from './ficha.js';
 
 export let map;
 export let canchasLayer;
 export let buffersLayer;
+export let limitesMunicipiosLayer;
 let marcadorClic = null;
 let resaltadoTemporal = null;
+let datosMunicipiosCacheados = null;
 
 export function iniciarMapa() {
   map = L.map('map', { zoomControl: false }).setView(CENTRO_MAPA, ZOOM_INICIAL);
@@ -33,10 +35,29 @@ export function iniciarMapa() {
   );
   const satelitalConEtiquetas = L.layerGroup([satelital, etiquetasSatelital]);
 
+  limitesMunicipiosLayer = L.layerGroup();
+
   L.control.layers(
     { "Calles (OSM)": osm, "Mapa claro": carto, "Satelital (Esri)": satelitalConEtiquetas },
-    {}, { position: 'bottomright', collapsed: true }
+    { "Límites AMVA (ArcGIS)": limitesMunicipiosLayer },
+    { position: 'bottomright', collapsed: true }
   ).addTo(map);
+
+  // Sincronizar checkbox si el usuario activa la capa desde el control de Leaflet
+  map.on('overlayadd', (e) => {
+    if (e.layer === limitesMunicipiosLayer) {
+      const chk = document.getElementById('chkLimitesArcGIS');
+      if (chk) chk.checked = true;
+      toggleLimitesMunicipales(true);
+    }
+  });
+  map.on('overlayremove', (e) => {
+    if (e.layer === limitesMunicipiosLayer) {
+      const chk = document.getElementById('chkLimitesArcGIS');
+      if (chk) chk.checked = false;
+      toggleLimitesMunicipales(false);
+    }
+  });
 
   buffersLayer = L.layerGroup().addTo(map);
   canchasLayer = L.layerGroup().addTo(map);
@@ -290,4 +311,91 @@ export function exportarCSV(geojson) {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+}
+
+export async function toggleLimitesMunicipales(activar) {
+  if (!limitesMunicipiosLayer) return;
+
+  if (!activar) {
+    limitesMunicipiosLayer.clearLayers();
+    if (map && map.hasLayer(limitesMunicipiosLayer)) {
+      map.removeLayer(limitesMunicipiosLayer);
+    }
+    return;
+  }
+
+  if (map && !map.hasLayer(limitesMunicipiosLayer)) {
+    limitesMunicipiosLayer.addTo(map);
+  }
+
+  if (limitesMunicipiosLayer.getLayers().length > 0) return;
+
+  try {
+    let geojson = datosMunicipiosCacheados;
+    if (!geojson) {
+      try {
+        const res = await fetch(ARCGIS_REST_MUNICIPIOS_URL);
+        if (res.ok) {
+          geojson = await res.json();
+        }
+      } catch (err) {
+        console.warn('Fallo consultando ArcGIS REST en vivo, usando respaldo local:', err);
+      }
+
+      if (!geojson || !geojson.features || geojson.features.length === 0) {
+        const resLocal = await fetch(RUTA_MUNICIPIOS_LOCAL);
+        geojson = await resLocal.json();
+      }
+      datosMunicipiosCacheados = geojson;
+    }
+
+    if (!geojson || !geojson.features) return;
+
+    const capaGeo = L.geoJSON(geojson, {
+      style: () => ({
+        color: '#0F4C5C',
+        weight: 1.8,
+        dashArray: '4, 4',
+        fillColor: '#0F4C5C',
+        fillOpacity: 0.04
+      }),
+      onEachFeature: (feature, layer) => {
+        const p = feature.properties || {};
+        const nombre = p.MPIO_NOMBR || p.NOMBRE || 'Municipio';
+        const cod = p.COD_MPIO || '';
+
+        layer.bindTooltip(`
+          <div style="font-family: inherit; font-size: 0.8rem; font-weight: 700; color: #0F4C5C; padding: 2px;">
+            🏛️ ${nombre}
+            <div style="font-weight: 500; font-size: 0.68rem; color: #64748b;">DANE: ${cod} · ArcGIS REST</div>
+          </div>
+        `, { sticky: true, className: 'sig-buffer-tooltip' });
+
+        layer.on({
+          mouseover: (e) => {
+            const l = e.target;
+            l.setStyle({
+              weight: 2.8,
+              color: '#E07A5F',
+              dashArray: '',
+              fillColor: '#E07A5F',
+              fillOpacity: 0.15
+            });
+            l.bringToBack();
+          },
+          mouseout: (e) => {
+            capaGeo.resetStyle(e.target);
+          }
+        });
+      }
+    });
+
+    capaGeo.addTo(limitesMunicipiosLayer);
+
+    if (capaGeo.getBounds && capaGeo.getBounds().isValid()) {
+      map.flyToBounds(capaGeo.getBounds(), { padding: [30, 30], maxZoom: 13, duration: 1.2 });
+    }
+  } catch (err) {
+    console.error('Error cargando límites municipales desde ArcGIS:', err);
+  }
 }

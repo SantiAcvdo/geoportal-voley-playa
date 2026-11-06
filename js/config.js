@@ -5,6 +5,8 @@ export const BBOX = "6.13,-75.70,6.42,-75.47"; // south,west,north,east (Bello -
 export const CENTRO_MAPA = [6.30, -75.58];
 export const ZOOM_INICIAL = 12;
 export const RUTA_DATOS_MANUALES = "data/canchas_manuales.geojson";
+export const ARCGIS_REST_MUNICIPIOS_URL = "https://services6.arcgis.com/UH4DPLk0MmWXQPyg/arcgis/rest/services/Acevedo_Prueba_WFL1/FeatureServer/0/query?where=1=1&outFields=*&f=geojson";
+export const RUTA_MUNICIPIOS_LOCAL = "data/municipios_amva.geojson";
 
 export function definirSistemasDeCoordenadas() {
   // proj4 se carga como variable global desde el CDN en index.html

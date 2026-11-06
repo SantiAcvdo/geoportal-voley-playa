@@ -3,7 +3,7 @@
 
 import { definirSistemasDeCoordenadas } from './config.js';
 import { cargarManual, cargarOverpass, FALLBACK_GEOJSON } from './api.js';
-import { iniciarMapa, pintarCapa, irAResultados, irACancha, toggleBuffers, exportarGeoJSON, exportarCSV } from './mapa.js';
+import { iniciarMapa, pintarCapa, irAResultados, irACancha, toggleBuffers, exportarGeoJSON, exportarCSV, toggleLimitesMunicipales } from './mapa.js';
 import { configurarFiltro } from './filtro.js';
 import { renderizarTarjetas, actualizarStats, renderizarSkeletons } from './ui.js';
 import { configurarNavbarMovil } from './navbar.js';
@@ -297,6 +297,13 @@ function configurarHerramientasSIG() {
     if (chkBuffer.checked) {
       mostrarToast('Áreas de cobertura (1.5 km) activadas', 'info');
     }
+  });
+
+  // Toggle Límites Municipales (ArcGIS REST)
+  const chkLimites = document.getElementById('chkLimitesArcGIS');
+  chkLimites?.addEventListener('change', () => {
+    toggleLimitesMunicipales(chkLimites.checked);
+    mostrarToast(chkLimites.checked ? 'Límites AMVA (ArcGIS REST) activados' : 'Límites AMVA desactivados', 'info');
   });
 
   // Exportar GeoJSON
